@@ -3,7 +3,9 @@ title: Least Cost Path for Optimisation on Paths for Power Cables in North Germa
 author: SeHe
 type: reference
 date: 2023-03-15
-topics: [Python GIS 'Power Cable' 'Least Cost Path']
+tags: ["Python", "GIS",  "Power Cable", "Least Cost Path"]
+categories: "GIS"
+draft: false
 showMiniToc: true
 ---
 
