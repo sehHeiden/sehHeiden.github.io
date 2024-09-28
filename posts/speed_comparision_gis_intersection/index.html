@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html><head>
+<title>Speed Comparision on some Modern GIS tools</title>
+
+
+
+
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="google-site-verification" content="">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+<meta content="telephone=no" name="format-detection">
+<meta name="description" content="">
+<meta name="renderer" content="webkit">
+<meta name="theme-color" content="#ffffff">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+      <script src="/js/toc.js"></script>
+    
+    <link type="text/css" rel="stylesheet" href="/vendor/css/bootstrap.min.css">
+
+<link rel="stylesheet" href="/scss/dark-mode.min.cb53f1bee2b8900cb4f082afbf00175d6618f281cf9a2fe8619e3b52d20b5721.css" integrity="sha256-y1PxvuK4kAy08IKvvwAXXWYY8oHPmi/oYZ47UtILVyE=" media="screen">
+
+
+<link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Material+Icons">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+    	<div id="app"><div class="single-column-drawer-container" id="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            
+            
+            
+            
+            <div class="toc">
+
+
+	<div class="toc-content">
+	
+		
+		
+		
+		<center>- CATALOG -</center>
+		
+		
+		<ul>
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#the-data" class="nav-the-data">
+									The Data
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#task" class="nav-task">
+									Task
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#the-frameworks" class="nav-the-frameworks">
+									The Frameworks
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+							
+								
+									<ul>
+								
+							
+						
+						
+							<li>
+								<a href="#geopandashttpsgeopandasorgenstableindexhtml" class="nav-geopandashttpsgeopandasorgenstableindexhtml">
+									Geopandas
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#dask-geopandashttpsdask-geopandasreadthedocsioenstable" class="nav-dask-geopandashttpsdask-geopandasreadthedocsioenstable">
+									Dask-Geopandas
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#duckdbhttpsduckdborgdocsextensionsspatialoverview" class="nav-duckdbhttpsduckdborgdocsextensionsspatialoverview">
+									DuckDB
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+							
+								</ul>
+							
+						
+						
+						
+							<li>
+								<a href="#apache-sedona" class="nav-apache-sedona">
+									Apache Sedona
+								</a>
+							</li>
+						
+						
+					
+				
+			
+		</ul>
+	</div>
+
+</div>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div id="drawer-mask" v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav id="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div id="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a id="navTitle" class="navbar-brand" href="https://example.org/">
+            SeHe&#39;s Blog
+        </a>
+        
+        <button type="button" class="nav-darkmode-toggle" id="darkModeToggleButton2">
+            <i class="material-icons" id="darkModeToggleIcon2">
+                dark_mode
+            </i>
+        </button>
+        
+    </div>
+</nav>
+<div class="single-column-header-container" id="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="https://example.org/">
+        <div class="single-column-header-title">SeHe&#39;s Blog</div>
+        
+
+    </a>
+</div>
+
+            <div id="content">
+                <div id="streamContainer" class="stream-container">
+
+    <div class="post-list-container post-list-container-shadow">
+        <div class="post">
+            
+            
+            
+
+            <div class="post-head-wrapper-text-only"
+                
+            >
+                <div class="post-title">
+                    Speed Comparision on some Modern GIS tools
+                    
+                    <div class="post-meta">
+                        
+                        <time itemprop="datePublished">
+                            2024-09-28 00:00
+                        </time>
+                        
+
+                        
+
+                        
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="post-body-wrapper">
+                
+                <div class="post-body" v-pre>
+                
+                    <p>GIS can change with current technology as Apache Arrow, and perhaps also Apache Spark und Apache Sedona.
+Also in Pythonland Geopandas enhanced performance over time. In addition, I also wanted to try Dask und DuckDB.</p>
+<p>Please contact me, when you read this and think I could have increased the code quality and speed.
+I use some public data, which still widely use shape files in Germany.</p>
+<h1 id="the-data">The Data</h1>
+<p>First I load fhe ALKIS (register) building data for all counties in the state of Brandenburg.
+All vector files are open data. The victor files are still offered as Shapefiles.
+From the ALKIS Dataset of Brandenburg I used the buildings and the parcels (with land usage).
+The files are stored per county!
+The geometries have some errors which Geopandas auto-detects and fixes.
+In addition, some file can not be opened with the <a href="https://fiona.readthedocs.io/en/latest/index.html">fiona</a> library from Geopandas, with the error message
+of multiple  geometry columns. Hence, we always use de new default: pyogrio.</p>
+<h1 id="task">Task</h1>
+<ol>
+<li>Open the datasets and concat the counties.</li>
+<li>Create an overlay with intersection</li>
+<li>Save the data se, when possible as geoparquet file.</li>
+</ol>
+<p>Why did select this task?
+I consider the overlay is one of the more compute heavy tasks in GIS.
+In <a href="https://github.com/geopandas/geopandas/blob/main/geopandas/tools/overlay.py">Geopandas</a>
+this uses a spatial index, then computes an intersection and joins the original data to the intersection.</p>
+<p>We close the saving as Geoparquet file, as it&rsquo;s the only format Dask-GeoPandas can write to.
+In addition, the result (with snappy compression) is small 391 MB, compared to what Geopackage (1.57 GB) needs.</p>
+<p>By the way, I select which columns to open in Geopandas, because later I will find out, that one column does only contain <code>None</code>&rsquo;s.
+Hence, I just don&rsquo;t use not important columns form the start.</p>
+<h1 id="the-frameworks">The Frameworks</h1>
+<h2 id="geopandashttpsgeopandasorgenstableindexhtml"><a href="https://geopandas.org/en/stable/index.html">Geopandas</a></h2>
+<p>For me Geopandas is the goto solution for year now.
+Sometimes with some extra code, some extra libs as pyogrio.</p>
+<p><em>Expectations</em>: Well, nothing special. It just works. Should load the data faster with <a href="https://pyogrio.readthedocs.io/en/latest/">pyogrio</a>.</p>
+<p><em>Observations</em>: Initially, loading the datasets takes about 75 to 80 s on my machine with am AMD Ryzen 5800X CPU.
+Duration between different runs does vary slightly. It&rsquo;s somewhat faster when using arrow by about 15 s.</p>
+<p>The Intersection takes about 190s. The python program takes about 10 GB of main memory, while running.</p>
+<p>In the end I also tried to load and build the intersection per county and then just concat the results.
+It&rsquo;s not faster, due to the spatial indexing.? RAM usage is initially much lower with about 3 GB.</p>
+<p>With the reduced number of columns the durations are:</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Task</th>
+          <th style="text-align: right">Duration Geopandas \s</th>
+          <th style="text-align: right">Duration Geopandas &amp; arrow \s</th>
+          <th style="text-align: right">Duration Geopandas &amp; pyogrio, per county \s</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">Loading Shape</td>
+          <td style="text-align: right">77.55</td>
+          <td style="text-align: right">60.38</td>
+          <td style="text-align: right"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Intersection</td>
+          <td style="text-align: right">189.20</td>
+          <td style="text-align: right">185.83</td>
+          <td style="text-align: right"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Saving Parquet</td>
+          <td style="text-align: right">12.60</td>
+          <td style="text-align: right">11.40</td>
+          <td style="text-align: right">12.38</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Overall</td>
+          <td style="text-align: right">279.34</td>
+          <td style="text-align: right">257.61</td>
+          <td style="text-align: right">263.61</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="dask-geopandashttpsdask-geopandasreadthedocsioenstable"><a href="https://dask-geopandas.readthedocs.io/en/stable/">Dask-Geopandas</a></h2>
+<p><em>Expectations</em>: Partitioning the DataFrame should increase the number of used cores. Hence, reduce the compute time.</p>
+<p><em>Observations</em>: I open the shapefiles just as before with geopandas, but then convert to a Dask-Geopandas GeoDataFrames.
+This all increases the loading time drastically! From about 60s to 160 s.
+I try to overlay these GeoDataFrames, there is no overlay with Dask-Geoarray.</p>
+<p>Instead, I try the map_partitions method. Left on a Dask-GeoDataFrame (the larger parcels dataset) and on the right
+hand side the smaller houses GeoDataFrame. Having the larger dataset as Dask-GeoDataFrame increases the speed.
+No, spatial swapping need as a spatial index is already used.
+For the map_partitions I create function that wraps the overlay.</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Task</th>
+          <th style="text-align: right">Duration Geopandas \s</th>
+          <th style="text-align: right">Duration Dask-Geopandas \s</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">Loading Shape</td>
+          <td style="text-align: right">58.67</td>
+          <td style="text-align: right">77.11</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Intersection</td>
+          <td style="text-align: right">182.98</td>
+          <td style="text-align: right">64.52</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Saving Parquet</td>
+          <td style="text-align: right">11.48</td>
+          <td style="text-align: right">12.51</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Overall</td>
+          <td style="text-align: right">253.13</td>
+          <td style="text-align: right">154.13</td>
+      </tr>
+  </tbody>
+</table>
+<p>This really uses all cores and a usage between 30 % and 95 % can be seen while the Overlay
+is processed. This reduces the computation time to 33 % on this machine.</p>
+<p>But three times faster, for 8 cores and 16 threads on the machine. Is not fully, what I expected.</p>
+<h2 id="duckdbhttpsduckdborgdocsextensionsspatialoverview"><a href="https://duckdb.org/docs/extensions/spatial/overview">DuckDB</a></h2>
+<p>DuckDB has a spatial extension. Although the csv/parquet file readers works great the
+asterix placeholder to load several file at once.
+This is not true for ST_Read for reading spatial data. Hence, I have like with the other frameworks.
+Also, geoparquet is not supported for writing, hence I selected <code>FlatGeoBuf</code>.
+There is no overlay I have to do all the steps by myself. So, there is a possibility that my solution is suboptimal.</p>
+<p>Also writing the data does add a coordinate system. Nevertheless, the data can be opened with QGIS.
+Due to the usage of FlatGeoBuf, file size and writing times are worse, than for geoparquet.
+I could not save the data geopackage, to an error in sqlite3_exec, being unable to open the save tree.
+The resulting FlatGeoBuf is huge.</p>
+<p>*<em>Expectation</em>: Not much, It&rsquo;s marked as faster than SQLite for DataAnalysis. Which holds true.
+But how does it compare to DataFrames, that are in the RAM, too. Should be faster,
+due to multicore usage. The memory layout benefits can not be much, as GeoPandas also uses Apache Arrow?
+<em>Observation</em>: The CPU usage here is high at first but reduces steadily.
+For Dask the usage fluctuates.</p>
+<p>The execution speed is much slower as with dask. Saving takes so long, that this is even as slow as normal
+Geopandas.</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Task</th>
+          <th style="text-align: right">Duration Geopandas \s</th>
+          <th style="text-align: right">Duration DuckDB \s</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">Loading Shape</td>
+          <td style="text-align: right">74.23</td>
+          <td style="text-align: right">7.87</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Intersection</td>
+          <td style="text-align: right">195.37</td>
+          <td style="text-align: right">98.78</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Saving Parquet</td>
+          <td style="text-align: right">12.46</td>
+          <td style="text-align: right">104.39</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Overall</td>
+          <td style="text-align: right">282.06</td>
+          <td style="text-align: right">275.03</td>
+      </tr>
+  </tbody>
+</table>
+<h1 id="apache-sedona">Apache Sedona</h1>
+<p>This one is a bit tricky for me.
+I want to get it working both with Scala and PySpark.</p>
+<p><em>Expectation</em>: Some loss due to virtualization with Docker.
+So the PySpark would be not as fast as Dask? But Scala could be faster?!</p>
+
+                    
+                    <HR width="100%" id="EOF">
+		    <p style="color:#777;">Last modified on 2024-09-28</p>
+                    
+                </div>
+            </div>
+            
+            
+            <nav class="post-pagination">
+
+                
+                <a class="newer-posts">
+			Next<br>No newer posts.
+                </a>
+                
+                
+                
+                <a class="older-posts" href="/posts/mastodonbavarian_election_lda/">
+			Previous<br>LDA and WordCloud on Mastodon Posts for the Bavarian State Election!
+                </a>
+                
+            </nav>
+            <div class="post-comment-wrapper">
+                
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+                    </div>
+            </div><div id="sideContainer" class="side-container">
+    
+    <a class="a-block nav-head false" href="https://example.org/">
+    
+        <div class="nav-title">
+            SeHe&#39;s Blog
+        </div>
+        
+    </a>
+
+    <div class="nav-link-list">
+        
+        
+    </div>
+
+    
+
+    <div class="nav-footer">
+        
+Hugo Theme <a href="https://github.com/amazingrise/hugo-theme-diary">Diary</a> by <a href="https://risehere.net/">Rise</a>
+<br>
+Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a>'s <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> <br>
+<br>
+
+&copy;
+	
+	2024 SeHe&#39;s Blog
+	
+
+    </div>
+    
+</div><div id="extraContainer" class="extra-container">
+    <div class="toc-wrapper">
+        
+
+        
+        <div class="toc">
+
+
+	<div class="toc-content">
+	
+		
+		
+		
+		<center>- CATALOG -</center>
+		
+		
+		<ul>
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#the-data" class="nav-the-data">
+									The Data
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#task" class="nav-task">
+									Task
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#the-frameworks" class="nav-the-frameworks">
+									The Frameworks
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+							
+								
+									<ul>
+								
+							
+						
+						
+							<li>
+								<a href="#geopandashttpsgeopandasorgenstableindexhtml" class="nav-geopandashttpsgeopandasorgenstableindexhtml">
+									Geopandas
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#dask-geopandashttpsdask-geopandasreadthedocsioenstable" class="nav-dask-geopandashttpsdask-geopandasreadthedocsioenstable">
+									Dask-Geopandas
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#duckdbhttpsduckdborgdocsextensionsspatialoverview" class="nav-duckdbhttpsduckdborgdocsextensionsspatialoverview">
+									DuckDB
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+							
+								</ul>
+							
+						
+						
+						
+							<li>
+								<a href="#apache-sedona" class="nav-apache-sedona">
+									Apache Sedona
+								</a>
+							</li>
+						
+						
+					
+				
+			
+		</ul>
+	</div>
+
+</div>
+        
+    </div>
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top"
+            :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+        
+        <a type="button" class="pagination-action" id="darkModeToggleButton">
+            <span class="material-icons pagination-action-icon" id="darkModeToggleIcon">
+                dark_mode
+            </span>
+        </a>
+        
+        
+    </div>
+</div>
+
+<div id="single-column-footer">
+Hugo Theme <a href="https://github.com/amazingrise/hugo-theme-diary">Diary</a> by <a href="https://risehere.net/">Rise</a>
+<br>
+Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a>'s <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> <br>
+<br>
+
+&copy;
+	
+	2024 SeHe&#39;s Blog
+	
+</div>
+            </div>
+    
+    <script src="/js/journal.js"></script></body>
+</html>
