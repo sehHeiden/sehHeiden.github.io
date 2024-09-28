@@ -3,7 +3,9 @@ title: Speed Comparision on some Modern GIS tools
 author: SeHe
 type: reference
 date: 2024-09-28
-topics: [Python GIS GeoPandas Dask DuckDB]
+tags: ["Python", "GIS",  "GeoPandas", "Dask", "DuckDB"]
+categories: "GIS"
+draft: false
 showMiniToc: true
 ---
 

@@ -3,7 +3,9 @@ title: LDA and WordCloud on Mastodon Posts for the Bavarian State Election!
 author: SeHe
 type: reference
 date: 2024-05-04
-topics: [Python NLP LDA]
+tags: ["Python", "NLP",  "LDA"]
+categories: "NLP"
+draft: false
 showMiniToc: true
 ---
 

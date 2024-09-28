@@ -2,8 +2,10 @@
 title: Mastodon - Election Predictions
 author: SeHe
 type: reference
+tags: ["Mastodon", "Election",  "Bavarian", "Elixir", "Nx"]
+categories: "NLP"
+draft: false
 date: 2023-12-15
-topics: [Mastodon Election Bavarian Elixir Nx]
 showMiniToc: true
 ---
 

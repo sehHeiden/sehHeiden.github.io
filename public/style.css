@@ -1,0 +1,11 @@
+/* static/style.css */
+pre code {
+    font-family: monospace;
+    font-size: 14px;
+    line-height: 1.2;
+    color: #ffffff;
+    background-color: #000000;
+    padding: 10px;
+    border-radius: 5px;
+    overflow: auto;
+}
