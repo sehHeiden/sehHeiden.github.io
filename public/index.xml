@@ -2,23 +2,23 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>SeHe&#39;s Blog</title>
-    <link>https://example.org/</link>
+    <link>https://sehheiden.github.io/</link>
     <description>Recent content on SeHe&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 28 Sep 2024 00:00:00 +0000</lastBuildDate>
     
-        <atom:link href="https://example.org/index.xml" rel="self" type="application/rss+xml" />
+        <atom:link href="https://sehheiden.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     
     
         <item>
         <title>Speed Comparision on some Modern GIS tools</title>
-        <link>https://example.org/posts/speed_comparision_gis_intersection/</link>
+        <link>https://sehheiden.github.io/posts/speed_comparision_gis_intersection/</link>
         <pubDate>Sat, 28 Sep 2024 00:00:00 +0000</pubDate>
         
-        <guid>https://example.org/posts/speed_comparision_gis_intersection/</guid>
-        <description>SeHe&#39;s Blog https://example.org/posts/speed_comparision_gis_intersection/ -&lt;p&gt;GIS can change with current technology as Apache Arrow, and perhaps also Apache Spark und Apache Sedona.
+        <guid>https://sehheiden.github.io/posts/speed_comparision_gis_intersection/</guid>
+        <description>SeHe&#39;s Blog https://sehheiden.github.io/posts/speed_comparision_gis_intersection/ -&lt;p&gt;GIS can change with current technology as Apache Arrow, and perhaps also Apache Spark und Apache Sedona.
 Also in Pythonland Geopandas enhanced performance over time. In addition, I also wanted to try Dask und DuckDB.&lt;/p&gt;
 &lt;p&gt;Please contact me, when you read this and think I could have increased the code quality and speed.
 I use some public data, which still widely use shape files in Germany.&lt;/p&gt;
@@ -187,18 +187,18 @@ Geopandas.&lt;/p&gt;
 I want to get it working both with Scala and PySpark.&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;Expectation&lt;/em&gt;: Some loss due to virtualization with Docker.
 So the PySpark would be not as fast as Dask? But Scala could be faster?!&lt;/p&gt;
-- https://example.org/posts/speed_comparision_gis_intersection/ - </description>
+- https://sehheiden.github.io/posts/speed_comparision_gis_intersection/ - </description>
         </item>
     
     
     
         <item>
         <title>LDA and WordCloud on Mastodon Posts for the Bavarian State Election!</title>
-        <link>https://example.org/posts/mastodonbavarian_election_lda/</link>
+        <link>https://sehheiden.github.io/posts/mastodonbavarian_election_lda/</link>
         <pubDate>Sat, 04 May 2024 00:00:00 +0000</pubDate>
         
-        <guid>https://example.org/posts/mastodonbavarian_election_lda/</guid>
-        <description>SeHe&#39;s Blog https://example.org/posts/mastodonbavarian_election_lda/ -&lt;p&gt;We selected a party as the dominant party, when this party or its
+        <guid>https://sehheiden.github.io/posts/mastodonbavarian_election_lda/</guid>
+        <description>SeHe&#39;s Blog https://sehheiden.github.io/posts/mastodonbavarian_election_lda/ -&lt;p&gt;We selected a party as the dominant party, when this party or its
 candidate was mentioned 50 % or more compared to other parties. But this
 results in many posts that mention the candidates Söder, Aiwanger,
 although the post is attribute to different parties. This mixed
@@ -452,18 +452,18 @@ ha to be answered.&lt;/p&gt;
 &lt;p&gt;Contrary to our hopes, there is no correlation between the topics and
 the sentiment. This might be caused, by the fact that topics are very
 similar, or that we attribute posts to a party by its dominant party.&lt;/p&gt;
-- https://example.org/posts/mastodonbavarian_election_lda/ - </description>
+- https://sehheiden.github.io/posts/mastodonbavarian_election_lda/ - </description>
         </item>
     
     
     
         <item>
         <title>Mastodon - Election Predictions</title>
-        <link>https://example.org/posts/mastodon_on_bavarian_elecvtion/</link>
+        <link>https://sehheiden.github.io/posts/mastodon_on_bavarian_elecvtion/</link>
         <pubDate>Fri, 15 Dec 2023 00:00:00 +0000</pubDate>
         
-        <guid>https://example.org/posts/mastodon_on_bavarian_elecvtion/</guid>
-        <description>SeHe&#39;s Blog https://example.org/posts/mastodon_on_bavarian_elecvtion/ -&lt;p&gt;I held a presentation on this project on Elixir MeetUp Berlin on Feb 8th, 2024. The slides can be found &lt;a href=&#34;https://github.com/sehHeiden/MeetUpElixir/blob/main/presentation_MastodonElection.pdf&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+        <guid>https://sehheiden.github.io/posts/mastodon_on_bavarian_elecvtion/</guid>
+        <description>SeHe&#39;s Blog https://sehheiden.github.io/posts/mastodon_on_bavarian_elecvtion/ -&lt;p&gt;I held a presentation on this project on Elixir MeetUp Berlin on Feb 8th, 2024. The slides can be found &lt;a href=&#34;https://github.com/sehHeiden/MeetUpElixir/blob/main/presentation_MastodonElection.pdf&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;The Livebook code can be found &lt;a href=&#34;election_bavaria.livemd&#34;&gt;here&lt;/a&gt;.
 The code for data collection can be found &lt;a href=&#34;./mastodon&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;h1 id=&#34;abstract&#34;&gt;Abstract&lt;/h1&gt;
@@ -1302,18 +1302,18 @@ Pérez, Juan Manue;, Rajngewerc Mariela; Giudici, Juan Carlos; Furman, Damián A
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
-- https://example.org/posts/mastodon_on_bavarian_elecvtion/ - </description>
+- https://sehheiden.github.io/posts/mastodon_on_bavarian_elecvtion/ - </description>
         </item>
     
     
     
         <item>
         <title>Least Cost Path for Optimisation on Paths for Power Cables in North Germany</title>
-        <link>https://example.org/posts/cableroute/</link>
+        <link>https://sehheiden.github.io/posts/cableroute/</link>
         <pubDate>Wed, 15 Mar 2023 00:00:00 +0000</pubDate>
         
-        <guid>https://example.org/posts/cableroute/</guid>
-        <description>SeHe&#39;s Blog https://example.org/posts/cableroute/ -&lt;h1 id=&#34;sec:introduction&#34;&gt;Introduction and Objectives&lt;/h1&gt;
+        <guid>https://sehheiden.github.io/posts/cableroute/</guid>
+        <description>SeHe&#39;s Blog https://sehheiden.github.io/posts/cableroute/ -&lt;h1 id=&#34;sec:introduction&#34;&gt;Introduction and Objectives&lt;/h1&gt;
 &lt;p&gt;The German power system is adding renewable energy sources in the north,
 where wind energy plants reach their highest efficiency, due to higher
 wind speeds. At the same time old power plants e.g. nuclear, hard coal
@@ -1972,7 +1972,7 @@ have not been tested.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
-- https://example.org/posts/cableroute/ - </description>
+- https://sehheiden.github.io/posts/cableroute/ - </description>
         </item>
     
     
