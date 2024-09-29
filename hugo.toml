@@ -6,6 +6,13 @@ theme = "diary"
 [params]
   favicon = "/logo.ico"
   enableReadingTime=true
+  enableUtterances = true
+
+[params.utterances]
+  repo="sehHeiden/sehHeiden.github.io"
+  issue-term="pathname"
+  theme="github-dark"
+  crossorigin="anonymous" 
 
 [taxonomies]
   tag = "tags"
@@ -41,19 +48,4 @@ theme = "diary"
   url = "/index.xml"
   name = "RSS Feed"
   weight = 6
-
-enableGiscus = true
-[params.giscus]
-    data-repo="sehHeiden/sehHeiden.github.io"
-    data-repo-id="R_kgDOM4jeQg"
-    data-category="General"
-    data-category-id="DIC_kwDOM4jeQs4Ci57g"
-    data-mapping="pathname"
-    data-strict="0"
-    data-reactions-enabled="1"
-    data-emit-metadata="0"
-    data-input-position="bottom"
-    data-theme="preferred_color_scheme"
-    data-lang="en"
-    crossorigin="anonymous"
  
