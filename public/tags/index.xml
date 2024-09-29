@@ -2,108 +2,108 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on SeHe&#39;s Blog</title>
-    <link>http://localhost:1313/tags/</link>
+    <link>https://sehheiden.github.io/tags/</link>
     <description>Recent content in Tags on SeHe&#39;s Blog</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 28 Sep 2024 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://sehheiden.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Dask</title>
-      <link>http://localhost:1313/tags/dask/</link>
+      <link>https://sehheiden.github.io/tags/dask/</link>
       <pubDate>Sat, 28 Sep 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/dask/</guid>
+      <guid>https://sehheiden.github.io/tags/dask/</guid>
       <description></description>
     </item>
     <item>
       <title>DuckDB</title>
-      <link>http://localhost:1313/tags/duckdb/</link>
+      <link>https://sehheiden.github.io/tags/duckdb/</link>
       <pubDate>Sat, 28 Sep 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/duckdb/</guid>
+      <guid>https://sehheiden.github.io/tags/duckdb/</guid>
       <description></description>
     </item>
     <item>
       <title>GeoPandas</title>
-      <link>http://localhost:1313/tags/geopandas/</link>
+      <link>https://sehheiden.github.io/tags/geopandas/</link>
       <pubDate>Sat, 28 Sep 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/geopandas/</guid>
+      <guid>https://sehheiden.github.io/tags/geopandas/</guid>
       <description></description>
     </item>
     <item>
       <title>GIS</title>
-      <link>http://localhost:1313/tags/gis/</link>
+      <link>https://sehheiden.github.io/tags/gis/</link>
       <pubDate>Sat, 28 Sep 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/gis/</guid>
+      <guid>https://sehheiden.github.io/tags/gis/</guid>
       <description></description>
     </item>
     <item>
       <title>Python</title>
-      <link>http://localhost:1313/tags/python/</link>
+      <link>https://sehheiden.github.io/tags/python/</link>
       <pubDate>Sat, 28 Sep 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/python/</guid>
+      <guid>https://sehheiden.github.io/tags/python/</guid>
       <description></description>
     </item>
     <item>
       <title>LDA</title>
-      <link>http://localhost:1313/tags/lda/</link>
+      <link>https://sehheiden.github.io/tags/lda/</link>
       <pubDate>Sat, 04 May 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/lda/</guid>
+      <guid>https://sehheiden.github.io/tags/lda/</guid>
       <description></description>
     </item>
     <item>
       <title>NLP</title>
-      <link>http://localhost:1313/tags/nlp/</link>
+      <link>https://sehheiden.github.io/tags/nlp/</link>
       <pubDate>Sat, 04 May 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/nlp/</guid>
+      <guid>https://sehheiden.github.io/tags/nlp/</guid>
       <description></description>
     </item>
     <item>
       <title>Bavarian</title>
-      <link>http://localhost:1313/tags/bavarian/</link>
+      <link>https://sehheiden.github.io/tags/bavarian/</link>
       <pubDate>Fri, 15 Dec 2023 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/bavarian/</guid>
+      <guid>https://sehheiden.github.io/tags/bavarian/</guid>
       <description></description>
     </item>
     <item>
       <title>Election</title>
-      <link>http://localhost:1313/tags/election/</link>
+      <link>https://sehheiden.github.io/tags/election/</link>
       <pubDate>Fri, 15 Dec 2023 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/election/</guid>
+      <guid>https://sehheiden.github.io/tags/election/</guid>
       <description></description>
     </item>
     <item>
       <title>Elixir</title>
-      <link>http://localhost:1313/tags/elixir/</link>
+      <link>https://sehheiden.github.io/tags/elixir/</link>
       <pubDate>Fri, 15 Dec 2023 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/elixir/</guid>
+      <guid>https://sehheiden.github.io/tags/elixir/</guid>
       <description></description>
     </item>
     <item>
       <title>Mastodon</title>
-      <link>http://localhost:1313/tags/mastodon/</link>
+      <link>https://sehheiden.github.io/tags/mastodon/</link>
       <pubDate>Fri, 15 Dec 2023 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/mastodon/</guid>
+      <guid>https://sehheiden.github.io/tags/mastodon/</guid>
       <description></description>
     </item>
     <item>
       <title>Nx</title>
-      <link>http://localhost:1313/tags/nx/</link>
+      <link>https://sehheiden.github.io/tags/nx/</link>
       <pubDate>Fri, 15 Dec 2023 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/nx/</guid>
+      <guid>https://sehheiden.github.io/tags/nx/</guid>
       <description></description>
     </item>
     <item>
       <title>Least Cost Path</title>
-      <link>http://localhost:1313/tags/least-cost-path/</link>
+      <link>https://sehheiden.github.io/tags/least-cost-path/</link>
       <pubDate>Wed, 15 Mar 2023 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/least-cost-path/</guid>
+      <guid>https://sehheiden.github.io/tags/least-cost-path/</guid>
       <description></description>
     </item>
     <item>
       <title>Power Cable</title>
-      <link>http://localhost:1313/tags/power-cable/</link>
+      <link>https://sehheiden.github.io/tags/power-cable/</link>
       <pubDate>Wed, 15 Mar 2023 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/power-cable/</guid>
+      <guid>https://sehheiden.github.io/tags/power-cable/</guid>
       <description></description>
     </item>
   </channel>
