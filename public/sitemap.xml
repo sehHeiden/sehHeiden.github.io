@@ -2,79 +2,79 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://sehheiden.github.io/about/</loc>
+    <loc>http://localhost:1313/about/</loc>
     <lastmod>2024-09-28T22:04:08+02:00</lastmod>
   </url><url>
-    <loc>https://sehheiden.github.io/</loc>
+    <loc>http://localhost:1313/</loc>
     <lastmod>2024-09-28T22:04:08+02:00</lastmod>
   </url><url>
-    <loc>https://sehheiden.github.io/categories/</loc>
+    <loc>http://localhost:1313/categories/</loc>
     <lastmod>2024-09-28T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://sehheiden.github.io/tags/dask/</loc>
+    <loc>http://localhost:1313/tags/dask/</loc>
     <lastmod>2024-09-28T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://sehheiden.github.io/tags/duckdb/</loc>
+    <loc>http://localhost:1313/tags/duckdb/</loc>
     <lastmod>2024-09-28T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://sehheiden.github.io/tags/geopandas/</loc>
+    <loc>http://localhost:1313/tags/geopandas/</loc>
     <lastmod>2024-09-28T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://sehheiden.github.io/tags/gis/</loc>
+    <loc>http://localhost:1313/tags/gis/</loc>
     <lastmod>2024-09-28T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://sehheiden.github.io/categories/gis/</loc>
+    <loc>http://localhost:1313/categories/gis/</loc>
     <lastmod>2024-09-28T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://sehheiden.github.io/posts/</loc>
+    <loc>http://localhost:1313/posts/</loc>
     <lastmod>2024-09-28T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://sehheiden.github.io/tags/python/</loc>
+    <loc>http://localhost:1313/tags/python/</loc>
     <lastmod>2024-09-28T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://sehheiden.github.io/posts/speed_comparision_gis_intersection/</loc>
+    <loc>http://localhost:1313/posts/speed_comparision_gis_intersection/</loc>
     <lastmod>2024-09-28T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://sehheiden.github.io/tags/</loc>
+    <loc>http://localhost:1313/tags/</loc>
     <lastmod>2024-09-28T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://sehheiden.github.io/tags/lda/</loc>
+    <loc>http://localhost:1313/tags/lda/</loc>
     <lastmod>2024-05-04T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://sehheiden.github.io/posts/mastodonbavarian_election_lda/</loc>
+    <loc>http://localhost:1313/posts/mastodonbavarian_election_lda/</loc>
     <lastmod>2024-05-04T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://sehheiden.github.io/tags/nlp/</loc>
+    <loc>http://localhost:1313/tags/nlp/</loc>
     <lastmod>2024-05-04T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://sehheiden.github.io/categories/nlp/</loc>
+    <loc>http://localhost:1313/categories/nlp/</loc>
     <lastmod>2024-05-04T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://sehheiden.github.io/tags/bavarian/</loc>
+    <loc>http://localhost:1313/tags/bavarian/</loc>
     <lastmod>2023-12-15T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://sehheiden.github.io/tags/election/</loc>
+    <loc>http://localhost:1313/tags/election/</loc>
     <lastmod>2023-12-15T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://sehheiden.github.io/tags/elixir/</loc>
+    <loc>http://localhost:1313/tags/elixir/</loc>
     <lastmod>2023-12-15T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://sehheiden.github.io/tags/mastodon/</loc>
+    <loc>http://localhost:1313/tags/mastodon/</loc>
     <lastmod>2023-12-15T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://sehheiden.github.io/posts/mastodon_on_bavarian_elecvtion/</loc>
+    <loc>http://localhost:1313/posts/mastodon_on_bavarian_elecvtion/</loc>
     <lastmod>2023-12-15T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://sehheiden.github.io/tags/nx/</loc>
+    <loc>http://localhost:1313/tags/nx/</loc>
     <lastmod>2023-12-15T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://sehheiden.github.io/tags/least-cost-path/</loc>
+    <loc>http://localhost:1313/tags/least-cost-path/</loc>
     <lastmod>2023-03-15T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://sehheiden.github.io/posts/cableroute/</loc>
+    <loc>http://localhost:1313/posts/cableroute/</loc>
     <lastmod>2023-03-15T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://sehheiden.github.io/tags/power-cable/</loc>
+    <loc>http://localhost:1313/tags/power-cable/</loc>
     <lastmod>2023-03-15T00:00:00+00:00</lastmod>
   </url>
 </urlset>
