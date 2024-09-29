@@ -4,7 +4,8 @@ title = "SeHe's Blog"
 theme = "diary"
 
 [params]
-  logo = "/logo.png"
+  favicon = "/logo.ico"
+  enableReadingTime=true
 
 [taxonomies]
   tag = "tags"
@@ -25,7 +26,21 @@ theme = "diary"
   name = "Blog"
   url = "/posts/"
   weight = 3
+  
+  [[menu.main]]
+  url = "/categories"
+  name = "Categories"
+  weight = 4
+  
   [[menu.main]]
   name = "Tags"
   url = "/tags/"
-  weight = 4
+  weight = 5
+  
+  [[menu.main]]
+  url = "/index.xml"
+  name = "RSS Feed"
+  weight = 6
+
+enableGiscus = true
+[params.giscus]
