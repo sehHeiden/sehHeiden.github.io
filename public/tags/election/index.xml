@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Election on SeHe&#39;s Blog</title>
-    <link>http://localhost:1313/tags/election/</link>
+    <link>https://sehheiden.github.io/tags/election/</link>
     <description>Recent content in Election on SeHe&#39;s Blog</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 15 Dec 2023 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/election/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://sehheiden.github.io/tags/election/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Mastodon - Election Predictions</title>
-      <link>http://localhost:1313/posts/mastodon_on_bavarian_elecvtion/</link>
+      <link>https://sehheiden.github.io/posts/mastodon_on_bavarian_elecvtion/</link>
       <pubDate>Fri, 15 Dec 2023 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/mastodon_on_bavarian_elecvtion/</guid>
+      <guid>https://sehheiden.github.io/posts/mastodon_on_bavarian_elecvtion/</guid>
       <description>&lt;p&gt;I held a presentation on this project on Elixir MeetUp Berlin on Feb 8th, 2024. The slides can be found &lt;a href=&#34;https://github.com/sehHeiden/MeetUpElixir/blob/main/presentation_MastodonElection.pdf&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;p&gt;The Livebook code can be found &lt;a href=&#34;election_bavaria.livemd&#34;&gt;here&lt;/a&gt;.&#xA;The code for data collection can be found &lt;a href=&#34;./mastodon&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;h1 id=&#34;abstract&#34;&gt;Abstract&lt;/h1&gt;&#xA;&lt;p&gt;We try to predict voting result in the 2023 Bavarian state election in Germany by Mastodon posts.&lt;/p&gt;&#xA;&lt;p&gt;The last polls before the election show an average error of about 0.7 to 0.9 percent per major party. A time weighted average of the polls of the last six weeks before the election reduced the error to 0.39 percentage points per party.&lt;/p&gt;</description>
     </item>
   </channel>

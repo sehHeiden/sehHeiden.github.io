@@ -7,6 +7,7 @@ tags: ["Python", "GIS",  "GeoPandas", "Dask", "DuckDB"]
 categories: "GIS"
 draft: false
 showMiniToc: true
+comments: true
 ---
 
 
