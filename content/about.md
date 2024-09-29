@@ -3,6 +3,7 @@ title = 'About'
 date = 2024-09-28T22:04:08+02:00
 draft = false
 hidden = true
+comments = false
 +++
 
 ## About Me
