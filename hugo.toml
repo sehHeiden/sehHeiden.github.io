@@ -10,7 +10,7 @@ theme = "diary"
 
 [params.utterances]
   repo="sehHeiden/sehHeiden.github.io"
-  issue-term="pathname"
+  term="pathname"
   theme="github-dark"
   crossorigin="anonymous" 
 
