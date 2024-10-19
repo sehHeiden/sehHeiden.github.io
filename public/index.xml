@@ -6,9 +6,327 @@
     <description>Recent content on SeHe&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 28 Sep 2024 22:04:08 +0200</lastBuildDate>
+    <lastBuildDate>Sat, 19 Oct 2024 00:00:00 +0000</lastBuildDate>
     
         <atom:link href="https://sehheiden.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    
+        <item>
+        <title>Speed Comparison on some Modern GIS tools</title>
+        <link>https://sehheiden.github.io/posts/speed_comparision_gis_intersection/</link>
+        <pubDate>Sat, 19 Oct 2024 00:00:00 +0000</pubDate>
+        
+        <guid>https://sehheiden.github.io/posts/speed_comparision_gis_intersection/</guid>
+        <description>SeHe&#39;s Blog https://sehheiden.github.io/posts/speed_comparision_gis_intersection/ -&lt;p&gt;GIS can change with current technology such as Apache Arrow, and perhaps also with some other techniques.
+In Pythonland, Geopandas has improved performance over time. I also wanted to try Dask, DuckDB and Apache Sedona.&lt;/p&gt;
+&lt;p&gt;Please contact me if you read this and think I could have improved the code quality and speed.
+I use some public data, which is still widely used in Germany as shape files.&lt;/p&gt;
+&lt;h1 id=&#34;the-data&#34;&gt;The data&lt;/h1&gt;
+&lt;p&gt;First I downloaded the ALKIS (register) building data for &lt;a href=&#34;https://data.geobasis-bb.de/geobasis/daten/alkis/Vektordaten/shape/&#34;&gt;all counties in the state of Brandenburg&lt;/a&gt;.
+All the vector files are open data. The vector files are still offered as shapefiles.
+From the ALKIS dataset of Brandenburg I used the buildings and the parcels (with land use).
+The files are stored per county!
+The geometries have some errors, which Geopandas automatically detects and fixes.
+In addition, some files cannot be opened with the &lt;a href=&#34;https://fiona.readthedocs.io/en/latest/index.html&#34;&gt;fiona&lt;/a&gt; library of Geopandas, with the error message
+of multiple geometry columns. So we always use the new default: pyogrio.&lt;/p&gt;
+&lt;figure&gt;&lt;img src=&#34;https://sehheiden.github.io/sanssouci_park.png&#34;
+    alt=&#34;SansSouci park and palaces in Potsdam, the capital of Brandenburg&#34;&gt;
+&lt;/figure&gt;
+
+&lt;h1 id=&#34;task&#34;&gt;Task&lt;/h1&gt;
+&lt;ol&gt;
+&lt;li&gt;Open the datasets and concatenate the counties.&lt;/li&gt;
+&lt;li&gt;Create an intersection overlay&lt;/li&gt;
+&lt;li&gt;Save the data, if possible as a geoparquet file.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Why did I choose this task?
+I think the overlay is one of the more computationally intensive tasks in GIS. I may write articles about other tasks later.
+In &lt;a href=&#34;https://github.com/geopandas/geopandas/blob/main/geopandas/tools/overlay.py&#34;&gt;Geopandas&lt;/a&gt;
+uses a spatial index, then calculates an intersection and joins the original data to the intersection.&lt;/p&gt;
+&lt;p&gt;We save it as a geoparquet file, because that&amp;rsquo;s the only format Dask-GeoPandas can write to.
+In addition, the result (with good compression) is small (391 MB) compared to what Geopackage (1.57 GB) needs.&lt;/p&gt;
+&lt;p&gt;By the way, I choose which columns to open in Geopandas, because I will find out later that one column contains only &lt;code&gt;none&lt;/code&gt;.
+So I just don&amp;rsquo;t use unimportant columns from the beginning.&lt;/p&gt;
+&lt;h1 id=&#34;the-hardware&#34;&gt;The hardware&lt;/h1&gt;
+&lt;p&gt;I ran the speed test on a WIN10 PV with a Ryzen 7 5800X with 48 GB of RAM.
+The final runs are done with Hyperfine and 3 warm-up runs and the default 10 runs, 5 for DuckDB&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+&lt;p&gt;The memory usage tests are done on a laptop with Ryzen 7 4800 and 32 GB of RAM running TuxedoOS.
+The reason for this is that RAM usage is only fully recorded under Linux.&lt;/p&gt;
+&lt;h1 id=&#34;the-frameworks&#34;&gt;The Frameworks&lt;/h1&gt;
+&lt;h2 id=&#34;geopandashttpsgeopandasorgenstableindexhtml&#34;&gt;&lt;a href=&#34;https://geopandas.org/en/stable/index.html&#34;&gt;Geopandas&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;For me, Geopandas has been the goto solution for years.
+Sometimes with some extra code, some extra libs like pyogrio.&lt;/p&gt;
+&lt;p&gt;*Expectations: Well, nothing special. It just works. Should load faster with &lt;a href=&#34;https://pyogrio.readthedocs.io/en/latest/&#34;&gt;pyogrio&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;*Observations: Initially, loading the data takes about 75 to 80 seconds on my machine with an AMD Ryzen 5800X CPU.
+It&amp;rsquo;s a bit faster when using arrow by about 15 seconds.
+It got a bit slower when dropping the duplicates (on the district borders) by there &lt;code&gt;oid&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;In the end I also tried to load and build the intersection per county and then just concat the results.
+It&amp;rsquo;s not faster because of the spatial indexing&amp;hellip; The RAM usage is much lower at about 3 GB.&lt;/p&gt;
+&lt;p&gt;With the reduced number of columns, the running times are:&lt;/p&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;Task&lt;/th&gt;
+          &lt;th style=&#34;text-align: right&#34;&gt;Geopandas \s&lt;/th&gt;
+          &lt;th style=&#34;text-align: right&#34;&gt;Geopandas &amp;amp; arrow \s&lt;/th&gt;
+          &lt;th style=&#34;text-align: right&#34;&gt;Geopandas &amp;amp; pyogrio, per county \s&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;Loading form&lt;/td&gt;
+          &lt;td style=&#34;text-align: right&#34;&gt;74&lt;/td&gt;
+          &lt;td style=&#34;text-align: right&#34;&gt;59&lt;/td&gt;
+          &lt;td style=&#34;text-align: right&#34;&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;Intersection&lt;/td&gt;
+          &lt;td style=&#34;text-align: right&#34;&gt;204&lt;/td&gt;
+          &lt;td style=&#34;text-align: right&#34;&gt;181&lt;/td&gt;
+          &lt;td style=&#34;text-align: right&#34;&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;Parquet&lt;/td&gt;
+          &lt;td style=&#34;text-align: right&#34;&gt;11&lt;/td&gt;
+          &lt;td style=&#34;text-align: right&#34;&gt;11&lt;/td&gt;
+          &lt;td style=&#34;text-align: right&#34;&gt;12&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;Total&lt;/td&gt;
+          &lt;td style=&#34;text-align: right&#34;&gt;290&lt;/td&gt;
+          &lt;td style=&#34;text-align: right&#34;&gt;251&lt;/td&gt;
+          &lt;td style=&#34;text-align: right&#34;&gt;264&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;We have saved 3,620,994 polygons.&lt;/p&gt;
+&lt;h2 id=&#34;dask-geopandashttpsdask-geopandasreadthedocsioenstable&#34;&gt;&lt;a href=&#34;https://dask-geopandas.readthedocs.io/en/stable/&#34;&gt;Dask-Geopandas&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;Expectations:&lt;/em&gt; Partitioning the DataFrame should increase the number of cores used. This should reduce the computation time.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Observations:&lt;/em&gt; I open the shapefiles as before with Geopandas, but then convert them to a Dask-Geopandas GeoDataFrame.
+All this increases the loading time a bit from about 60s to 76s. It&amp;rsquo;s not much because I don&amp;rsquo;t do the spartial partioning!&lt;/p&gt;
+&lt;p&gt;Finally, I try the map_partitions method. On the left a Dask GeoDataFrame (the larger parcels dataset) and on the right the smaller GeoDataFrame on the right. Having the larger dataset as the Dask-GeoDataFrame increases speed.
+No, spatial swapping is not necessary as the spatial index is already used.
+For the map_partitions I create a function that wraps the overlay. This creates a single duplicate.&lt;/p&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;Task&lt;/th&gt;
+          &lt;th style=&#34;text-align: right&#34;&gt;Geopandas \s&lt;/th&gt;
+          &lt;th style=&#34;text-align: right&#34;&gt;Dask-Geopandas \s&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;Loading form&lt;/td&gt;
+          &lt;td style=&#34;text-align: right&#34;&gt;59&lt;/td&gt;
+          &lt;td style=&#34;text-align: right&#34;&gt;76&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;Intersection&lt;/td&gt;
+          &lt;td style=&#34;text-align: right&#34;&gt;181&lt;/td&gt;
+          &lt;td style=&#34;text-align: right&#34;&gt;62&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;Parquet&lt;/td&gt;
+          &lt;td style=&#34;text-align: right&#34;&gt;11&lt;/td&gt;
+          &lt;td style=&#34;text-align: right&#34;&gt;12&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;Total&lt;/td&gt;
+          &lt;td style=&#34;text-align: right&#34;&gt;251&lt;/td&gt;
+          &lt;td style=&#34;text-align: right&#34;&gt;151&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;This really does use all the cores, and you can see a usage between 30% and 95% while the Overlay
+is being processed. This reduces the computing time to 33% on this machine.&lt;/p&gt;
+&lt;p&gt;But three times faster, for 8 cores and 16 threads on the machine. Not quite what I expected.&lt;/p&gt;
+&lt;h2 id=&#34;duckdbhttpsduckdborgdocsextensionsspatialoverview&#34;&gt;&lt;a href=&#34;https://duckdb.org/docs/extensions/spatial/overview&#34;&gt;DuckDB&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;DuckDB has a spatial extension. Although the csv/parquet file readers work well, the
+tokens to load multiple files at once.
+But this is not possible with ST_Read for reading spatial data. So I use pathlib as with the other frameworks.
+Also geoparquet is not supported for writing. So I chose &lt;code&gt;FlatGeobuf&lt;/code&gt; as the geopackage could not be saved.
+There is no overlay, I have to do all the steps myself. So there is a possibility that my solution is suboptimal.&lt;/p&gt;
+&lt;p&gt;Writing the data also adds a coordinate system. However, the data can be opened with QGIS.
+By using FlatGeoBuf, the file size and write times are worse than for geoparquet.
+I was unable to save the data geopackage due to an error in sqlite3_exec, which was unable to open the save tree.
+The resulting FlatGeoBuf is huge.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;expectation&lt;/em&gt;: Not much, it&amp;rsquo;s marked as faster than SQLite for DataAnalysis. Which is true.
+But how does it compare to DataFrames, which are also in RAM? Should be faster,
+due to multicore usage. The memory layout benefits cannot be much, as GeoPandas also uses Apache Arrow?
+*Observation: CPU usage is high at first, but drops steadily.
+For Dask the usage fluctuates. I suspect this is due to index usage. The ST_Intersects operation uses the index, ST_Intersection does not.&lt;/p&gt;
+&lt;p&gt;The execution speed is much slower than for Dask. Saving takes so long that it is even as slow as normal geopandas.
+Using the database in persistent mode (giving the connection a filename) increases the execution time.
+Loading takes 70% longer, but we eliminate the need to save the data. Yes, I could load the data into a DataFrame and save it, but then it is no longer a full GeoPandas DuckDB comparison.
+The saved database is actually a bit smaller than the FlatGeoBuf file.
+The comparison between DuckDB and Geopandas (with arrow) in speed is&lt;/p&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;Task&lt;/th&gt;
+          &lt;th style=&#34;text-align: right&#34;&gt;Geopandas \s&lt;/th&gt;
+          &lt;th style=&#34;text-align: right&#34;&gt;DuckDB (Memory) \s&lt;/th&gt;
+          &lt;th style=&#34;text-align: right&#34;&gt;DuckDB (db-file) \s&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;Loading Shape&lt;/td&gt;
+          &lt;td style=&#34;text-align: right&#34;&gt;59&lt;/td&gt;
+          &lt;td style=&#34;text-align: right&#34;&gt;71&lt;/td&gt;
+          &lt;td style=&#34;text-align: right&#34;&gt;120&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;Intersection&lt;/td&gt;
+          &lt;td style=&#34;text-align: right&#34;&gt;181&lt;/td&gt;
+          &lt;td style=&#34;text-align: right&#34;&gt;96&lt;/td&gt;
+          &lt;td style=&#34;text-align: right&#34;&gt;92&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;Saving&lt;/td&gt;
+          &lt;td style=&#34;text-align: right&#34;&gt;11&lt;/td&gt;
+          &lt;td style=&#34;text-align: right&#34;&gt;93&lt;/td&gt;
+          &lt;td style=&#34;text-align: right&#34;&gt;&amp;mdash;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;Overall&lt;/td&gt;
+          &lt;td style=&#34;text-align: right&#34;&gt;251&lt;/td&gt;
+          &lt;td style=&#34;text-align: right&#34;&gt;261&lt;/td&gt;
+          &lt;td style=&#34;text-align: right&#34;&gt;212&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;Polygon Count&lt;/td&gt;
+          &lt;td style=&#34;text-align: right&#34;&gt;3620994&lt;/td&gt;
+          &lt;td style=&#34;text-align: right&#34;&gt;3619033&lt;/td&gt;
+          &lt;td style=&#34;text-align: right&#34;&gt;&amp;mdash;&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;DuckDB has a lower count in returned Polyons, but I assume that these are in included in the collections.&lt;/p&gt;
+&lt;h2 id=&#34;apache-sedonahttpssedonaapacheorglatest-with-pyspark&#34;&gt;&lt;a href=&#34;https://sedona.apache.org/latest/&#34;&gt;Apache Sedona&lt;/a&gt; with PySpark&lt;/h2&gt;
+&lt;p&gt;*Expectations: Some loss due to virtualization with Docker.
+So PySpark would not be as fast as Dask?&lt;/p&gt;
+&lt;p&gt;Although the code is conceptually very similar to the database version. It is an interesting technology.
+I started with the Sedona container as a docker-compose file. This created a local Spark instance with Sedona and Jupyter notebook.&lt;/p&gt;
+&lt;p&gt;The shapefiles can be loaded with a placeholder. No iteration (in code) required.
+But we need to validate the geometry with ST_MakeValid. Otherwise, I get a Java error message which is really long.
+Which makes it hard to understand, at least if you are not used to it.
+You can use SQL syntax on the DataFrames, or you can use message chaining methods.
+I started with SQL code (which is more universal), but it contains long strings in your code.
+Once everything was working, I switched to method chaining. Which in my eyes looks better, more functional.
+This flexibility is a plus.&lt;/p&gt;
+&lt;p&gt;So far the code is lazy. A show method only executes on the row it will show, counting on all rows.
+Lazy execution can lead to double execution, so I remove all count methods.
+The slowest part seems to be writing. But differentiating the timing is difficult due to the lazy execution.
+The data is saved as a geoqarquet file with 3618339 polygons, the size was about 320 MB with snappy compression and 250 MB with ZSTD.
+Saving as a single parquet file takes about 158 seconds.
+I would have liked to use more containers on a single device and let them talk to each other to get multiple workers and a master to see how much multi-node
+reduced the computation time further.&lt;/p&gt;
+&lt;p&gt;But that did not seem so trivial (please prove me wrong)&lt;/p&gt;
+&lt;h1 id=&#34;overall-speed-comparison&#34;&gt;Overall speed comparison&lt;/h1&gt;
+&lt;p&gt;For the overall speed and memory usage comparison, I exclude Apache-Sedona as it is running in a Docker container (for now).&lt;/p&gt;
+&lt;p&gt;The previous timings were based on warmed runs, but single executions. Here we use 10 warmed runs to get a better picture.
+We need the warming because we use the same input data, so a GeoPandas run would also warm up the Dask GeoPandas run, and so on.
+Without warming GeoPandas, this would be even slower.
+These execution times must always be slower than the previous ones, because they include loading the Python interpreter and all libraries. and all libraries.&lt;/p&gt;
+&lt;p&gt;Without using arrow for input data. GeoPandas took 287.519 s ± 1.532 s to open, overlay and save.
+The overall variation will be small.&lt;/p&gt;
+&lt;p&gt;Opening the files with the &lt;code&gt;use_arrow&lt;/code&gt; option reduces the computation time by about 8%. The execution takes: 264.590 s ± 4.891 s.&lt;/p&gt;
+&lt;p&gt;With dask, the speed decreases slightly. The addition of multicore reduces the total execution time by a third. On the other hand,
+I still have a good part (loading the data) that is limited to single core. So we end up with an execution time of 169.577 s ± 1.882 s.&lt;/p&gt;
+&lt;p&gt;For DuckDB with in-memory (and saving to FlatGeoBuf) the execution time is 271.455 s ± 2.790 s, and when persisting and not writing the final result it takes 233.427 s ± 6.805 s.&lt;/p&gt;
+&lt;h1 id=&#34;total-memory-usage-comparison&#34;&gt;Total Memory Usage Comparison&lt;/h1&gt;
+&lt;p&gt;The question here is whether it is necessary to hold all the data in RAM at the same time, or whether a good strategy can reduce RAM usage.
+To hold only the final result and partitions of the input data.&lt;/p&gt;
+&lt;p&gt;The input data accounts for about 8 GB of RAM usage. This is the plateau in RAM usage of the Geopandas program. RAM usage peaks at just under 14 GB.&lt;/p&gt;
+&lt;figure&gt;&lt;img src=&#34;https://sehheiden.github.io/geopandas_ram.png&#34;
+    alt=&#34;RAM usage of GeoPandas&#34;&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;Dask seems to need several copies of the input data. We have a first plateau at about 8 GB and a
+at about 12 GB. The RAM usage peaks at about 19 GB.&lt;/p&gt;
+&lt;figure&gt;&lt;img src=&#34;https://sehheiden.github.io/dask_geopandas_ram.png&#34;
+    alt=&#34;RAM usage of Dask-GeoDataFrame&#34;&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;The memory layout in DUCKDB greatly reduces the peak memory usage. I can also use a view
+for the final result, which adds up to even more savings.
+Frankly, at only about 7 GB, the peak RAM usage is smaller than the input data in GeoPandas.
+The input data alone uses about 3.5 GB.&lt;/p&gt;
+&lt;figure&gt;&lt;img src=&#34;https://sehheiden.github.io/duckdb_memory_ram.png&#34;
+    alt=&#34;RAM usage of DuckDB (in-memory)&#34;&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;The persistence of the database does not change much, the input data seems to be even smaller at 2.5 GB.
+The top RAM usage is also reduced to about 6.2 GB.
+&lt;figure&gt;&lt;img src=&#34;https://sehheiden.github.io/duckdb_persisted_ram.png&#34;
+    alt=&#34;RAM usage of DuckDB (persistent)&#34;&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;h1 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h1&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;Package&lt;/th&gt;
+          &lt;th style=&#34;text-align: right&#34;&gt;Total duration \s&lt;/th&gt;
+          &lt;th style=&#34;text-align: right&#34;&gt;Top RAM usage \GB&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;Geopandas&lt;/td&gt;
+          &lt;td style=&#34;text-align: right&#34;&gt;287.5 ± 1.5&lt;/td&gt;
+          &lt;td style=&#34;text-align: right&#34;&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;Geopandas (arrow)&lt;/td&gt;
+          &lt;td style=&#34;text-align: right&#34;&gt;264.6 ± 4.9&lt;/td&gt;
+          &lt;td style=&#34;text-align: right&#34;&gt;14&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;Dask-Geopandas&lt;/td&gt;
+          &lt;td style=&#34;text-align: right&#34;&gt;169.6 ± 1.9&lt;/td&gt;
+          &lt;td style=&#34;text-align: right&#34;&gt;19&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;DuckDB (in memory)&lt;/td&gt;
+          &lt;td style=&#34;text-align: right&#34;&gt;271.5 ± 2.8&lt;/td&gt;
+          &lt;td style=&#34;text-align: right&#34;&gt;7&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;DuckDB (persistent)&lt;/td&gt;
+          &lt;td style=&#34;text-align: right&#34;&gt;233.4 ± 6.8&lt;/td&gt;
+          &lt;td style=&#34;text-align: right&#34;&gt;6.2&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;The intersection itself has a speedup S of about three for Dask-GeoDataFrames and two for DuckDB compared to GeoPandas.
+This is despite using 8 cores with hyper-threading.
+I suspect that DuckDB is slower here because intersection does not use the spatial index, but intersection does.
+When we are able to use multiple cores, loading the data becomes a relatively long part of the total execution time.
+Either a distribution in geoparquet or loading each file in a separate thread could help.&lt;/p&gt;
+&lt;p&gt;For Apache-Sedona we can only compare the total execution time and this seems to be on par with Dask-GeoPandas.&lt;/p&gt;
+&lt;p&gt;If low memory usage is important, DUCKDB is an option. So either on systems with low memory, or with huge amounts of data.
+To avoid using swap. Opening shapefiles with DuckDB is slower than with GeoPandas.
+So far I cannot recommend using DuckDB for spatial tasks, as the number of supported file formats is limited, and although supported I was not able to save to GeoPackages.
+Also, DuckDB does not support raster files.&lt;/p&gt;
+&lt;p&gt;If you already have a Spark cluster, Sedona may be a valid option. So far Dask is the fastest solution, but uses a huge amount of additional memory.
+Maybe one day I can recommend DuckDB instead.&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
+&lt;p&gt;While using hyperfine on the DuckDB code, I found that a file is created in the temp folder for each output.
+These files have an uuid part and are never deleted, eg: &lt;code&gt;buildings_with_parcels_1976_2_temp.fgb&lt;/code&gt;.
+This seems to be a real bug in DuckDB.
+So while profiling with hyperfine, the temp files are written to disk until the main drive is full.&amp;#160;&lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+- https://sehheiden.github.io/posts/speed_comparision_gis_intersection/ - </description>
+        </item>
     
     
     
@@ -25,186 +343,6 @@
 &lt;/figure&gt;
 
 - https://sehheiden.github.io/about/ - </description>
-        </item>
-    
-    
-    
-        <item>
-        <title>Speed Comparision on some Modern GIS tools</title>
-        <link>https://sehheiden.github.io/posts/speed_comparision_gis_intersection/</link>
-        <pubDate>Sat, 28 Sep 2024 00:00:00 +0000</pubDate>
-        
-        <guid>https://sehheiden.github.io/posts/speed_comparision_gis_intersection/</guid>
-        <description>SeHe&#39;s Blog https://sehheiden.github.io/posts/speed_comparision_gis_intersection/ -&lt;p&gt;GIS can change with current technology as Apache Arrow, and perhaps also Apache Spark und Apache Sedona.
-Also in Pythonland Geopandas enhanced performance over time. In addition, I also wanted to try Dask und DuckDB.&lt;/p&gt;
-&lt;p&gt;Please contact me, when you read this and think I could have increased the code quality and speed.
-I use some public data, which still widely use shape files in Germany.&lt;/p&gt;
-&lt;h1 id=&#34;the-data&#34;&gt;The Data&lt;/h1&gt;
-&lt;p&gt;First I load fhe ALKIS (register) building data for all counties in the state of Brandenburg.
-All vector files are open data. The victor files are still offered as Shapefiles.
-From the ALKIS Dataset of Brandenburg I used the buildings and the parcels (with land usage).
-The files are stored per county!
-The geometries have some errors which Geopandas auto-detects and fixes.
-In addition, some file can not be opened with the &lt;a href=&#34;https://fiona.readthedocs.io/en/latest/index.html&#34;&gt;fiona&lt;/a&gt; library from Geopandas, with the error message
-of multiple  geometry columns. Hence, we always use de new default: pyogrio.&lt;/p&gt;
-&lt;h1 id=&#34;task&#34;&gt;Task&lt;/h1&gt;
-&lt;ol&gt;
-&lt;li&gt;Open the datasets and concat the counties.&lt;/li&gt;
-&lt;li&gt;Create an overlay with intersection&lt;/li&gt;
-&lt;li&gt;Save the data se, when possible as geoparquet file.&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;Why did select this task?
-I consider the overlay is one of the more compute heavy tasks in GIS.
-In &lt;a href=&#34;https://github.com/geopandas/geopandas/blob/main/geopandas/tools/overlay.py&#34;&gt;Geopandas&lt;/a&gt;
-this uses a spatial index, then computes an intersection and joins the original data to the intersection.&lt;/p&gt;
-&lt;p&gt;We close the saving as Geoparquet file, as it&amp;rsquo;s the only format Dask-GeoPandas can write to.
-In addition, the result (with snappy compression) is small 391 MB, compared to what Geopackage (1.57 GB) needs.&lt;/p&gt;
-&lt;p&gt;By the way, I select which columns to open in Geopandas, because later I will find out, that one column does only contain &lt;code&gt;None&lt;/code&gt;&amp;rsquo;s.
-Hence, I just don&amp;rsquo;t use not important columns form the start.&lt;/p&gt;
-&lt;h1 id=&#34;the-frameworks&#34;&gt;The Frameworks&lt;/h1&gt;
-&lt;h2 id=&#34;geopandashttpsgeopandasorgenstableindexhtml&#34;&gt;&lt;a href=&#34;https://geopandas.org/en/stable/index.html&#34;&gt;Geopandas&lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;For me Geopandas is the goto solution for year now.
-Sometimes with some extra code, some extra libs as pyogrio.&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;Expectations&lt;/em&gt;: Well, nothing special. It just works. Should load the data faster with &lt;a href=&#34;https://pyogrio.readthedocs.io/en/latest/&#34;&gt;pyogrio&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;Observations&lt;/em&gt;: Initially, loading the datasets takes about 75 to 80 s on my machine with am AMD Ryzen 5800X CPU.
-Duration between different runs does vary slightly. It&amp;rsquo;s somewhat faster when using arrow by about 15 s.&lt;/p&gt;
-&lt;p&gt;The Intersection takes about 190s. The python program takes about 10 GB of main memory, while running.&lt;/p&gt;
-&lt;p&gt;In the end I also tried to load and build the intersection per county and then just concat the results.
-It&amp;rsquo;s not faster, due to the spatial indexing.? RAM usage is initially much lower with about 3 GB.&lt;/p&gt;
-&lt;p&gt;With the reduced number of columns the durations are:&lt;/p&gt;
-&lt;table&gt;
-  &lt;thead&gt;
-      &lt;tr&gt;
-          &lt;th style=&#34;text-align: left&#34;&gt;Task&lt;/th&gt;
-          &lt;th style=&#34;text-align: right&#34;&gt;Duration Geopandas \s&lt;/th&gt;
-          &lt;th style=&#34;text-align: right&#34;&gt;Duration Geopandas &amp;amp; arrow \s&lt;/th&gt;
-          &lt;th style=&#34;text-align: right&#34;&gt;Duration Geopandas &amp;amp; pyogrio, per county \s&lt;/th&gt;
-      &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-      &lt;tr&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;Loading Shape&lt;/td&gt;
-          &lt;td style=&#34;text-align: right&#34;&gt;77.55&lt;/td&gt;
-          &lt;td style=&#34;text-align: right&#34;&gt;60.38&lt;/td&gt;
-          &lt;td style=&#34;text-align: right&#34;&gt;&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;Intersection&lt;/td&gt;
-          &lt;td style=&#34;text-align: right&#34;&gt;189.20&lt;/td&gt;
-          &lt;td style=&#34;text-align: right&#34;&gt;185.83&lt;/td&gt;
-          &lt;td style=&#34;text-align: right&#34;&gt;&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;Saving Parquet&lt;/td&gt;
-          &lt;td style=&#34;text-align: right&#34;&gt;12.60&lt;/td&gt;
-          &lt;td style=&#34;text-align: right&#34;&gt;11.40&lt;/td&gt;
-          &lt;td style=&#34;text-align: right&#34;&gt;12.38&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;Overall&lt;/td&gt;
-          &lt;td style=&#34;text-align: right&#34;&gt;279.34&lt;/td&gt;
-          &lt;td style=&#34;text-align: right&#34;&gt;257.61&lt;/td&gt;
-          &lt;td style=&#34;text-align: right&#34;&gt;263.61&lt;/td&gt;
-      &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h2 id=&#34;dask-geopandashttpsdask-geopandasreadthedocsioenstable&#34;&gt;&lt;a href=&#34;https://dask-geopandas.readthedocs.io/en/stable/&#34;&gt;Dask-Geopandas&lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;&lt;em&gt;Expectations&lt;/em&gt;: Partitioning the DataFrame should increase the number of used cores. Hence, reduce the compute time.&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;Observations&lt;/em&gt;: I open the shapefiles just as before with geopandas, but then convert to a Dask-Geopandas GeoDataFrames.
-This all increases the loading time drastically! From about 60s to 160 s.
-I try to overlay these GeoDataFrames, there is no overlay with Dask-Geoarray.&lt;/p&gt;
-&lt;p&gt;Instead, I try the map_partitions method. Left on a Dask-GeoDataFrame (the larger parcels dataset) and on the right
-hand side the smaller houses GeoDataFrame. Having the larger dataset as Dask-GeoDataFrame increases the speed.
-No, spatial swapping need as a spatial index is already used.
-For the map_partitions I create function that wraps the overlay.&lt;/p&gt;
-&lt;table&gt;
-  &lt;thead&gt;
-      &lt;tr&gt;
-          &lt;th style=&#34;text-align: left&#34;&gt;Task&lt;/th&gt;
-          &lt;th style=&#34;text-align: right&#34;&gt;Duration Geopandas \s&lt;/th&gt;
-          &lt;th style=&#34;text-align: right&#34;&gt;Duration Dask-Geopandas \s&lt;/th&gt;
-      &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-      &lt;tr&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;Loading Shape&lt;/td&gt;
-          &lt;td style=&#34;text-align: right&#34;&gt;58.67&lt;/td&gt;
-          &lt;td style=&#34;text-align: right&#34;&gt;77.11&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;Intersection&lt;/td&gt;
-          &lt;td style=&#34;text-align: right&#34;&gt;182.98&lt;/td&gt;
-          &lt;td style=&#34;text-align: right&#34;&gt;64.52&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;Saving Parquet&lt;/td&gt;
-          &lt;td style=&#34;text-align: right&#34;&gt;11.48&lt;/td&gt;
-          &lt;td style=&#34;text-align: right&#34;&gt;12.51&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;Overall&lt;/td&gt;
-          &lt;td style=&#34;text-align: right&#34;&gt;253.13&lt;/td&gt;
-          &lt;td style=&#34;text-align: right&#34;&gt;154.13&lt;/td&gt;
-      &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-&lt;p&gt;This really uses all cores and a usage between 30 % and 95 % can be seen while the Overlay
-is processed. This reduces the computation time to 33 % on this machine.&lt;/p&gt;
-&lt;p&gt;But three times faster, for 8 cores and 16 threads on the machine. Is not fully, what I expected.&lt;/p&gt;
-&lt;h2 id=&#34;duckdbhttpsduckdborgdocsextensionsspatialoverview&#34;&gt;&lt;a href=&#34;https://duckdb.org/docs/extensions/spatial/overview&#34;&gt;DuckDB&lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;DuckDB has a spatial extension. Although the csv/parquet file readers works great the
-asterix placeholder to load several file at once.
-This is not true for ST_Read for reading spatial data. Hence, I have like with the other frameworks.
-Also, geoparquet is not supported for writing, hence I selected &lt;code&gt;FlatGeoBuf&lt;/code&gt;.
-There is no overlay I have to do all the steps by myself. So, there is a possibility that my solution is suboptimal.&lt;/p&gt;
-&lt;p&gt;Also writing the data does add a coordinate system. Nevertheless, the data can be opened with QGIS.
-Due to the usage of FlatGeoBuf, file size and writing times are worse, than for geoparquet.
-I could not save the data geopackage, to an error in sqlite3_exec, being unable to open the save tree.
-The resulting FlatGeoBuf is huge.&lt;/p&gt;
-&lt;p&gt;*&lt;em&gt;Expectation&lt;/em&gt;: Not much, It&amp;rsquo;s marked as faster than SQLite for DataAnalysis. Which holds true.
-But how does it compare to DataFrames, that are in the RAM, too. Should be faster,
-due to multicore usage. The memory layout benefits can not be much, as GeoPandas also uses Apache Arrow?
-&lt;em&gt;Observation&lt;/em&gt;: The CPU usage here is high at first but reduces steadily.
-For Dask the usage fluctuates.&lt;/p&gt;
-&lt;p&gt;The execution speed is much slower as with dask. Saving takes so long, that this is even as slow as normal
-Geopandas.&lt;/p&gt;
-&lt;table&gt;
-  &lt;thead&gt;
-      &lt;tr&gt;
-          &lt;th style=&#34;text-align: left&#34;&gt;Task&lt;/th&gt;
-          &lt;th style=&#34;text-align: right&#34;&gt;Duration Geopandas \s&lt;/th&gt;
-          &lt;th style=&#34;text-align: right&#34;&gt;Duration DuckDB \s&lt;/th&gt;
-      &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-      &lt;tr&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;Loading Shape&lt;/td&gt;
-          &lt;td style=&#34;text-align: right&#34;&gt;74.23&lt;/td&gt;
-          &lt;td style=&#34;text-align: right&#34;&gt;7.87&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;Intersection&lt;/td&gt;
-          &lt;td style=&#34;text-align: right&#34;&gt;195.37&lt;/td&gt;
-          &lt;td style=&#34;text-align: right&#34;&gt;98.78&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;Saving Parquet&lt;/td&gt;
-          &lt;td style=&#34;text-align: right&#34;&gt;12.46&lt;/td&gt;
-          &lt;td style=&#34;text-align: right&#34;&gt;104.39&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;Overall&lt;/td&gt;
-          &lt;td style=&#34;text-align: right&#34;&gt;282.06&lt;/td&gt;
-          &lt;td style=&#34;text-align: right&#34;&gt;275.03&lt;/td&gt;
-      &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h1 id=&#34;apache-sedona&#34;&gt;Apache Sedona&lt;/h1&gt;
-&lt;p&gt;This one is a bit tricky for me.
-I want to get it working both with Scala and PySpark.&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;Expectation&lt;/em&gt;: Some loss due to virtualization with Docker.
-So the PySpark would be not as fast as Dask? But Scala could be faster?!&lt;/p&gt;
-- https://sehheiden.github.io/posts/speed_comparision_gis_intersection/ - </description>
         </item>
     
     
@@ -1334,7 +1472,7 @@ Pérez, Juan Manue;, Rajngewerc Mariela; Giudici, Juan Carlos; Furman, Damián A
 &lt;p&gt;The German power system is adding renewable energy sources in the north,
 where wind energy plants reach their highest efficiency, due to higher
 wind speeds. At the same time old power plants e.g. nuclear, hard coal
-and lignite are being phased out [^eser-frey_analyzing_2012]. These
+and lignite are being phased out [^eserfrey_analyzing_2012]. These
 older power plants were mainly located in southern and central Germany.
 The energy sink, industrial and private demand, is not shifting north.
 Therefore, the renewable energy has to be transported from north to
@@ -1367,12 +1505,10 @@ sustainability, security of supply and the public acceptance play an
 increasingly important role &lt;sup id=&#34;fnref:7&#34;&gt;&lt;a href=&#34;#fn:7&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;7&lt;/a&gt;&lt;/sup&gt; in modern
 planning.&lt;/p&gt;
 &lt;p&gt;In contrast to a GIS analysis, these other factors can be studied done
-with a [MCDA]{acronym-label=&amp;ldquo;MCDA&amp;rdquo;
-acronym-form=&amp;ldquo;singular+full&amp;rdquo;} &lt;sup id=&#34;fnref2:5&#34;&gt;&lt;a href=&#34;#fn:5&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;5&lt;/a&gt;&lt;/sup&gt;.
+with a Multiple-criteria decision analysis (MCDA) &lt;sup id=&#34;fnref2:5&#34;&gt;&lt;a href=&#34;#fn:5&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;5&lt;/a&gt;&lt;/sup&gt;.
 Stakeholders as decision makers can be included and combined with an
 expert system &lt;sup id=&#34;fnref3:5&#34;&gt;&lt;a href=&#34;#fn:5&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;5&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
-&lt;p&gt;The uncertainties associated with [MCDA]{acronym-label=&amp;ldquo;MCDA&amp;rdquo;
-acronym-form=&amp;ldquo;singular+abbrv&amp;rdquo;} are data uncertainties, preferential
+&lt;p&gt;The uncertainties associated with MCDA are data uncertainties, preferential
 uncertainties and model uncertainties are investigated with a
 sensitivity analysis &lt;sup id=&#34;fnref4:5&#34;&gt;&lt;a href=&#34;#fn:5&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;5&lt;/a&gt;&lt;/sup&gt; or
 simulation &lt;sup id=&#34;fnref:8&#34;&gt;&lt;a href=&#34;#fn:8&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;8&lt;/a&gt;&lt;/sup&gt;. Both inter- and intra-criteria
@@ -1381,8 +1517,8 @@ considered.&lt;/p&gt;
 &lt;p&gt;This paper aims to find potential paths for power lines by using the
 Least Cost Path algorithm. Land usage and planning data are used to
 estimate the costs arising by using the local area. The task was to
-provide the Least Cost Path using a [wps]{acronym-label=&amp;ldquo;wps&amp;rdquo;
-acronym-form=&amp;ldquo;singular+full&amp;rdquo;}. Beyond that, methods to reduce the needed
+provide the Least Cost Path using a web programming service (wps).
+Beyond that, methods to reduce the needed
 compute power for finding the Least Cost Path had to be studied.&lt;/p&gt;
 &lt;h1 id=&#34;sec:methods&#34;&gt;Methods&lt;/h1&gt;
 &lt;p&gt;The Least Cost Path algorithm is used to plan a potential,
@@ -1412,8 +1548,7 @@ point as integer values.&lt;/p&gt;
 a basis for creating the cost raster. The study area are the counties of
 Cuxhaven and Osterholz in the state of Lower Saxony, Germany. Areas
 protected by different European and National conservation laws are
-provided by the German Environment Agency as [wfs]{acronym-label=&amp;ldquo;wfs&amp;rdquo;
-acronym-form=&amp;ldquo;singular+full&amp;rdquo;} &lt;sup id=&#34;fnref:11&#34;&gt;&lt;a href=&#34;#fn:11&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;11&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+provided by the German Environment Agency as Web Feature Service (wfs) &lt;sup id=&#34;fnref:11&#34;&gt;&lt;a href=&#34;#fn:11&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;11&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
 &lt;p&gt;The national land coverage (ATKIS) with a scale of 1:250000 are provided
 by the Federal Agency for Cartography and
 Geodesy &lt;sup id=&#34;fnref:12&#34;&gt;&lt;a href=&#34;#fn:12&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;12&lt;/a&gt;&lt;/sup&gt;. The national power grid (tags:
@@ -1424,17 +1559,14 @@ Surveying of Lower Saxony &lt;sup id=&#34;fnref:14&#34;&gt;&lt;a href=&#34;#fn:
 local planning geodata for the land use are taken from &amp;lsquo;Metropolplaner&amp;rsquo;
 (Planning data Lower Saxony &amp;amp; Bremen) &lt;sup id=&#34;fnref:15&#34;&gt;&lt;a href=&#34;#fn:15&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;15&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
 &lt;p&gt;PyWPS &lt;sup id=&#34;fnref:16&#34;&gt;&lt;a href=&#34;#fn:16&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;16&lt;/a&gt;&lt;/sup&gt; is used to provide the Least Cost Path
-algorithm as a [wps]{acronym-label=&amp;ldquo;wps&amp;rdquo; acronym-form=&amp;ldquo;singular+abbrv&amp;rdquo;}
-in combination with flask &lt;sup id=&#34;fnref:17&#34;&gt;&lt;a href=&#34;#fn:17&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;17&lt;/a&gt;&lt;/sup&gt;. As client,
-Birdy &lt;sup id=&#34;fnref:18&#34;&gt;&lt;a href=&#34;#fn:18&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;18&lt;/a&gt;&lt;/sup&gt; connects to the [wps]{acronym-label=&amp;ldquo;wps&amp;rdquo;
-acronym-form=&amp;ldquo;singular+abbrv&amp;rdquo;}, sends the cost raster, starting point,
+algorithm as a wps in combination with flask &lt;sup id=&#34;fnref:17&#34;&gt;&lt;a href=&#34;#fn:17&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;17&lt;/a&gt;&lt;/sup&gt;. As client,
+Birdy &lt;sup id=&#34;fnref:18&#34;&gt;&lt;a href=&#34;#fn:18&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;18&lt;/a&gt;&lt;/sup&gt; connects to the wps, sends the cost raster, starting point,
 end points and receives the resulting Least Cost Path. The initial
 implementation of the Least Cost Path algorithm is based on the
 implementation for the QGIS-Plugin &amp;lsquo;Least Cost
 Path&amp;rsquo; &lt;sup id=&#34;fnref:19&#34;&gt;&lt;a href=&#34;#fn:19&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;19&lt;/a&gt;&lt;/sup&gt; in version 1.0,
 but refactored to optionally export the aggregated costs in a command
-line tool. On top, the [wps]{acronym-label=&amp;ldquo;wps&amp;rdquo;
-acronym-form=&amp;ldquo;singular+abbrv&amp;rdquo;} provides the complete Least Cost Path
+line tool. On top, the wps provides the complete Least Cost Path
 algorithm as a single capability.&lt;/p&gt;
 &lt;p&gt;In order to compute intermediate cost raster the different vector layers
 of the different entities are optionally filtered, buffered and then
@@ -1452,7 +1584,7 @@ uniformly associated with the highest cost. Any place in the study area,
 that is not covered by any layer and thus does not yet have a weight, is
 given the default cost.&lt;/p&gt;
 &lt;p&gt;The costs have been grouped into five different levels (see
-table &lt;a href=&#34;#tab:1&#34;&gt;1&lt;/a&gt;{reference-type=&amp;ldquo;ref&amp;rdquo; reference=&amp;ldquo;tab:1&amp;rdquo;}), starting
+table &lt;a href=&#34;#tab:1&#34;&gt;1&lt;/a&gt;, starting
 from &lt;em&gt;Preferential&lt;/em&gt; areas with very low costs, via &lt;em&gt;No restriction&lt;/em&gt;s,
 which is the default, used when no other layers are covering the local
 area, to &lt;em&gt;Restricted&lt;/em&gt;, &lt;em&gt;Strongly Restricted&lt;/em&gt; and &lt;em&gt;Prohibited&lt;/em&gt; areas with
@@ -1475,8 +1607,7 @@ pixel is overlaid. Setting all touched to True implies the version with
 any part of the pixel selected. The version, where an overlapped pixel
 centre is required, is setting the parameter all touched to False.
 All touched set to False is considered the default (see
-figure &lt;a href=&#34;#fig:alltouched&#34;&gt;1&lt;/a&gt;{reference-type=&amp;ldquo;ref&amp;rdquo;
-reference=&amp;ldquo;fig:alltouched&amp;rdquo;}).&lt;/p&gt;
+figure &lt;a href=&#34;#fig:alltouched&#34;&gt;1&lt;/a&gt;.&lt;/p&gt;
 &lt;!-- raw HTML omitted --&gt;
 &lt;!-- raw HTML omitted --&gt;
 &lt;p&gt;::: {#tab:1}
@@ -1498,12 +1629,11 @@ found in &lt;strong&gt;Supplement S1&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;All three steps of the generation of the Least Cost Path: generation of
 the cost raster, aggregation and backtracking is shown with an example
 for a cost raster of 50 m resolution and all touched set to False (see
-&lt;a href=&#34;#fig:costs2path&#34;&gt;2&lt;/a&gt;{reference-type=&amp;ldquo;ref&amp;rdquo; reference=&amp;ldquo;fig:costs2path&amp;rdquo;}).&lt;/p&gt;
+&lt;a href=&#34;#fig:costs2path&#34;&gt;2&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;The chosen implementation applies early stopping. Therefore, the costs
 for points that are not needed to try to connect to the end point are
 not aggregated (see figure
-&lt;a href=&#34;#fig:aggregation&#34;&gt;[fig:aggregation]&lt;/a&gt;{reference-type=&amp;ldquo;ref&amp;rdquo;
-reference=&amp;ldquo;fig:aggregation&amp;rdquo;}). After finding an aggregated cost for
+&lt;a href=&#34;#fig:aggregation&#34;&gt;[fig:aggregation]&lt;/a&gt;. After finding an aggregated cost for
 every end point, the aggregation stops and the backtracking starts.
 Because the path ends at a power transformer, which is a building type,
 the paths end at in a &lt;em&gt;Prohibited&lt;/em&gt; area. Therefore, areas even further
@@ -1542,8 +1672,7 @@ than the object size, then the effect of setting all touched to True or
 False is limited. If all touched is set to True and any part of the
 pixel that is covered by the object, the whole pixel is attributed to
 the object. This makes the object appear larger. This can be seen in
-figure &lt;a href=&#34;#fig:costs_5m&#34;&gt;3&lt;/a&gt;{reference-type=&amp;ldquo;ref&amp;rdquo;
-reference=&amp;ldquo;fig:costs_5m&amp;rdquo;}, which shows a detailed view of the costs for
+figure &lt;a href=&#34;#fig:costs_5m&#34;&gt;3&lt;/a&gt;, which shows a detailed view of the costs for
 the village of Beverstedt. To set all touched to False is a better
 description of the real size of the object for high resolution.&lt;/p&gt;
 &lt;!-- raw HTML omitted --&gt;
@@ -1551,8 +1680,7 @@ description of the real size of the object for high resolution.&lt;/p&gt;
 &lt;p&gt;In contrast, if the resolution is smaller, all touched set to False
 leads to a loss of information for smaller objects. Since the default
 cost is much smaller than the average cost, this method underestimates
-the cost. The figure &lt;a href=&#34;#fig:costs_100m&#34;&gt;4&lt;/a&gt;{reference-type=&amp;ldquo;ref&amp;rdquo;
-reference=&amp;ldquo;fig:costs_100m&amp;rdquo;} shows, that for the resolution of 100 m,
+the cost. The figure &lt;a href=&#34;#fig:costs_100m&#34;&gt;4&lt;/a&gt; shows, that for the resolution of 100 m,
 larger objects are still included in the map, but smaller objects, such
 as roads, are only partially included.&lt;/p&gt;
 &lt;!-- raw HTML omitted --&gt;
@@ -1567,18 +1695,16 @@ transformer in the southeast of the Osterholz county.&lt;/p&gt;
 distance. For each vertex $P_i$ in the path $L_1$ the minimum distance
 between the vertex $P_i$ and the path $L_2$ is calculated and then the
 minimum distances are averaged (see
-equation &lt;a href=&#34;#eq:1&#34;&gt;[eq:1]&lt;/a&gt;{reference-type=&amp;ldquo;ref&amp;rdquo; reference=&amp;ldquo;eq:1&amp;rdquo;}).
-$$\label{eq:1}
-d_{mean} = \frac{1}{|L_1|} \sum_{i=1}^{n} d_{min}(P_i, L_2) \Bigr\vert P_i \in L_1$$
+equation &lt;a href=&#34;#eq:1&#34;&gt;[eq:1]&lt;/a&gt;.
+$$d_{mean} = \frac{1}{|L_1|} \sum_{i=1}^{n} d_{min}(P_i, L_2) \Bigr\vert P_i \in L_1$$
 This equation is used to measure the degree of similarity between the
 paths. The distances are measured at the same resolution (different
 setting for all touched), and same setting of all touched (different
 resolution).&lt;/p&gt;
-&lt;p&gt;Table &lt;a href=&#34;#tab:2&#34;&gt;[tab:2]&lt;/a&gt;{reference-type=&amp;ldquo;ref&amp;rdquo; reference=&amp;ldquo;tab:2&amp;rdquo;} shows,
+&lt;p&gt;Table &lt;a href=&#34;#tab:2&#34;&gt;[tab:2]&lt;/a&gt; shows,
 that the distance between two paths decreases with increasing
 resolution. In addition, this tendency is depicted in
-figure &lt;a href=&#34;#fig:paths_resolution&#34;&gt;5&lt;/a&gt;{reference-type=&amp;ldquo;ref&amp;rdquo;
-reference=&amp;ldquo;fig:paths_resolution&amp;rdquo;} for the calculated cost paths of 5 m
+figure &lt;a href=&#34;#fig:paths_resolution&#34;&gt;5&lt;/a&gt; for the calculated cost paths of 5 m
 and 100 m resolutions.&lt;/p&gt;
 &lt;p&gt;At the same time, the differences in the aggregated costs remain almost
 constant. Thus the difference between the aggregated costs per
@@ -1612,12 +1738,10 @@ resolution, the similarity in between the all touched set to False paths
 is higher, than for most paths of the same resolution. Namely except for
 the highest resolution.&lt;/p&gt;
 &lt;p&gt;This behaviour is shown in
-figure &lt;a href=&#34;#fig:paths_alltouched&#34;&gt;6&lt;/a&gt;{reference-type=&amp;ldquo;ref&amp;rdquo;
-reference=&amp;ldquo;fig:paths_alltouched&amp;rdquo;}. On a more detailed level, it can be
+figure &lt;a href=&#34;#fig:paths_alltouched&#34;&gt;6&lt;/a&gt;. On a more detailed level, it can be
 seen, that the paths of all touched False also converge directly to the
 all touched True paths, but the extent is smaller.&lt;/p&gt;
-&lt;p&gt;The zonal stat (see table &lt;a href=&#34;#tab:3&#34;&gt;[tab:3]&lt;/a&gt;{reference-type=&amp;ldquo;ref&amp;rdquo;
-reference=&amp;ldquo;tab:3&amp;rdquo;}) for a buffer of 100 m (5 m) around the paths has
+&lt;p&gt;The zonal stat (see table &lt;a href=&#34;#tab:3&#34;&gt;[tab:3]&lt;/a&gt;) for a buffer of 100 m (5 m) around the paths has
 been used, to estimate the percentage of each costs levels around the
 paths. When using all touched True at higher resolution the tendency is
 to use a higher percentage of the &lt;em&gt;Preferential&lt;/em&gt; Level and less of the
@@ -1673,8 +1797,7 @@ tracking stays unchanged.&lt;/p&gt;
 Path to the path of the original high resolution raster. The mean
 distance of Least Cost Paths from rasters with different ratio is
 estimated to the path from the all touched set to False raster of the
-higher (5 m) resolution. Table &lt;a href=&#34;#tab:4&#34;&gt;2&lt;/a&gt;{reference-type=&amp;ldquo;ref&amp;rdquo;
-reference=&amp;ldquo;tab:4&amp;rdquo;} shows, that the mean minimum distance decreases with
+higher (5 m) resolution. Table &lt;a href=&#34;#tab:4&#34;&gt;2&lt;/a&gt; shows, that the mean minimum distance decreases with
 increasing ratio (1:1, 2:1, 4:1) and after this optimum is reached,
 increases with increasing ratio (8:1, 16:1 and so on). Comparing the
 similarity of the paths of the different ratios to normal paths with
@@ -1707,7 +1830,7 @@ downsampled to 10 m, 25 m, 50 m and 100 m (bi-linear) interpolation.&lt;/p&g
 downsampled raster to the path of the original 5 m resolution (all
 touched False) shows, that only downsampling to a resolution of 10 m
 produces a path that is relatively close the high resolution paths (see
-table &lt;a href=&#34;#tab:5&#34;&gt;3&lt;/a&gt;{reference-type=&amp;ldquo;ref&amp;rdquo; reference=&amp;ldquo;tab:5&amp;rdquo;}).&lt;/p&gt;
+table &lt;a href=&#34;#tab:5&#34;&gt;3&lt;/a&gt;).&lt;/p&gt;
 &lt;p&gt;The opposite is true for the lower resolution raster which is more
 similar to paths computed from the all touched True cost raster. Every
 path from a downsampled raster is more similar to a path computed from
@@ -1731,10 +1854,8 @@ with resolution (res).
 &lt;h3 id=&#34;restrict-search-to-a-buffer-around-the-least-cost-paths&#34;&gt;Restrict search to a buffer around the Least Cost Paths&lt;/h3&gt;
 &lt;p&gt;Construct a polygon from the two Least Cost Paths (all touched True and
 all touched False of the same resolution). Buffer the polygon with twice
-the maximum minimum path distance (see
-equation &lt;a href=&#34;#eq:2&#34;&gt;[eq:2]&lt;/a&gt;{reference-type=&amp;ldquo;ref&amp;rdquo; reference=&amp;ldquo;eq:2&amp;rdquo;}).
-$$\label{eq:2}
-d_{max} = max(\sum_{i=1}^{n} d_{min}(P_i, L_2)) \Bigr\vert P_i \in L_1$$&lt;/p&gt;
+the maximum minimum path distance (see equation &lt;a href=&#34;#eq:2&#34;&gt;[eq:2]&lt;/a&gt;).
+$$d_{max} = max(\sum_{i=1}^{n} d_{min}(P_i, L_2)) \Bigr\vert P_i \in L_1$$&lt;/p&gt;
 &lt;p&gt;This strategy results in the same Least Cost Path as with the original
 high resolution raster.&lt;/p&gt;
 &lt;p&gt;This reduction of compute power provides the possibility to run a 2.5 m.
@@ -1765,7 +1886,7 @@ Path from the downsampled raster is higher than the normal medium
 resolution 10 m raster. In addition, the distance from these paths to
 the high resolution path is greater than the distance from the original
 10 m resolution path to the 5 m resolution path (see
-table &lt;a href=&#34;#tab:6&#34;&gt;4&lt;/a&gt;{reference-type=&amp;ldquo;ref&amp;rdquo; reference=&amp;ldquo;tab:6&amp;rdquo;}).&lt;/p&gt;
+table &lt;a href=&#34;#tab:6&#34;&gt;4&lt;/a&gt;).&lt;/p&gt;
 &lt;p&gt;::: {#tab:6}
 Route    Method   $length /m$   $costs_{al=f}$   $d_{mean}$ /m&lt;/p&gt;
 &lt;hr&gt;
@@ -1936,28 +2057,28 @@ have not been tested.&lt;/p&gt;
 &lt;p&gt;Suleiman, Sani ; AgaRwal, V C. ; Lal, Deepak ; Sunusi, Aminuddeen: Optimal Route Location by Least Cost Path (LCP) Analysis using (GIS), A Case Study. In: International Journal of Scientific Engineering and Technology Research 4 (2015), Oktober, Nr. 44, S. 9621–9626&amp;#160;&lt;a href=&#34;#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li id=&#34;fn:3&#34;&gt;
-&lt;p&gt;SchÄfeR, Benjamin ; Pesch, Thiemo ; ManiK, Debsankha ; Gollenstede, Julian; Lin, Guosong ; BecK, Hans-Peter ; Witthaut, Dirk ; Timme, Marc: Understanding Braess’ Paradox in power grids. In: Nature Communications 13 (2022), September, Nr. 1, 5396. &lt;a href=&#34;http://dx.doi.org/10.1038/s41467-022-32917-6&#34;&gt;http://dx.doi.org/10.1038/s41467-022-32917-6&lt;/a&gt;. – DOI10.1038/s41467–022–32917–6. – ISSN 2041–1723. – Number: 1 Publisher: NaturePublishing Group&amp;#160;&lt;a href=&#34;#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Schäfer, Benjamin ; Pesch, Thiemo ; ManiK, Debsankha ; Gollenstede, Julian; Lin, Guosong ; BecK, Hans-Peter ; Witthaut, Dirk ; Timme, Marc: Understanding Braess’ Paradox in power grids. In: Nature Communications 13 (2022), September, Nr. 1, 5396. &lt;a href=&#34;http://dx.doi.org/10.1038/s41467-022-32917-6&#34;&gt;http://dx.doi.org/10.1038/s41467-022-32917-6&lt;/a&gt;. – DOI10.1038/s41467–022–32917–6. – ISSN 2041–1723. – Number: 1 Publisher: NaturePublishing Group&amp;#160;&lt;a href=&#34;#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li id=&#34;fn:4&#34;&gt;
 &lt;p&gt;Nettostromerzeugung in Deutschland 2020: erneuerbare Energien erstmals über 50 Prozent - Fraunhofer ISE. &lt;a href=&#34;https://www.ise.fraunhofer.de/de/presse-und-medien/news/2020/nettostromerzeugung-in-deutschland-2021-erneuerbare-energien-erstmals-ueber-50-prozent.html&#34;&gt;https://www.ise.fraunhofer.de/de/presse-und-medien/news/2020/nettostromerzeugung-in-deutschland-2021-erneuerbare-energien-erstmals-ueber-50-prozent.html&lt;/a&gt;. Version: Januar 2021&amp;#160;&lt;a href=&#34;#fnref:4&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li id=&#34;fn:5&#34;&gt;
-&lt;p&gt;BeRtsch, Valentin ; FichtneR, Wolf: A participatory multi-criteria approach for power generation and transmission planning. In: Annals of Operations Research 245 (2016), Oktober, S. 177–207. &lt;a href=&#34;http://dx.doi.org/10.1007/s10479-015-1791-y&#34;&gt;http://dx.doi.org/10.1007/s10479-015-1791-y&lt;/a&gt;. – DOI 10.1007/s10479–015–1791–y&amp;#160;&lt;a href=&#34;#fnref:5&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref1:5&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref2:5&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref3:5&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref4:5&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Bertsch, Valentin ; Fichtner, Wolf: A participatory multi-criteria approach for power generation and transmission planning. In: Annals of Operations Research 245 (2016), Oktober, S. 177–207. &lt;a href=&#34;http://dx.doi.org/10.1007/s10479-015-1791-y&#34;&gt;http://dx.doi.org/10.1007/s10479-015-1791-y&lt;/a&gt;. – DOI 10.1007/s10479–015–1791–y&amp;#160;&lt;a href=&#34;#fnref:5&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref1:5&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref2:5&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref3:5&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref4:5&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li id=&#34;fn:6&#34;&gt;
-&lt;p&gt;DietRich, Kristin ; Leuthold, Florian ; Weigt, Hannes: Will the Market Get it Right? The Placing of New Power Plants in Germany. In: Zeitschrift für Energiewirtschaft 34 (2010), Dezember, Nr. 4, 255–265. &lt;a href=&#34;http://dx.doi.org/10.1007/s12398-010-0026-9&#34;&gt;http://dx.doi.org/10.1007/s12398-010-0026-9&lt;/a&gt;. – DOI 10.1007/s12398–010–0026–9. – ISSN 1866–2765&amp;#160;&lt;a href=&#34;#fnref:6&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Dietrich, Kristin ; Leuthold, Florian ; Weigt, Hannes: Will the Market Get it Right? The Placing of New Power Plants in Germany. In: Zeitschrift für Energiewirtschaft 34 (2010), Dezember, Nr. 4, 255–265. &lt;a href=&#34;http://dx.doi.org/10.1007/s12398-010-0026-9&#34;&gt;http://dx.doi.org/10.1007/s12398-010-0026-9&lt;/a&gt;. – DOI 10.1007/s12398–010–0026–9. – ISSN 1866–2765&amp;#160;&lt;a href=&#34;#fnref:6&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li id=&#34;fn:7&#34;&gt;
-&lt;p&gt;Hauff, Jochen ; HeideR, Conrad ; ARms, Hanjo ; GeRbeR, Jochen ; Schilling, Martin: Gesellschaftliche Akzeptanz als Säule der energiepolitischen Zielsetzung. In: ET, Energiewirtschaftliche Tagesfragen 61 (2011), Oktober, Nr. 10, 85–87. &lt;a href=&#34;https://www.osti.gov/etdeweb/biblio/21522981&#34;&gt;https://www.osti.gov/etdeweb/biblio/21522981&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref:7&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Hauff, Jochen ; Heider, Conrad ; ARms, Hanjo ; GeRbeR, Jochen ; Schilling, Martin: Gesellschaftliche Akzeptanz als Säule der energiepolitischen Zielsetzung. In: ET, Energiewirtschaftliche Tagesfragen 61 (2011), Oktober, Nr. 10, 85–87. &lt;a href=&#34;https://www.osti.gov/etdeweb/biblio/21522981&#34;&gt;https://www.osti.gov/etdeweb/biblio/21522981&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref:7&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li id=&#34;fn:8&#34;&gt;
-&lt;p&gt;ButleR, John ; Jia, Jianmin ; DyeR, James: Simulation techniques for the sensitivity analysis of multi-criteria decision models. In: European Journal of Operational Research 103 (1997), Dezember, Nr. 3, 531–546. &lt;a href=&#34;http://dx.doi.org/10.1016/S0377-2217(96)00307-4&#34;&gt;http://dx.doi.org/10.1016/S0377-2217(96)00307-4&lt;/a&gt;. – DOI 10.1016/S0377–2217(96)00307–4. – ISSN 0377–2217&amp;#160;&lt;a href=&#34;#fnref:8&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Butler, John ; Jia, Jianmin ; DyeR, James: Simulation techniques for the sensitivity analysis of multi-criteria decision models. In: European Journal of Operational Research 103 (1997), Dezember, Nr. 3, 531–546. &lt;a href=&#34;http://dx.doi.org/10.1016/S0377-2217(96)00307-4&#34;&gt;http://dx.doi.org/10.1016/S0377-2217(96)00307-4&lt;/a&gt;. – DOI 10.1016/S0377–2217(96)00307–4. – ISSN 0377–2217&amp;#160;&lt;a href=&#34;#fnref:8&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li id=&#34;fn:9&#34;&gt;
-&lt;p&gt;BeRtsch, Valentin ; TReitz, Martin ; GeldeRmann, Jutta ; Rentz, Otto: Sensitivity analyses in multi-attribute decision support for off-site nuclear emergency and recovery management. In: International Journal of Energy Sector Management 1 (2007), Mai, Nr. 4, S. 342–365. &lt;a href=&#34;http://dx.doi.org/10.1108/17506220710836075&#34;&gt;http://dx.doi.org/10.1108/17506220710836075&lt;/a&gt;. – DOI 10.1108/17506220710836075&amp;#160;&lt;a href=&#34;#fnref:9&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Bertsch, Valentin ; Treitz, Martin ; GeldeRmann, Jutta ; Rentz, Otto: Sensitivity analyses in multi-attribute decision support for off-site nuclear emergency and recovery management. In: International Journal of Energy Sector Management 1 (2007), Mai, Nr. 4, S. 342–365. &lt;a href=&#34;http://dx.doi.org/10.1108/17506220710836075&#34;&gt;http://dx.doi.org/10.1108/17506220710836075&lt;/a&gt;. – DOI 10.1108/17506220710836075&amp;#160;&lt;a href=&#34;#fnref:9&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li id=&#34;fn:10&#34;&gt;
-&lt;p&gt;DijKstRa, E. W.: A note on two problems in connexion with graphs. In: Numerische Mathematik 1 (1959), Dezember, Nr. 1, 269–271. &lt;a href=&#34;http://dx.doi.org/10.1007/BF01386390&#34;&gt;http://dx.doi.org/10.1007/BF01386390&lt;/a&gt;. – DOI 10.1007/BF01386390. – ISSN 0945–3245&amp;#160;&lt;a href=&#34;#fnref:10&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Dijkstra, E. W.: A note on two problems in connexion with graphs. In: Numerische Mathematik 1 (1959), Dezember, Nr. 1, 269–271. &lt;a href=&#34;http://dx.doi.org/10.1007/BF01386390&#34;&gt;http://dx.doi.org/10.1007/BF01386390&lt;/a&gt;. – DOI 10.1007/BF01386390. – ISSN 0945–3245&amp;#160;&lt;a href=&#34;#fnref:10&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li id=&#34;fn:11&#34;&gt;
 &lt;p&gt;Schutzgebiete in Deutschland. &lt;a href=&#34;https://geodienste.bfn.de/schutzgebiete?lang=de&#34;&gt;https://geodienste.bfn.de/schutzgebiete?lang=de&lt;/a&gt;. Version: 2015&amp;#160;&lt;a href=&#34;#fnref:11&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
@@ -1979,7 +2100,7 @@ have not been tested.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li id=&#34;fn:17&#34;&gt;
 &lt;p&gt;Flask. &lt;a href=&#34;https://palletsprojects.com/p/flask/&#34;&gt;https://palletsprojects.com/p/flask/&lt;/a&gt;
-[^eser-frey_analyzing_2012] EßeR-FRey, Anke: Analyzing the regional long-term development of the German power system using a nodal pricing approach. &lt;a href=&#34;http://dx.doi.org/10.5445/IR/1000028367&#34;&gt;http://dx.doi.org/10.5445/IR/1000028367&lt;/a&gt;. Version: 2012&amp;#160;&lt;a href=&#34;#fnref:17&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+[^eserfrey_analyzing_2012] Eßer-Frey, Anke: Analyzing the regional long-term development of the German power system using a nodal pricing approach. &lt;a href=&#34;http://dx.doi.org/10.5445/IR/1000028367&#34;&gt;http://dx.doi.org/10.5445/IR/1000028367&lt;/a&gt;. Version: 2012&amp;#160;&lt;a href=&#34;#fnref:17&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li id=&#34;fn:18&#34;&gt;
 &lt;p&gt;Birdy — Birdy 0.8.1 documentation. &lt;a href=&#34;https://birdy.readthedocs.io/en/latest/&#34;&gt;https://birdy.readthedocs.io/en/latest/&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref:18&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;

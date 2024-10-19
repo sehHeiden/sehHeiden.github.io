@@ -6,14 +6,14 @@
     <description>Recent content in GeoPandas on SeHe&#39;s Blog</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 28 Sep 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 19 Oct 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://sehheiden.github.io/tags/geopandas/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Speed Comparision on some Modern GIS tools</title>
+      <title>Speed Comparison on some Modern GIS tools</title>
       <link>https://sehheiden.github.io/posts/speed_comparision_gis_intersection/</link>
-      <pubDate>Sat, 28 Sep 2024 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 19 Oct 2024 00:00:00 +0000</pubDate>
       <guid>https://sehheiden.github.io/posts/speed_comparision_gis_intersection/</guid>
-      <description>&lt;p&gt;GIS can change with current technology as Apache Arrow, and perhaps also Apache Spark und Apache Sedona.&#xA;Also in Pythonland Geopandas enhanced performance over time. In addition, I also wanted to try Dask und DuckDB.&lt;/p&gt;&#xA;&lt;p&gt;Please contact me, when you read this and think I could have increased the code quality and speed.&#xA;I use some public data, which still widely use shape files in Germany.&lt;/p&gt;&#xA;&lt;h1 id=&#34;the-data&#34;&gt;The Data&lt;/h1&gt;&#xA;&lt;p&gt;First I load fhe ALKIS (register) building data for all counties in the state of Brandenburg.&#xA;All vector files are open data. The victor files are still offered as Shapefiles.&#xA;From the ALKIS Dataset of Brandenburg I used the buildings and the parcels (with land usage).&#xA;The files are stored per county!&#xA;The geometries have some errors which Geopandas auto-detects and fixes.&#xA;In addition, some file can not be opened with the &lt;a href=&#34;https://fiona.readthedocs.io/en/latest/index.html&#34;&gt;fiona&lt;/a&gt; library from Geopandas, with the error message&#xA;of multiple  geometry columns. Hence, we always use de new default: pyogrio.&lt;/p&gt;</description>
+      <description>&lt;p&gt;GIS can change with current technology such as Apache Arrow, and perhaps also with some other techniques.&#xA;In Pythonland, Geopandas has improved performance over time. I also wanted to try Dask, DuckDB and Apache Sedona.&lt;/p&gt;&#xA;&lt;p&gt;Please contact me if you read this and think I could have improved the code quality and speed.&#xA;I use some public data, which is still widely used in Germany as shape files.&lt;/p&gt;&#xA;&lt;h1 id=&#34;the-data&#34;&gt;The data&lt;/h1&gt;&#xA;&lt;p&gt;First I downloaded the ALKIS (register) building data for &lt;a href=&#34;https://data.geobasis-bb.de/geobasis/daten/alkis/Vektordaten/shape/&#34;&gt;all counties in the state of Brandenburg&lt;/a&gt;.&#xA;All the vector files are open data. The vector files are still offered as shapefiles.&#xA;From the ALKIS dataset of Brandenburg I used the buildings and the parcels (with land use).&#xA;The files are stored per county!&#xA;The geometries have some errors, which Geopandas automatically detects and fixes.&#xA;In addition, some files cannot be opened with the &lt;a href=&#34;https://fiona.readthedocs.io/en/latest/index.html&#34;&gt;fiona&lt;/a&gt; library of Geopandas, with the error message&#xA;of multiple geometry columns. So we always use the new default: pyogrio.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

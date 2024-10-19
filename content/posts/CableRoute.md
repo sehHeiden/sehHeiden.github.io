@@ -15,7 +15,7 @@ showMiniToc: true
 The German power system is adding renewable energy sources in the north,
 where wind energy plants reach their highest efficiency, due to higher
 wind speeds. At the same time old power plants e.g. nuclear, hard coal
-and lignite are being phased out [^eser-frey_analyzing_2012]. These
+and lignite are being phased out [^eserfrey_analyzing_2012]. These
 older power plants were mainly located in southern and central Germany.
 The energy sink, industrial and private demand, is not shifting north.
 Therefore, the renewable energy has to be transported from north to
@@ -52,13 +52,11 @@ increasingly important role [^hauff_gesellschaftliche_2011] in modern
 planning.
 
 In contrast to a GIS analysis, these other factors can be studied done
-with a [MCDA]{acronym-label="MCDA"
-acronym-form="singular+full"} [^bertsch_participatory_2016].
+with a Multiple-criteria decision analysis (MCDA) [^bertsch_participatory_2016].
 Stakeholders as decision makers can be included and combined with an
 expert system [^bertsch_participatory_2016].
 
-The uncertainties associated with [MCDA]{acronym-label="MCDA"
-acronym-form="singular+abbrv"} are data uncertainties, preferential
+The uncertainties associated with MCDA are data uncertainties, preferential
 uncertainties and model uncertainties are investigated with a
 sensitivity analysis [^bertsch_participatory_2016] or
 simulation [^butler_simulation_1997]. Both inter- and intra-criteria
@@ -68,8 +66,8 @@ considered.
 This paper aims to find potential paths for power lines by using the
 Least Cost Path algorithm. Land usage and planning data are used to
 estimate the costs arising by using the local area. The task was to
-provide the Least Cost Path using a [wps]{acronym-label="wps"
-acronym-form="singular+full"}. Beyond that, methods to reduce the needed
+provide the Least Cost Path using a web programming service (wps).
+Beyond that, methods to reduce the needed
 compute power for finding the Least Cost Path had to be studied.
 
 # Methods {#sec:methods}
@@ -103,8 +101,7 @@ We retrieve a set of different spacial data-sets from public sources as
 a basis for creating the cost raster. The study area are the counties of
 Cuxhaven and Osterholz in the state of Lower Saxony, Germany. Areas
 protected by different European and National conservation laws are
-provided by the German Environment Agency as [wfs]{acronym-label="wfs"
-acronym-form="singular+full"} [^schutzgebiete_2015].
+provided by the German Environment Agency as Web Feature Service (wfs) [^schutzgebiete_2015].
 
 The national land coverage (ATKIS) with a scale of 1:250000 are provided
 by the Federal Agency for Cartography and
@@ -117,17 +114,14 @@ local planning geodata for the land use are taken from 'Metropolplaner'
 (Planning data Lower Saxony & Bremen) [^metropolplaner_2022].
 
 PyWPS [^PyWPS] is used to provide the Least Cost Path
-algorithm as a [wps]{acronym-label="wps" acronym-form="singular+abbrv"}
-in combination with flask [^Flask]. As client,
-Birdy [^birdy] connects to the [wps]{acronym-label="wps"
-acronym-form="singular+abbrv"}, sends the cost raster, starting point,
+algorithm as a wps in combination with flask [^Flask]. As client,
+Birdy [^birdy] connects to the wps, sends the cost raster, starting point,
 end points and receives the resulting Least Cost Path. The initial
 implementation of the Least Cost Path algorithm is based on the
 implementation for the QGIS-Plugin 'Least Cost
 Path' [^leastcostpathdijkstra_algorithmpy_2022] in version 1.0,
 but refactored to optionally export the aggregated costs in a command
-line tool. On top, the [wps]{acronym-label="wps"
-acronym-form="singular+abbrv"} provides the complete Least Cost Path
+line tool. On top, the wps provides the complete Least Cost Path
 algorithm as a single capability.
 
 In order to compute intermediate cost raster the different vector layers
@@ -147,7 +141,7 @@ that is not covered by any layer and thus does not yet have a weight, is
 given the default cost.
 
 The costs have been grouped into five different levels (see
-table [1](#tab:1){reference-type="ref" reference="tab:1"}), starting
+table [1](#tab:1), starting
 from *Preferential* areas with very low costs, via *No restriction*s,
 which is the default, used when no other layers are covering the local
 area, to *Restricted*, *Strongly Restricted* and *Prohibited* areas with
@@ -170,8 +164,7 @@ pixel is overlaid. Setting all touched to True implies the version with
 any part of the pixel selected. The version, where an overlapped pixel
 centre is required, is setting the parameter all touched to False.
 All touched set to False is considered the default (see
-figure [1](#fig:alltouched){reference-type="ref"
-reference="fig:alltouched"}).
+figure [1](#fig:alltouched).
 
 <figure id="fig:alltouched">
 
@@ -202,13 +195,12 @@ found in **Supplement S1**.
 All three steps of the generation of the Least Cost Path: generation of
 the cost raster, aggregation and backtracking is shown with an example
 for a cost raster of 50 m resolution and all touched set to False (see
-[2](#fig:costs2path){reference-type="ref" reference="fig:costs2path"}).
+[2](#fig:costs2path).
 
 The chosen implementation applies early stopping. Therefore, the costs
 for points that are not needed to try to connect to the end point are
 not aggregated (see figure
-[\[fig:aggregation\]](#fig:aggregation){reference-type="ref"
-reference="fig:aggregation"}). After finding an aggregated cost for
+[\[fig:aggregation\]](#fig:aggregation). After finding an aggregated cost for
 every end point, the aggregation stops and the backtracking starts.
 Because the path ends at a power transformer, which is a building type,
 the paths end at in a *Prohibited* area. Therefore, areas even further
@@ -257,8 +249,7 @@ than the object size, then the effect of setting all touched to True or
 False is limited. If all touched is set to True and any part of the
 pixel that is covered by the object, the whole pixel is attributed to
 the object. This makes the object appear larger. This can be seen in
-figure [3](#fig:costs_5m){reference-type="ref"
-reference="fig:costs_5m"}, which shows a detailed view of the costs for
+figure [3](#fig:costs_5m), which shows a detailed view of the costs for
 the village of Beverstedt. To set all touched to False is a better
 description of the real size of the object for high resolution.
 
@@ -271,8 +262,7 @@ settings of all touched at a resolution of 5 m.</figcaption>
 In contrast, if the resolution is smaller, all touched set to False
 leads to a loss of information for smaller objects. Since the default
 cost is much smaller than the average cost, this method underestimates
-the cost. The figure [4](#fig:costs_100m){reference-type="ref"
-reference="fig:costs_100m"} shows, that for the resolution of 100 m,
+the cost. The figure [4](#fig:costs_100m) shows, that for the resolution of 100 m,
 larger objects are still included in the map, but smaller objects, such
 as roads, are only partially included.
 
@@ -295,19 +285,17 @@ The distance between the paths is calculated by the mean minimum
 distance. For each vertex $P_i$ in the path $L_1$ the minimum distance
 between the vertex $P_i$ and the path $L_2$ is calculated and then the
 minimum distances are averaged (see
-equation [\[eq:1\]](#eq:1){reference-type="ref" reference="eq:1"}).
-$$\label{eq:1}
-	d_{mean} = \frac{1}{|L_1|} \sum_{i=1}^{n} d_{min}(P_i, L_2) \Bigr\vert P_i \in L_1$$
+equation [\[eq:1\]](#eq:1).
+$$d_{mean} = \frac{1}{|L_1|} \sum_{i=1}^{n} d_{min}(P_i, L_2) \Bigr\vert P_i \in L_1$$
 This equation is used to measure the degree of similarity between the
 paths. The distances are measured at the same resolution (different
 setting for all touched), and same setting of all touched (different
 resolution).
 
-Table [\[tab:2\]](#tab:2){reference-type="ref" reference="tab:2"} shows,
+Table [\[tab:2\]](#tab:2) shows,
 that the distance between two paths decreases with increasing
 resolution. In addition, this tendency is depicted in
-figure [5](#fig:paths_resolution){reference-type="ref"
-reference="fig:paths_resolution"} for the calculated cost paths of 5 m
+figure [5](#fig:paths_resolution) for the calculated cost paths of 5 m
 and 100 m resolutions.
 
 At the same time, the differences in the aggregated costs remain almost
@@ -360,13 +348,11 @@ is higher, than for most paths of the same resolution. Namely except for
 the highest resolution.
 
 This behaviour is shown in
-figure [6](#fig:paths_alltouched){reference-type="ref"
-reference="fig:paths_alltouched"}. On a more detailed level, it can be
+figure [6](#fig:paths_alltouched). On a more detailed level, it can be
 seen, that the paths of all touched False also converge directly to the
 all touched True paths, but the extent is smaller.
 
-The zonal stat (see table [\[tab:3\]](#tab:3){reference-type="ref"
-reference="tab:3"}) for a buffer of 100 m (5 m) around the paths has
+The zonal stat (see table [\[tab:3\]](#tab:3)) for a buffer of 100 m (5 m) around the paths has
 been used, to estimate the percentage of each costs levels around the
 paths. When using all touched True at higher resolution the tendency is
 to use a higher percentage of the *Preferential* Level and less of the
@@ -434,8 +420,7 @@ The optimal ratio of overlaying both all touched for cost raster with
 Path to the path of the original high resolution raster. The mean
 distance of Least Cost Paths from rasters with different ratio is
 estimated to the path from the all touched set to False raster of the
-higher (5 m) resolution. Table [2](#tab:4){reference-type="ref"
-reference="tab:4"} shows, that the mean minimum distance decreases with
+higher (5 m) resolution. Table [2](#tab:4) shows, that the mean minimum distance decreases with
 increasing ratio (1:1, 2:1, 4:1) and after this optimum is reached,
 increases with increasing ratio (8:1, 16:1 and so on). Comparing the
 similarity of the paths of the different ratios to normal paths with
@@ -472,7 +457,7 @@ The distances from the paths that are computed from the bi-linear
 downsampled raster to the path of the original 5 m resolution (all
 touched False) shows, that only downsampling to a resolution of 10 m
 produces a path that is relatively close the high resolution paths (see
-table [3](#tab:5){reference-type="ref" reference="tab:5"}).
+table [3](#tab:5)).
 
 The opposite is true for the lower resolution raster which is more
 similar to paths computed from the all touched True cost raster. Every
@@ -500,10 +485,8 @@ resolution was used for downsampling.
 
 Construct a polygon from the two Least Cost Paths (all touched True and
 all touched False of the same resolution). Buffer the polygon with twice
-the maximum minimum path distance (see
-equation [\[eq:2\]](#eq:2){reference-type="ref" reference="eq:2"}).
-$$\label{eq:2}
-	d_{max} = max(\sum_{i=1}^{n} d_{min}(P_i, L_2)) \Bigr\vert P_i \in L_1$$
+the maximum minimum path distance (see equation [\[eq:2\]](#eq:2)).
+$$d_{max} = max(\sum_{i=1}^{n} d_{min}(P_i, L_2)) \Bigr\vert P_i \in L_1$$
 
 This strategy results in the same Least Cost Path as with the original
 high resolution raster.
@@ -541,7 +524,7 @@ Path from the downsampled raster is higher than the normal medium
 resolution 10 m raster. In addition, the distance from these paths to
 the high resolution path is greater than the distance from the original
 10 m resolution path to the 5 m resolution path (see
-table [4](#tab:6){reference-type="ref" reference="tab:6"}).
+table [4](#tab:6)).
 
 ::: {#tab:6}
     Route    Method   $length /m$   $costs_{al=f}$   $d_{mean}$ /m
@@ -728,17 +711,17 @@ have not been tested.
 
 [^PyWPS]: Welcome to the PyWPS 4.3.dev0 documentation! — PyWPS 4.3.dev0 documentation. https://pywps.readthedocs.io/en/latest/index.html. Version: 2016
 [^Flask]: Flask. https://palletsprojects.com/p/flask/
-[^eser-frey_analyzing_2012] EßeR-FRey, Anke: Analyzing the regional long-term development of the German power system using a nodal pricing approach. http://dx.doi.org/10.5445/IR/1000028367. Version: 2012
+[^eserfrey_analyzing_2012] Eßer-Frey, Anke: Analyzing the regional long-term development of the German power system using a nodal pricing approach. http://dx.doi.org/10.5445/IR/1000028367. Version: 2012
 [^leuthold_nodal_2005]: Leuthold, Florian U. ; Rumiantseva, Ina ; Weigt, Hannes ; JesKe, Till ;HiRschhausen, Christian von: Nodal Pricing in the German Electricity Sector -A Welfare Economics Analysis, with Particular Reference to Implementing Off-shore Wind Capacities. In: SSRN Electronic Journal (2005). http://dx.doi.org/10.2139/ssrn.1137382. – DOI 10.2139/ssrn.1137382. – ISSN 1556–5068
 [^suleiman_optimal_2015]: Suleiman, Sani ; AgaRwal, V C. ; Lal, Deepak ; Sunusi, Aminuddeen: Optimal Route Location by Least Cost Path (LCP) Analysis using (GIS), A Case Study. In: International Journal of Scientific Engineering and Technology Research 4 (2015), Oktober, Nr. 44, S. 9621–9626
-[^schafer_understanding_2022]: SchÄfeR, Benjamin ; Pesch, Thiemo ; ManiK, Debsankha ; Gollenstede, Julian; Lin, Guosong ; BecK, Hans-Peter ; Witthaut, Dirk ; Timme, Marc: Understanding Braess’ Paradox in power grids. In: Nature Communications 13 (2022), September, Nr. 1, 5396. http://dx.doi.org/10.1038/s41467-022-32917-6. – DOI10.1038/s41467–022–32917–6. – ISSN 2041–1723. – Number: 1 Publisher: NaturePublishing Group
+[^schafer_understanding_2022]: Schäfer, Benjamin ; Pesch, Thiemo ; ManiK, Debsankha ; Gollenstede, Julian; Lin, Guosong ; BecK, Hans-Peter ; Witthaut, Dirk ; Timme, Marc: Understanding Braess’ Paradox in power grids. In: Nature Communications 13 (2022), September, Nr. 1, 5396. http://dx.doi.org/10.1038/s41467-022-32917-6. – DOI10.1038/s41467–022–32917–6. – ISSN 2041–1723. – Number: 1 Publisher: NaturePublishing Group
 [^nettostromerzeugung_2021]: Nettostromerzeugung in Deutschland 2020: erneuerbare Energien erstmals über 50 Prozent - Fraunhofer ISE. https://www.ise.fraunhofer.de/de/presse-und-medien/news/2020/nettostromerzeugung-in-deutschland-2021-erneuerbare-energien-erstmals-ueber-50-prozent.html. Version: Januar 2021
-[^bertsch_participatory_2016]: BeRtsch, Valentin ; FichtneR, Wolf: A participatory multi-criteria approach for power generation and transmission planning. In: Annals of Operations Research 245 (2016), Oktober, S. 177–207. http://dx.doi.org/10.1007/s10479-015-1791-y. – DOI 10.1007/s10479–015–1791–y
-[^dietrich_will_2010]: DietRich, Kristin ; Leuthold, Florian ; Weigt, Hannes: Will the Market Get it Right? The Placing of New Power Plants in Germany. In: Zeitschrift für Energiewirtschaft 34 (2010), Dezember, Nr. 4, 255–265. http://dx.doi.org/10.1007/s12398-010-0026-9. – DOI 10.1007/s12398–010–0026–9. – ISSN 1866–2765
-[^hauff_gesellschaftliche_2011]: Hauff, Jochen ; HeideR, Conrad ; ARms, Hanjo ; GeRbeR, Jochen ; Schilling, Martin: Gesellschaftliche Akzeptanz als Säule der energiepolitischen Zielsetzung. In: ET, Energiewirtschaftliche Tagesfragen 61 (2011), Oktober, Nr. 10, 85–87. https://www.osti.gov/etdeweb/biblio/21522981
-[^butler_simulation_1997]: ButleR, John ; Jia, Jianmin ; DyeR, James: Simulation techniques for the sensitivity analysis of multi-criteria decision models. In: European Journal of Operational Research 103 (1997), Dezember, Nr. 3, 531–546. http://dx.doi.org/10.1016/S0377-2217(96)00307-4. – DOI 10.1016/S0377–2217(96)00307–4. – ISSN 0377–2217
-[^bertsch_sensitivity_2007]: BeRtsch, Valentin ; TReitz, Martin ; GeldeRmann, Jutta ; Rentz, Otto: Sensitivity analyses in multi-attribute decision support for off-site nuclear emergency and recovery management. In: International Journal of Energy Sector Management 1 (2007), Mai, Nr. 4, S. 342–365. http://dx.doi.org/10.1108/17506220710836075. – DOI 10.1108/17506220710836075
-[^dijkstra_note_1959]: DijKstRa, E. W.: A note on two problems in connexion with graphs. In: Numerische Mathematik 1 (1959), Dezember, Nr. 1, 269–271. http://dx.doi.org/10.1007/BF01386390. – DOI 10.1007/BF01386390. – ISSN 0945–3245
+[^bertsch_participatory_2016]: Bertsch, Valentin ; Fichtner, Wolf: A participatory multi-criteria approach for power generation and transmission planning. In: Annals of Operations Research 245 (2016), Oktober, S. 177–207. http://dx.doi.org/10.1007/s10479-015-1791-y. – DOI 10.1007/s10479–015–1791–y
+[^dietrich_will_2010]: Dietrich, Kristin ; Leuthold, Florian ; Weigt, Hannes: Will the Market Get it Right? The Placing of New Power Plants in Germany. In: Zeitschrift für Energiewirtschaft 34 (2010), Dezember, Nr. 4, 255–265. http://dx.doi.org/10.1007/s12398-010-0026-9. – DOI 10.1007/s12398–010–0026–9. – ISSN 1866–2765
+[^hauff_gesellschaftliche_2011]: Hauff, Jochen ; Heider, Conrad ; ARms, Hanjo ; GeRbeR, Jochen ; Schilling, Martin: Gesellschaftliche Akzeptanz als Säule der energiepolitischen Zielsetzung. In: ET, Energiewirtschaftliche Tagesfragen 61 (2011), Oktober, Nr. 10, 85–87. https://www.osti.gov/etdeweb/biblio/21522981
+[^butler_simulation_1997]: Butler, John ; Jia, Jianmin ; DyeR, James: Simulation techniques for the sensitivity analysis of multi-criteria decision models. In: European Journal of Operational Research 103 (1997), Dezember, Nr. 3, 531–546. http://dx.doi.org/10.1016/S0377-2217(96)00307-4. – DOI 10.1016/S0377–2217(96)00307–4. – ISSN 0377–2217
+[^bertsch_sensitivity_2007]: Bertsch, Valentin ; Treitz, Martin ; GeldeRmann, Jutta ; Rentz, Otto: Sensitivity analyses in multi-attribute decision support for off-site nuclear emergency and recovery management. In: International Journal of Energy Sector Management 1 (2007), Mai, Nr. 4, S. 342–365. http://dx.doi.org/10.1108/17506220710836075. – DOI 10.1108/17506220710836075
+[^dijkstra_note_1959]: Dijkstra, E. W.: A note on two problems in connexion with graphs. In: Numerische Mathematik 1 (1959), Dezember, Nr. 1, 269–271. http://dx.doi.org/10.1007/BF01386390. – DOI 10.1007/BF01386390. – ISSN 0945–3245
 [^schutzgebiete_2015]: Schutzgebiete in Deutschland. https://geodienste.bfn.de/schutzgebiete?lang=de. Version: 2015
 [^digitales_2021]: Digitales Landschaftsmodell 1:250 000 (Ebenen). https://gdz.bkg.bund.de/index.php/default/open-data/digitales-landschaftsmodell-1-250-000-ebenen-dlm250-ebenen.html. Version: 2021
 [^boeing_osmnx_2017]: Boeing, Geoff: OSMnx: New methods for acquiring, constructing, analyzing, and visualizing complex street networks. In: Computers, Environment and Urban Systems 65 (2017), September, 126–139. http://dx.doi.org/10.1016/j.compenvurbsys.2017.05.004. – DOI 10.1016/j.compenvurbsys.2017.05.004. – ISSN 0198–9715
