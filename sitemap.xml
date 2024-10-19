@@ -2,41 +2,41 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://sehheiden.github.io/about/</loc>
-    <lastmod>2024-09-28T22:04:08+02:00</lastmod>
-  </url><url>
-    <loc>https://sehheiden.github.io/</loc>
-    <lastmod>2024-09-28T22:04:08+02:00</lastmod>
-  </url><url>
     <loc>https://sehheiden.github.io/categories/</loc>
-    <lastmod>2024-09-28T00:00:00+00:00</lastmod>
+    <lastmod>2024-10-19T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://sehheiden.github.io/tags/dask/</loc>
-    <lastmod>2024-09-28T00:00:00+00:00</lastmod>
+    <lastmod>2024-10-19T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://sehheiden.github.io/tags/duckdb/</loc>
-    <lastmod>2024-09-28T00:00:00+00:00</lastmod>
+    <lastmod>2024-10-19T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://sehheiden.github.io/tags/geopandas/</loc>
-    <lastmod>2024-09-28T00:00:00+00:00</lastmod>
+    <lastmod>2024-10-19T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://sehheiden.github.io/tags/gis/</loc>
-    <lastmod>2024-09-28T00:00:00+00:00</lastmod>
+    <lastmod>2024-10-19T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://sehheiden.github.io/categories/gis/</loc>
-    <lastmod>2024-09-28T00:00:00+00:00</lastmod>
+    <lastmod>2024-10-19T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://sehheiden.github.io/posts/</loc>
-    <lastmod>2024-09-28T00:00:00+00:00</lastmod>
+    <lastmod>2024-10-19T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://sehheiden.github.io/tags/python/</loc>
-    <lastmod>2024-09-28T00:00:00+00:00</lastmod>
+    <lastmod>2024-10-19T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://sehheiden.github.io/</loc>
+    <lastmod>2024-10-19T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://sehheiden.github.io/posts/speed_comparision_gis_intersection/</loc>
-    <lastmod>2024-09-28T00:00:00+00:00</lastmod>
+    <lastmod>2024-10-19T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://sehheiden.github.io/tags/</loc>
-    <lastmod>2024-09-28T00:00:00+00:00</lastmod>
+    <lastmod>2024-10-19T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://sehheiden.github.io/about/</loc>
+    <lastmod>2024-09-28T22:04:08+02:00</lastmod>
   </url><url>
     <loc>https://sehheiden.github.io/tags/lda/</loc>
     <lastmod>2024-05-04T00:00:00+00:00</lastmod>

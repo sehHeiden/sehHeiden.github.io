@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html><head>
-<title>Speed Comparision on some Modern GIS tools</title>
+<title>Speed Comparison on some Modern GIS tools</title>
 
 
 
@@ -162,7 +162,7 @@
 						
 							<li>
 								<a href="#the-data" class="nav-the-data">
-									The Data
+									The data
 								</a>
 							</li>
 						
@@ -181,6 +181,24 @@
 							<li>
 								<a href="#task" class="nav-task">
 									Task
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#the-hardware" class="nav-the-hardware">
+									The hardware
 								</a>
 							</li>
 						
@@ -272,6 +290,24 @@
 						
 						
 						
+						
+						
+							<li>
+								<a href="#apache-sedonahttpssedonaapacheorglatest-with-pyspark" class="nav-apache-sedonahttpssedonaapacheorglatest-with-pyspark">
+									Apache Sedona with PySpark
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
 							
 								</ul>
 							
@@ -279,8 +315,44 @@
 						
 						
 							<li>
-								<a href="#apache-sedona" class="nav-apache-sedona">
-									Apache Sedona
+								<a href="#overall-speed-comparison" class="nav-overall-speed-comparison">
+									Overall speed comparison
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#total-memory-usage-comparison" class="nav-total-memory-usage-comparison">
+									Total Memory Usage Comparison
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#conclusion" class="nav-conclusion">
+									Conclusion
 								</a>
 							</li>
 						
@@ -341,12 +413,12 @@
                 
             >
                 <div class="post-title">
-                    Speed Comparision on some Modern GIS tools
+                    Speed Comparison on some Modern GIS tools
                     
                     <div class="post-meta">
                         
                         <time itemprop="datePublished">
-                            2024-09-28 00:00
+                            2024-10-19 00:00
                         </time>
                         
 
@@ -383,9 +455,9 @@
                             
 
                             
-                            4 min
+                            9 min
                             
-                            13 s.
+                            36 s.
                         
                     </div>
                 </div>
@@ -395,179 +467,317 @@
                 
                 <div class="post-body" v-pre>
                 
-                    <p>GIS can change with current technology as Apache Arrow, and perhaps also Apache Spark und Apache Sedona.
-Also in Pythonland Geopandas enhanced performance over time. In addition, I also wanted to try Dask und DuckDB.</p>
-<p>Please contact me, when you read this and think I could have increased the code quality and speed.
-I use some public data, which still widely use shape files in Germany.</p>
-<h1 id="the-data">The Data</h1>
-<p>First I load fhe ALKIS (register) building data for all counties in the state of Brandenburg.
-All vector files are open data. The victor files are still offered as Shapefiles.
-From the ALKIS Dataset of Brandenburg I used the buildings and the parcels (with land usage).
+                    <p>GIS can change with current technology such as Apache Arrow, and perhaps also with some other techniques.
+In Pythonland, Geopandas has improved performance over time. I also wanted to try Dask, DuckDB and Apache Sedona.</p>
+<p>Please contact me if you read this and think I could have improved the code quality and speed.
+I use some public data, which is still widely used in Germany as shape files.</p>
+<h1 id="the-data">The data</h1>
+<p>First I downloaded the ALKIS (register) building data for <a href="https://data.geobasis-bb.de/geobasis/daten/alkis/Vektordaten/shape/">all counties in the state of Brandenburg</a>.
+All the vector files are open data. The vector files are still offered as shapefiles.
+From the ALKIS dataset of Brandenburg I used the buildings and the parcels (with land use).
 The files are stored per county!
-The geometries have some errors which Geopandas auto-detects and fixes.
-In addition, some file can not be opened with the <a href="https://fiona.readthedocs.io/en/latest/index.html">fiona</a> library from Geopandas, with the error message
-of multiple  geometry columns. Hence, we always use de new default: pyogrio.</p>
+The geometries have some errors, which Geopandas automatically detects and fixes.
+In addition, some files cannot be opened with the <a href="https://fiona.readthedocs.io/en/latest/index.html">fiona</a> library of Geopandas, with the error message
+of multiple geometry columns. So we always use the new default: pyogrio.</p>
+<figure><img src="/sanssouci_park.png"
+    alt="SansSouci park and palaces in Potsdam, the capital of Brandenburg">
+</figure>
+
 <h1 id="task">Task</h1>
 <ol>
-<li>Open the datasets and concat the counties.</li>
-<li>Create an overlay with intersection</li>
-<li>Save the data se, when possible as geoparquet file.</li>
+<li>Open the datasets and concatenate the counties.</li>
+<li>Create an intersection overlay</li>
+<li>Save the data, if possible as a geoparquet file.</li>
 </ol>
-<p>Why did select this task?
-I consider the overlay is one of the more compute heavy tasks in GIS.
+<p>Why did I choose this task?
+I think the overlay is one of the more computationally intensive tasks in GIS. I may write articles about other tasks later.
 In <a href="https://github.com/geopandas/geopandas/blob/main/geopandas/tools/overlay.py">Geopandas</a>
-this uses a spatial index, then computes an intersection and joins the original data to the intersection.</p>
-<p>We close the saving as Geoparquet file, as it&rsquo;s the only format Dask-GeoPandas can write to.
-In addition, the result (with snappy compression) is small 391 MB, compared to what Geopackage (1.57 GB) needs.</p>
-<p>By the way, I select which columns to open in Geopandas, because later I will find out, that one column does only contain <code>None</code>&rsquo;s.
-Hence, I just don&rsquo;t use not important columns form the start.</p>
+uses a spatial index, then calculates an intersection and joins the original data to the intersection.</p>
+<p>We save it as a geoparquet file, because that&rsquo;s the only format Dask-GeoPandas can write to.
+In addition, the result (with good compression) is small (391 MB) compared to what Geopackage (1.57 GB) needs.</p>
+<p>By the way, I choose which columns to open in Geopandas, because I will find out later that one column contains only <code>none</code>.
+So I just don&rsquo;t use unimportant columns from the beginning.</p>
+<h1 id="the-hardware">The hardware</h1>
+<p>I ran the speed test on a WIN10 PV with a Ryzen 7 5800X with 48 GB of RAM.
+The final runs are done with Hyperfine and 3 warm-up runs and the default 10 runs, 5 for DuckDB<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>.</p>
+<p>The memory usage tests are done on a laptop with Ryzen 7 4800 and 32 GB of RAM running TuxedoOS.
+The reason for this is that RAM usage is only fully recorded under Linux.</p>
 <h1 id="the-frameworks">The Frameworks</h1>
 <h2 id="geopandashttpsgeopandasorgenstableindexhtml"><a href="https://geopandas.org/en/stable/index.html">Geopandas</a></h2>
-<p>For me Geopandas is the goto solution for year now.
-Sometimes with some extra code, some extra libs as pyogrio.</p>
-<p><em>Expectations</em>: Well, nothing special. It just works. Should load the data faster with <a href="https://pyogrio.readthedocs.io/en/latest/">pyogrio</a>.</p>
-<p><em>Observations</em>: Initially, loading the datasets takes about 75 to 80 s on my machine with am AMD Ryzen 5800X CPU.
-Duration between different runs does vary slightly. It&rsquo;s somewhat faster when using arrow by about 15 s.</p>
-<p>The Intersection takes about 190s. The python program takes about 10 GB of main memory, while running.</p>
+<p>For me, Geopandas has been the goto solution for years.
+Sometimes with some extra code, some extra libs like pyogrio.</p>
+<p>*Expectations: Well, nothing special. It just works. Should load faster with <a href="https://pyogrio.readthedocs.io/en/latest/">pyogrio</a>.</p>
+<p>*Observations: Initially, loading the data takes about 75 to 80 seconds on my machine with an AMD Ryzen 5800X CPU.
+It&rsquo;s a bit faster when using arrow by about 15 seconds.
+It got a bit slower when dropping the duplicates (on the district borders) by there <code>oid</code>.</p>
 <p>In the end I also tried to load and build the intersection per county and then just concat the results.
-It&rsquo;s not faster, due to the spatial indexing.? RAM usage is initially much lower with about 3 GB.</p>
-<p>With the reduced number of columns the durations are:</p>
+It&rsquo;s not faster because of the spatial indexing&hellip; The RAM usage is much lower at about 3 GB.</p>
+<p>With the reduced number of columns, the running times are:</p>
 <table>
   <thead>
       <tr>
           <th style="text-align: left">Task</th>
-          <th style="text-align: right">Duration Geopandas \s</th>
-          <th style="text-align: right">Duration Geopandas &amp; arrow \s</th>
-          <th style="text-align: right">Duration Geopandas &amp; pyogrio, per county \s</th>
+          <th style="text-align: right">Geopandas \s</th>
+          <th style="text-align: right">Geopandas &amp; arrow \s</th>
+          <th style="text-align: right">Geopandas &amp; pyogrio, per county \s</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">Loading Shape</td>
-          <td style="text-align: right">77.55</td>
-          <td style="text-align: right">60.38</td>
+          <td style="text-align: left">Loading form</td>
+          <td style="text-align: right">74</td>
+          <td style="text-align: right">59</td>
           <td style="text-align: right"></td>
       </tr>
       <tr>
           <td style="text-align: left">Intersection</td>
-          <td style="text-align: right">189.20</td>
-          <td style="text-align: right">185.83</td>
+          <td style="text-align: right">204</td>
+          <td style="text-align: right">181</td>
           <td style="text-align: right"></td>
       </tr>
       <tr>
-          <td style="text-align: left">Saving Parquet</td>
-          <td style="text-align: right">12.60</td>
-          <td style="text-align: right">11.40</td>
-          <td style="text-align: right">12.38</td>
+          <td style="text-align: left">Parquet</td>
+          <td style="text-align: right">11</td>
+          <td style="text-align: right">11</td>
+          <td style="text-align: right">12</td>
       </tr>
       <tr>
-          <td style="text-align: left">Overall</td>
-          <td style="text-align: right">279.34</td>
-          <td style="text-align: right">257.61</td>
-          <td style="text-align: right">263.61</td>
+          <td style="text-align: left">Total</td>
+          <td style="text-align: right">290</td>
+          <td style="text-align: right">251</td>
+          <td style="text-align: right">264</td>
       </tr>
   </tbody>
 </table>
+<p>We have saved 3,620,994 polygons.</p>
 <h2 id="dask-geopandashttpsdask-geopandasreadthedocsioenstable"><a href="https://dask-geopandas.readthedocs.io/en/stable/">Dask-Geopandas</a></h2>
-<p><em>Expectations</em>: Partitioning the DataFrame should increase the number of used cores. Hence, reduce the compute time.</p>
-<p><em>Observations</em>: I open the shapefiles just as before with geopandas, but then convert to a Dask-Geopandas GeoDataFrames.
-This all increases the loading time drastically! From about 60s to 160 s.
-I try to overlay these GeoDataFrames, there is no overlay with Dask-Geoarray.</p>
-<p>Instead, I try the map_partitions method. Left on a Dask-GeoDataFrame (the larger parcels dataset) and on the right
-hand side the smaller houses GeoDataFrame. Having the larger dataset as Dask-GeoDataFrame increases the speed.
-No, spatial swapping need as a spatial index is already used.
-For the map_partitions I create function that wraps the overlay.</p>
+<p><em>Expectations:</em> Partitioning the DataFrame should increase the number of cores used. This should reduce the computation time.</p>
+<p><em>Observations:</em> I open the shapefiles as before with Geopandas, but then convert them to a Dask-Geopandas GeoDataFrame.
+All this increases the loading time a bit from about 60s to 76s. It&rsquo;s not much because I don&rsquo;t do the spartial partioning!</p>
+<p>Finally, I try the map_partitions method. On the left a Dask GeoDataFrame (the larger parcels dataset) and on the right the smaller GeoDataFrame on the right. Having the larger dataset as the Dask-GeoDataFrame increases speed.
+No, spatial swapping is not necessary as the spatial index is already used.
+For the map_partitions I create a function that wraps the overlay. This creates a single duplicate.</p>
 <table>
   <thead>
       <tr>
           <th style="text-align: left">Task</th>
-          <th style="text-align: right">Duration Geopandas \s</th>
-          <th style="text-align: right">Duration Dask-Geopandas \s</th>
+          <th style="text-align: right">Geopandas \s</th>
+          <th style="text-align: right">Dask-Geopandas \s</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">Loading Shape</td>
-          <td style="text-align: right">58.67</td>
-          <td style="text-align: right">77.11</td>
+          <td style="text-align: left">Loading form</td>
+          <td style="text-align: right">59</td>
+          <td style="text-align: right">76</td>
       </tr>
       <tr>
           <td style="text-align: left">Intersection</td>
-          <td style="text-align: right">182.98</td>
-          <td style="text-align: right">64.52</td>
+          <td style="text-align: right">181</td>
+          <td style="text-align: right">62</td>
       </tr>
       <tr>
-          <td style="text-align: left">Saving Parquet</td>
-          <td style="text-align: right">11.48</td>
-          <td style="text-align: right">12.51</td>
+          <td style="text-align: left">Parquet</td>
+          <td style="text-align: right">11</td>
+          <td style="text-align: right">12</td>
       </tr>
       <tr>
-          <td style="text-align: left">Overall</td>
-          <td style="text-align: right">253.13</td>
-          <td style="text-align: right">154.13</td>
+          <td style="text-align: left">Total</td>
+          <td style="text-align: right">251</td>
+          <td style="text-align: right">151</td>
       </tr>
   </tbody>
 </table>
-<p>This really uses all cores and a usage between 30 % and 95 % can be seen while the Overlay
-is processed. This reduces the computation time to 33 % on this machine.</p>
-<p>But three times faster, for 8 cores and 16 threads on the machine. Is not fully, what I expected.</p>
+<p>This really does use all the cores, and you can see a usage between 30% and 95% while the Overlay
+is being processed. This reduces the computing time to 33% on this machine.</p>
+<p>But three times faster, for 8 cores and 16 threads on the machine. Not quite what I expected.</p>
 <h2 id="duckdbhttpsduckdborgdocsextensionsspatialoverview"><a href="https://duckdb.org/docs/extensions/spatial/overview">DuckDB</a></h2>
-<p>DuckDB has a spatial extension. Although the csv/parquet file readers works great the
-asterix placeholder to load several file at once.
-This is not true for ST_Read for reading spatial data. Hence, I have like with the other frameworks.
-Also, geoparquet is not supported for writing, hence I selected <code>FlatGeoBuf</code>.
-There is no overlay I have to do all the steps by myself. So, there is a possibility that my solution is suboptimal.</p>
-<p>Also writing the data does add a coordinate system. Nevertheless, the data can be opened with QGIS.
-Due to the usage of FlatGeoBuf, file size and writing times are worse, than for geoparquet.
-I could not save the data geopackage, to an error in sqlite3_exec, being unable to open the save tree.
+<p>DuckDB has a spatial extension. Although the csv/parquet file readers work well, the
+tokens to load multiple files at once.
+But this is not possible with ST_Read for reading spatial data. So I use pathlib as with the other frameworks.
+Also geoparquet is not supported for writing. So I chose <code>FlatGeobuf</code> as the geopackage could not be saved.
+There is no overlay, I have to do all the steps myself. So there is a possibility that my solution is suboptimal.</p>
+<p>Writing the data also adds a coordinate system. However, the data can be opened with QGIS.
+By using FlatGeoBuf, the file size and write times are worse than for geoparquet.
+I was unable to save the data geopackage due to an error in sqlite3_exec, which was unable to open the save tree.
 The resulting FlatGeoBuf is huge.</p>
-<p>*<em>Expectation</em>: Not much, It&rsquo;s marked as faster than SQLite for DataAnalysis. Which holds true.
-But how does it compare to DataFrames, that are in the RAM, too. Should be faster,
-due to multicore usage. The memory layout benefits can not be much, as GeoPandas also uses Apache Arrow?
-<em>Observation</em>: The CPU usage here is high at first but reduces steadily.
-For Dask the usage fluctuates.</p>
-<p>The execution speed is much slower as with dask. Saving takes so long, that this is even as slow as normal
-Geopandas.</p>
+<p><em>expectation</em>: Not much, it&rsquo;s marked as faster than SQLite for DataAnalysis. Which is true.
+But how does it compare to DataFrames, which are also in RAM? Should be faster,
+due to multicore usage. The memory layout benefits cannot be much, as GeoPandas also uses Apache Arrow?
+*Observation: CPU usage is high at first, but drops steadily.
+For Dask the usage fluctuates. I suspect this is due to index usage. The ST_Intersects operation uses the index, ST_Intersection does not.</p>
+<p>The execution speed is much slower than for Dask. Saving takes so long that it is even as slow as normal geopandas.
+Using the database in persistent mode (giving the connection a filename) increases the execution time.
+Loading takes 70% longer, but we eliminate the need to save the data. Yes, I could load the data into a DataFrame and save it, but then it is no longer a full GeoPandas DuckDB comparison.
+The saved database is actually a bit smaller than the FlatGeoBuf file.
+The comparison between DuckDB and Geopandas (with arrow) in speed is</p>
 <table>
   <thead>
       <tr>
           <th style="text-align: left">Task</th>
-          <th style="text-align: right">Duration Geopandas \s</th>
-          <th style="text-align: right">Duration DuckDB \s</th>
+          <th style="text-align: right">Geopandas \s</th>
+          <th style="text-align: right">DuckDB (Memory) \s</th>
+          <th style="text-align: right">DuckDB (db-file) \s</th>
       </tr>
   </thead>
   <tbody>
       <tr>
           <td style="text-align: left">Loading Shape</td>
-          <td style="text-align: right">74.23</td>
-          <td style="text-align: right">7.87</td>
+          <td style="text-align: right">59</td>
+          <td style="text-align: right">71</td>
+          <td style="text-align: right">120</td>
       </tr>
       <tr>
           <td style="text-align: left">Intersection</td>
-          <td style="text-align: right">195.37</td>
-          <td style="text-align: right">98.78</td>
+          <td style="text-align: right">181</td>
+          <td style="text-align: right">96</td>
+          <td style="text-align: right">92</td>
       </tr>
       <tr>
-          <td style="text-align: left">Saving Parquet</td>
-          <td style="text-align: right">12.46</td>
-          <td style="text-align: right">104.39</td>
+          <td style="text-align: left">Saving</td>
+          <td style="text-align: right">11</td>
+          <td style="text-align: right">93</td>
+          <td style="text-align: right">&mdash;</td>
       </tr>
       <tr>
           <td style="text-align: left">Overall</td>
-          <td style="text-align: right">282.06</td>
-          <td style="text-align: right">275.03</td>
+          <td style="text-align: right">251</td>
+          <td style="text-align: right">261</td>
+          <td style="text-align: right">212</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Polygon Count</td>
+          <td style="text-align: right">3620994</td>
+          <td style="text-align: right">3619033</td>
+          <td style="text-align: right">&mdash;</td>
       </tr>
   </tbody>
 </table>
-<h1 id="apache-sedona">Apache Sedona</h1>
-<p>This one is a bit tricky for me.
-I want to get it working both with Scala and PySpark.</p>
-<p><em>Expectation</em>: Some loss due to virtualization with Docker.
-So the PySpark would be not as fast as Dask? But Scala could be faster?!</p>
+<p>DuckDB has a lower count in returned Polyons, but I assume that these are in included in the collections.</p>
+<h2 id="apache-sedonahttpssedonaapacheorglatest-with-pyspark"><a href="https://sedona.apache.org/latest/">Apache Sedona</a> with PySpark</h2>
+<p>*Expectations: Some loss due to virtualization with Docker.
+So PySpark would not be as fast as Dask?</p>
+<p>Although the code is conceptually very similar to the database version. It is an interesting technology.
+I started with the Sedona container as a docker-compose file. This created a local Spark instance with Sedona and Jupyter notebook.</p>
+<p>The shapefiles can be loaded with a placeholder. No iteration (in code) required.
+But we need to validate the geometry with ST_MakeValid. Otherwise, I get a Java error message which is really long.
+Which makes it hard to understand, at least if you are not used to it.
+You can use SQL syntax on the DataFrames, or you can use message chaining methods.
+I started with SQL code (which is more universal), but it contains long strings in your code.
+Once everything was working, I switched to method chaining. Which in my eyes looks better, more functional.
+This flexibility is a plus.</p>
+<p>So far the code is lazy. A show method only executes on the row it will show, counting on all rows.
+Lazy execution can lead to double execution, so I remove all count methods.
+The slowest part seems to be writing. But differentiating the timing is difficult due to the lazy execution.
+The data is saved as a geoqarquet file with 3618339 polygons, the size was about 320 MB with snappy compression and 250 MB with ZSTD.
+Saving as a single parquet file takes about 158 seconds.
+I would have liked to use more containers on a single device and let them talk to each other to get multiple workers and a master to see how much multi-node
+reduced the computation time further.</p>
+<p>But that did not seem so trivial (please prove me wrong)</p>
+<h1 id="overall-speed-comparison">Overall speed comparison</h1>
+<p>For the overall speed and memory usage comparison, I exclude Apache-Sedona as it is running in a Docker container (for now).</p>
+<p>The previous timings were based on warmed runs, but single executions. Here we use 10 warmed runs to get a better picture.
+We need the warming because we use the same input data, so a GeoPandas run would also warm up the Dask GeoPandas run, and so on.
+Without warming GeoPandas, this would be even slower.
+These execution times must always be slower than the previous ones, because they include loading the Python interpreter and all libraries. and all libraries.</p>
+<p>Without using arrow for input data. GeoPandas took 287.519 s ± 1.532 s to open, overlay and save.
+The overall variation will be small.</p>
+<p>Opening the files with the <code>use_arrow</code> option reduces the computation time by about 8%. The execution takes: 264.590 s ± 4.891 s.</p>
+<p>With dask, the speed decreases slightly. The addition of multicore reduces the total execution time by a third. On the other hand,
+I still have a good part (loading the data) that is limited to single core. So we end up with an execution time of 169.577 s ± 1.882 s.</p>
+<p>For DuckDB with in-memory (and saving to FlatGeoBuf) the execution time is 271.455 s ± 2.790 s, and when persisting and not writing the final result it takes 233.427 s ± 6.805 s.</p>
+<h1 id="total-memory-usage-comparison">Total Memory Usage Comparison</h1>
+<p>The question here is whether it is necessary to hold all the data in RAM at the same time, or whether a good strategy can reduce RAM usage.
+To hold only the final result and partitions of the input data.</p>
+<p>The input data accounts for about 8 GB of RAM usage. This is the plateau in RAM usage of the Geopandas program. RAM usage peaks at just under 14 GB.</p>
+<figure><img src="/geopandas_ram.png"
+    alt="RAM usage of GeoPandas">
+</figure>
+
+<p>Dask seems to need several copies of the input data. We have a first plateau at about 8 GB and a
+at about 12 GB. The RAM usage peaks at about 19 GB.</p>
+<figure><img src="/dask_geopandas_ram.png"
+    alt="RAM usage of Dask-GeoDataFrame">
+</figure>
+
+<p>The memory layout in DUCKDB greatly reduces the peak memory usage. I can also use a view
+for the final result, which adds up to even more savings.
+Frankly, at only about 7 GB, the peak RAM usage is smaller than the input data in GeoPandas.
+The input data alone uses about 3.5 GB.</p>
+<figure><img src="/duckdb_memory_ram.png"
+    alt="RAM usage of DuckDB (in-memory)">
+</figure>
+
+<p>The persistence of the database does not change much, the input data seems to be even smaller at 2.5 GB.
+The top RAM usage is also reduced to about 6.2 GB.
+<figure><img src="/duckdb_persisted_ram.png"
+    alt="RAM usage of DuckDB (persistent)">
+</figure>
+</p>
+<h1 id="conclusion">Conclusion</h1>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Package</th>
+          <th style="text-align: right">Total duration \s</th>
+          <th style="text-align: right">Top RAM usage \GB</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">Geopandas</td>
+          <td style="text-align: right">287.5 ± 1.5</td>
+          <td style="text-align: right"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Geopandas (arrow)</td>
+          <td style="text-align: right">264.6 ± 4.9</td>
+          <td style="text-align: right">14</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Dask-Geopandas</td>
+          <td style="text-align: right">169.6 ± 1.9</td>
+          <td style="text-align: right">19</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">DuckDB (in memory)</td>
+          <td style="text-align: right">271.5 ± 2.8</td>
+          <td style="text-align: right">7</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">DuckDB (persistent)</td>
+          <td style="text-align: right">233.4 ± 6.8</td>
+          <td style="text-align: right">6.2</td>
+      </tr>
+  </tbody>
+</table>
+<p>The intersection itself has a speedup S of about three for Dask-GeoDataFrames and two for DuckDB compared to GeoPandas.
+This is despite using 8 cores with hyper-threading.
+I suspect that DuckDB is slower here because intersection does not use the spatial index, but intersection does.
+When we are able to use multiple cores, loading the data becomes a relatively long part of the total execution time.
+Either a distribution in geoparquet or loading each file in a separate thread could help.</p>
+<p>For Apache-Sedona we can only compare the total execution time and this seems to be on par with Dask-GeoPandas.</p>
+<p>If low memory usage is important, DUCKDB is an option. So either on systems with low memory, or with huge amounts of data.
+To avoid using swap. Opening shapefiles with DuckDB is slower than with GeoPandas.
+So far I cannot recommend using DuckDB for spatial tasks, as the number of supported file formats is limited, and although supported I was not able to save to GeoPackages.
+Also, DuckDB does not support raster files.</p>
+<p>If you already have a Spark cluster, Sedona may be a valid option. So far Dask is the fastest solution, but uses a huge amount of additional memory.
+Maybe one day I can recommend DuckDB instead.</p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>While using hyperfine on the DuckDB code, I found that a file is created in the temp folder for each output.
+These files have an uuid part and are never deleted, eg: <code>buildings_with_parcels_1976_2_temp.fgb</code>.
+This seems to be a real bug in DuckDB.
+So while profiling with hyperfine, the temp files are written to disk until the main drive is full.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
 
                     
                     <HR width="100%" id="EOF">
-		    <p style="color:#777;">Last modified on 2024-09-28</p>
+		    <p style="color:#777;">Last modified on 2024-10-19</p>
                     
                 </div>
             </div>
@@ -576,14 +786,14 @@ So the PySpark would be not as fast as Dask? But Scala could be faster?!</p>
             <nav class="post-pagination">
 
                 
-                <a class="newer-posts" href="/about/">
-			Next<br>About
+                <a class="newer-posts">
+			Next<br>No newer posts.
                 </a>
                 
                 
                 
-                <a class="older-posts" href="/posts/mastodonbavarian_election_lda/">
-			Previous<br>LDA and WordCloud on Mastodon Posts for the Bavarian State Election!
+                <a class="older-posts" href="/about/">
+			Previous<br>About
                 </a>
                 
             </nav>
@@ -739,7 +949,7 @@ Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopene
 						
 							<li>
 								<a href="#the-data" class="nav-the-data">
-									The Data
+									The data
 								</a>
 							</li>
 						
@@ -758,6 +968,24 @@ Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopene
 							<li>
 								<a href="#task" class="nav-task">
 									Task
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#the-hardware" class="nav-the-hardware">
+									The hardware
 								</a>
 							</li>
 						
@@ -849,6 +1077,24 @@ Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopene
 						
 						
 						
+						
+						
+							<li>
+								<a href="#apache-sedonahttpssedonaapacheorglatest-with-pyspark" class="nav-apache-sedonahttpssedonaapacheorglatest-with-pyspark">
+									Apache Sedona with PySpark
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
 							
 								</ul>
 							
@@ -856,8 +1102,44 @@ Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopene
 						
 						
 							<li>
-								<a href="#apache-sedona" class="nav-apache-sedona">
-									Apache Sedona
+								<a href="#overall-speed-comparison" class="nav-overall-speed-comparison">
+									Overall speed comparison
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#total-memory-usage-comparison" class="nav-total-memory-usage-comparison">
+									Total Memory Usage Comparison
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#conclusion" class="nav-conclusion">
+									Conclusion
 								</a>
 							</li>
 						
