@@ -184,26 +184,26 @@
                     <div class="post-item post-item-no-divider">
                         <div class="post-item-info-wrapper">
                             <div class="post-item-title">
-                                Speed Comparision on some Modern GIS tools
+                                Speed Comparison on some Modern GIS tools
                             </div>
                             <div class="post-item-summary">
                                 
-                                    <p>GIS can change with current technology as Apache Arrow, and perhaps also Apache Spark und Apache Sedona.
-Also in Pythonland Geopandas enhanced performance over time. In addition, I also wanted to try Dask und DuckDB.</p>
-<p>Please contact me, when you read this and think I could have increased the code quality and speed.
-I use some public data, which still widely use shape files in Germany.</p>
-<h1 id="the-data">The Data</h1>
-<p>First I load fhe ALKIS (register) building data for all counties in the state of Brandenburg.
-All vector files are open data. The victor files are still offered as Shapefiles.
-From the ALKIS Dataset of Brandenburg I used the buildings and the parcels (with land usage).
+                                    <p>GIS can change with current technology such as Apache Arrow, and perhaps also with some other techniques.
+In Pythonland, Geopandas has improved performance over time. I also wanted to try Dask, DuckDB and Apache Sedona.</p>
+<p>Please contact me if you read this and think I could have improved the code quality and speed.
+I use some public data, which is still widely used in Germany as shape files.</p>
+<h1 id="the-data">The data</h1>
+<p>First I downloaded the ALKIS (register) building data for <a href="https://data.geobasis-bb.de/geobasis/daten/alkis/Vektordaten/shape/">all counties in the state of Brandenburg</a>.
+All the vector files are open data. The vector files are still offered as shapefiles.
+From the ALKIS dataset of Brandenburg I used the buildings and the parcels (with land use).
 The files are stored per county!
-The geometries have some errors which Geopandas auto-detects and fixes.
-In addition, some file can not be opened with the <a href="https://fiona.readthedocs.io/en/latest/index.html">fiona</a> library from Geopandas, with the error message
-of multiple  geometry columns. Hence, we always use de new default: pyogrio.</p>
+The geometries have some errors, which Geopandas automatically detects and fixes.
+In addition, some files cannot be opened with the <a href="https://fiona.readthedocs.io/en/latest/index.html">fiona</a> library of Geopandas, with the error message
+of multiple geometry columns. So we always use the new default: pyogrio.</p>
                                 
                             </div>
                             <div class="post-item-meta">
-    2024-09-28
+    2024-10-19
     &emsp;
     
     
@@ -214,9 +214,9 @@ of multiple  geometry columns. Hence, we always use de new default: pyogrio.</p>
     
 
     
-    4 min
+    9 min
     
-    13 s
+    36 s
     
     
     &emsp;
@@ -332,7 +332,7 @@ The code for data collection can be found <a href="./mastodon">here</a>.</p>
 <p>The German power system is adding renewable energy sources in the north,
 where wind energy plants reach their highest efficiency, due to higher
 wind speeds. At the same time old power plants e.g. nuclear, hard coal
-and lignite are being phased out [^eser-frey_analyzing_2012]. These
+and lignite are being phased out [^eserfrey_analyzing_2012]. These
 older power plants were mainly located in southern and central Germany.
 The energy sink, industrial and private demand, is not shifting north.
 Therefore, the renewable energy has to be transported from north to
@@ -355,7 +355,7 @@ greatly increased by adding new power lines <sup id="fnref:1"><a href="#fn:1" c
     
     27 min
     
-    9 s
+    5 s
     
     
     &emsp;
