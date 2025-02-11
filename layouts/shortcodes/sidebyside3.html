@@ -1,0 +1,19 @@
+<figure id="{{ .Get "id" }}" style="text-align: center;">
+  <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: nowrap;">
+    <div style="flex: 1; max-width: 30%;">
+      <img src="{{ .Get "src1" }}" alt="{{ .Get "alt1" }}" style="width: 100%; border: 1px solid #ddd; border-radius: 5px;">
+      <figcaption style="text-align: center; margin-top: 5px;">{{ .Get "caption1" }}</figcaption>
+    </div>
+    <div style="flex: 1; max-width: 30%;">
+      <img src="{{ .Get "src2" }}" alt="{{ .Get "alt2" }}" style="width: 100%; border: 1px solid #ddd; border-radius: 5px;">
+      <figcaption style="text-align: center; margin-top: 5px;">{{ .Get "caption2" }}</figcaption>
+    </div>
+    <div style="flex: 1; max-width: 30%;">
+      <img src="{{ .Get "src3" }}" alt="{{ .Get "alt3" }}" style="width: 100%; border: 1px solid #ddd; border-radius: 5px;">
+      <figcaption style="text-align: center; margin-top: 5px;">{{ .Get "caption3" }}</figcaption>
+    </div>
+  </div>
+  <figcaption style="text-align: center; font-style: italic; margin-top: 10px;">
+    <strong>Figure {{ .Get "number" }}:</strong> {{ .Get "common_caption" }}
+  </figcaption>
+</figure>
