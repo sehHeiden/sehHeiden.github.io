@@ -64,10 +64,10 @@ about the national government (`Ampel`). The few posts about the part
 Filtering out by computing the mean(for groups of topic, week and
 party).
 
-    Get the most important words of a given model.
+Get the most important words of a given model.
 
-    There are to many topics with the same most important word therefore we use two.
-    We show them in Alphabetical order.
+There are to many topics with the same most important word therefore we use two.
+We show them in Alphabetical order.
 
 ```
     {0: 'aiwanger bayern',

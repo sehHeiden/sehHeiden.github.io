@@ -174,20 +174,19 @@ or True (below).</figcaption>
 </figure>
 
 ::: {#tab:1}
-  Cost Level                              Cost Example
-  ------------------------------------- ------ ---------
-  Prohibited                               500 
-  National Parks, Buildings                    
-  Strongly Restricted                       10 
-  Restricted                                 5 
-  Industrial Areas, motorway, railway          
-  No Restriction                           0.5 Default
-  Preferential                             0.1 
-  Motorway and Railway Buffers                 
 
-  : Used levels of costs, the applied numerical equivalent and example
-  layer this cost have been used for.
+| Cost Level           | Cost | Example                         |
+|----------------------|------|---------------------------------|
+| Prohibited           | 500  | National Parks, Buildings       |
+| Strongly Restricted  | 10   |                                 |
+| Restricted           | 5    | Industrial Areas, motorway, railway |
+| No Restriction       | 0.5  | Default                         |
+| Preferential         | 0.1  | Motorway and Railway Buffers    |
+
+: Used levels of costs, the applied numerical equivalent and example layer this cost have been used for.
+
 :::
+
 
 The complete list of layers and the applied processing steps can be
 found in **Supplement S1**.
@@ -195,7 +194,7 @@ found in **Supplement S1**.
 All three steps of the generation of the Least Cost Path: generation of
 the cost raster, aggregation and backtracking is shown with an example
 for a cost raster of 50 m resolution and all touched set to False (see
-[2](#fig:costs2path).
+[2](#fig:costs2path)).
 
 The chosen implementation applies early stopping. Therefore, the costs
 for points that are not needed to try to connect to the end point are
@@ -322,15 +321,18 @@ resolutions are indicated by the color green, lower resolutions by the
 color red. Using OpenStreetMaps as base map.</figcaption>
 </figure>
 
-::: table*
-    res /m   $l_{al=f} /m$   $l_{al=t} /m$   $d_{mean}$ /m   $d_{max}/m$   agg. $cost_{al=f}$   agg. $cost_{al=t}$   $\Delta$ costs   agg. $costs_{al=f} \times m$   agg. $costs_{al=t} \times m$
-  -------- --------------- --------------- --------------- ------------- -------------------- -------------------- ---------------- ------------------------------ ------------------------------
-         5         76136.3         78002.0           126.0        1065.0              18665.9              19616.8          -850.00                        93329.6                        97584.8
-        10         75430.1         77936.6           277.9        1590.0               8931.2               9731.2          -799.95                        89312.5                        97311.8
-        25         75422.9         78422.9           313.8        1621.2               3354.9               3872.7          -517.78                        83871.7                        96816.4
-        50         76135.0         70620.0          1140.0        4950.0               1409.0               2300.1          -891.05                        70451.2                       115003.7
-       100         76283.8         74120.7          1946.4        6016.6                640.5               1572.3          -931.70                        64051.6                       167226.8
+::: {#tab:2}
+
+| res /m | $l_{al=f} /m$ | $l_{al=t} /m$ | $d_{mean}$ /m | $d_{max}$ /m | agg. $cost_{al=f}$ | agg. $cost_{al=t}$ | $\Delta$ costs | agg. $costs_{al=f} \times m$ | agg. $costs_{al=t} \times m$ |
+|--------|---------------|---------------|---------------|-------------|--------------------|--------------------|----------------|------------------------------|------------------------------|
+| 5      | 76136.3       | 78002.0       | 126.0         | 1065.0      | 18665.9            | 19616.8            | -850.00        | 93329.6                      | 97584.8                      |
+| 10     | 75430.1       | 77936.6       | 277.9         | 1590.0      | 8931.2             | 9731.2             | -799.95        | 89312.5                      | 97311.8                      |
+| 25     | 75422.9       | 78422.9       | 313.8         | 1621.2      | 3354.9             | 3872.7             | -517.78        | 83871.7                      | 96816.4                      |
+| 50     | 76135.0       | 70620.0       | 1140.0        | 4950.0      | 1409.0             | 2300.1             | -891.05        | 70451.2                      | 115003.7                     |
+| 100    | 76283.8       | 74120.7       | 1946.4        | 6016.6      | 640.5              | 1572.3             | -931.70        | 64051.6                      | 167226.8                     |
+
 :::
+
 
 When estimating the distance between the Least Costs Paths from
 all touched set to True and all touched set to False at the same
@@ -359,32 +361,24 @@ to use a higher percentage of the *Preferential* Level and less of the
 *NoRestriction* Level. There is no strong tendency for the all touched
 set to False Least Cost Paths.
 
-:::: table*
-::: tabular
-r r r r r r r r r r r r res /m & all touched & & & & &\
-& False & 4.7 & (5.4) & 58.7 & (58.9) & 8.8 & (8.4) & 0.7 & (0.7) & 27.1
-& (26.7)\
-10 & False & 19.6 & (33.5) & 68.5 & (64.5) & 1.0 & (0.8) & 0.8 & (0.3) &
-10.1 & (0.9)\
-25 & False & 19.2 & (34.2) & 68.9 & (64.9) & 1.0 & (0.2) & 0.7 & (0.1) &
-9.7 & (0.6)\
-50 & False & 20.4 & (33.2) & 68.0 & (66.2) & 0.9 & (0.1) & 0.7 & (0.0) &
-10.1 & (0.5)\
-100 & False & 21.1 & (30.7) & 69.1 & (68.8) & 1.1 & (0.0) & 0.7 & (0.0)
-& 7.9 & (0.4)\
+::: {#tab:3}
 
-5 & True & 18.9 & (28.5) & 67.3 & (66.4) & 1.3 & (1.6) & 1.0 & (0.5) &
-11.5 & (3.0)\
-10 & True & 18.9 & (33.7) & 66.6 & (63.4) & 1.6 & (1.4) & 1.4 & (0.6) &
-11.5 & (1.0)\
-25 & True & 18.7 & (31.9) & 65.5 & (65.5) & 2.0 & (1.3) & 2.5 & (0.7) &
-11.4 & (0.6)\
-50 & True & 9.1 & (13.0) & 75.7 & (83.0) & 3.9 & (2.0) & 4.2 & (1.6) &
-7.1 & (0.4)\
-100 & True & 7.0 & (10.1) & 73.8 & (81.9) & 5.5 & (3.9) & 8.5 & (3.6) &
-5.2 & (0.4)\
+| res /m | all touched | $r_{Preferential} \%$ | $r_{No Restriction} \%$ | $r_{Restricted} \%$ | $r_{strongly Restricted} \%$ | $r_{Prohibited} \%$ |
+|--------|-------------|------------------------|-------------------------|----------------------|-------------------------------|---------------------|
+| 5      | False       | 4.7 (5.4)              | 58.7 (58.9)             | 8.8 (8.4)            | 0.7 (0.7)                     | 27.1 (26.7)          |
+| 10     | False       | 19.6 (33.5)            | 68.5 (64.5)             | 1.0 (0.8)            | 0.8 (0.3)                     | 10.1 (0.9)           |
+| 25     | False       | 19.2 (34.2)            | 68.9 (64.9)             | 1.0 (0.2)            | 0.7 (0.1)                     | 9.7 (0.6)            |
+| 50     | False       | 20.4 (33.2)            | 68.0 (66.2)             | 0.9 (0.1)            | 0.7 (0.0)                     | 10.1 (0.5)           |
+| 100    | False       | 21.1 (30.7)            | 69.1 (68.8)             | 1.1 (0.0)            | 0.7 (0.0)                     | 7.9 (0.4)            |
+| 5      | True        | 18.9 (28.5)            | 67.3 (66.4)             | 1.3 (1.6)            | 1.0 (0.5)                     | 11.5 (3.0)           |
+| 10     | True        | 18.9 (33.7)            | 66.6 (63.4)             | 1.6 (1.4)            | 1.4 (0.6)                     | 11.5 (1.0)           |
+| 25     | True        | 18.7 (31.9)            | 65.5 (65.5)             | 2.0 (1.3)            | 2.5 (0.7)                     | 11.4 (0.6)           |
+| 50     | True        | 9.1 (13.0)             | 75.7 (83.0)             | 3.9 (2.0)            | 4.2 (1.6)                     | 7.1 (0.4)            |
+| 100    | True        | 7.0 (10.1)             | 73.8 (81.9)             | 5.5 (3.9)            | 8.5 (3.6)                     | 5.2 (0.4)            |
+
 :::
-::::
+
+
 
 ## Execution time {#subsec:execution-time}
 
@@ -430,22 +424,21 @@ ratio in favour of all touched False are much closer to the all touched
 set to False paths.
 
 ::: {#tab:4}
-       r   $d_{5~al=f}$ /m   $d_{10~al=f}$ /m   $d_{10~al=t}$ /m
-  ------ ----------------- ------------------ ------------------
-     1:1             119.6              285.5               47.2
-     2:1              97.1              263.5               74.2
-     4:1              40.1              206.4              100.2
-     8:1              41.7              169.0              137.3
-    16:1              56.7              153.3             152.72
-    32:1              56.7              145.6              162.1
-    64:1             163.5               10.6              272.4
 
-  : Paths computed from the overlaying of all touched set to False and
-  True raster with the mean minium distance (d) of the paths to the
-  paths calculated from the all touched set to False 5 m resolution and
-  all touched set to False and True raster at 10 m resolution with the
-  ratio (r).
+| r     | $d_{5~al=f}$ /m | $d_{10~al=f}$ /m | $d_{10~al=t}$ /m |
+|-------|-----------------|------------------|------------------|
+| 1:1   | 119.6           | 285.5            | 47.2             |
+| 2:1   | 97.1            | 263.5            | 74.2             |
+| 4:1   | 40.1            | 206.4            | 100.2            |
+| 8:1   | 41.7            | 169.0            | 137.3            |
+| 16:1  | 56.7            | 153.3            | 152.7            |
+| 32:1  | 56.7            | 145.6            | 162.1            |
+| 64:1  | 163.5           | 10.6             | 272.4            |
+
+: Paths computed from the overlaying of all touched set to False and True raster with the mean minimum distance (d) of the paths to the paths calculated from the all touched set to False 5 m resolution and all touched set to False and True raster at 10 m resolution with the ratio (r).
+
 :::
+
 
 ### Compare Least Cost Paths from downsampled cost raster
 
@@ -467,19 +460,18 @@ raster, although the all touched set to False raster of the 5 m
 resolution was used for downsampling.
 
 ::: {#tab:5}
-    res /m      l /m   $d_{5~m}$ /m   $d_{al=f}$ /m   $d_{al=t}$ /m
-  -------- --------- -------------- --------------- ---------------
-        10   75980.6           59.3           219.4           143.6
-        25   70205.3          385.8           558.1           432.8
-        50   69217.9          730.8           693.4           255.7
-       100   66667.9         1681.3          1605.6           400.6
 
-  : Length (l) of the path computed from the bi-linear downsampled
-  raster and the mean minimum distance (d) of the paths from the
-  downsampled raster to the paths calculated from the all touched set to
-  True and False raster of the same resolution as the downsampled raster
-  with resolution (res).
+| res /m | l /m   | $d_{5~m}$ /m | $d_{al=f}$ /m | $d_{al=t}$ /m |
+|--------|--------|--------------|---------------|---------------|
+| 10     | 75980.6| 59.3         | 219.4         | 143.6         |
+| 25     | 70205.3| 385.8        | 558.1         | 432.8         |
+| 50     | 69217.9| 730.8        | 693.4         | 255.7         |
+| 100    | 66667.9| 1681.3       | 1605.6        | 400.6         |
+
+: Length (l) of the path computed from the bi-linear downsampled raster and the mean minimum distance (d) of the paths from the downsampled raster to the paths calculated from the all touched set to True and False raster of the same resolution as the downsampled raster with resolution (res).
+
 :::
+
 
 ### Restrict search to a buffer around the Least Cost Paths
 
@@ -527,33 +519,30 @@ the high resolution path is greater than the distance from the original
 table [4](#tab:6)).
 
 ::: {#tab:6}
-    Route    Method   $length /m$   $costs_{al=f}$   $d_{mean}$ /m
-  ------- --------- ------------- ---------------- ---------------
-     P1-E       5 m      107889.6         208547.8 
-            Clipped      107889.6         208547.8             0.0
-               Down       96754.2         212911.0           628.1
-               10 m      107232.9         203010.2           103.5
-     P2-E       5 m      103706.4         155567.9 
-            Clipped      103706.4         155567.9             0.0
-               Down       92403.3         158238.6           639.9
-               10 m      104249.9         149899.7           177.7
-     S-P3       5 m      102187.1          34503.8 
-            Clipped       90377.1          37926.1          4465.4
-               Down       94125.6          37574.9           742.4
-               10 m      102461.6          32446.0            81.2
-     S-P4       5 m       96449.2          33865.5 
-            Clipped       96449.2          33865.5             0.0
-               Down       87861.1          36462.7           796.4
-               10 m       96739.5          31899.3            83.5
 
-  : Length (l) of the path, the aggregated costs per resolution and the
-  mean minimum distance ($d_{mean}$) to the path created from the 5 m
-  resolution all touched False raster for the four control routes. For
-  the reference path constructed from 5 m and 10 m raster and from 5 m
-  to 10 m downsampled raster and 5 m clipped raster for the routes
-  point1 to end point (P1-E), point2 to end point (P2-E), starting point
-  to point3 (S-P3) and starting point to point4 (S-P4).
+| Route   | Method   | $length /m$ | $costs_{al=f}$ | $d_{mean}$ /m |
+|---------|----------|-------------|----------------|---------------|
+| P1-E    | 5 m      | 107889.6    | 208547.8       |               |
+|         | Clipped  | 107889.6    | 208547.8       | 0.0           |
+|         | Down     | 96754.2     | 212911.0       | 628.1         |
+|         | 10 m     | 107232.9    | 203010.2       | 103.5         |
+| P2-E    | 5 m      | 103706.4    | 155567.9       |               |
+|         | Clipped  | 103706.4    | 155567.9       | 0.0           |
+|         | Down     | 92403.3     | 158238.6       | 639.9         |
+|         | 10 m     | 104249.9    | 149899.7       | 177.7         |
+| S-P3    | 5 m      | 102187.1    | 34503.8        |               |
+|         | Clipped  | 90377.1     | 37926.1        | 4465.4        |
+|         | Down     | 94125.6     | 37574.9        | 742.4         |
+|         | 10 m     | 102461.6    | 32446.0        | 81.2          |
+| S-P4    | 5 m      | 96449.2     | 33865.5        |               |
+|         | Clipped  | 96449.2     | 33865.5        | 0.0           |
+|         | Down     | 87861.1     | 36462.7        | 796.4         |
+|         | 10 m     | 96739.5     | 31899.3        | 83.5          |
+
+: Length (l) of the path, the aggregated costs per resolution and the mean minimum distance ($d_{mean}$) to the path created from the 5 m resolution all touched False raster for the four control routes. For the reference path constructed from 5 m and 10 m raster and from 5 m to 10 m downsampled raster and 5 m clipped raster for the routes point1 to end point (P1-E), point2 to end point (P2-E), starting point to point3 (S-P3) and starting point to point4 (S-P4).
+
 :::
+
 
 # Discussion {#sec:discussion}
 
@@ -711,7 +700,7 @@ have not been tested.
 
 [^PyWPS]: Welcome to the PyWPS 4.3.dev0 documentation! — PyWPS 4.3.dev0 documentation. https://pywps.readthedocs.io/en/latest/index.html. Version: 2016
 [^Flask]: Flask. https://palletsprojects.com/p/flask/
-[^eserfrey_analyzing_2012] Eßer-Frey, Anke: Analyzing the regional long-term development of the German power system using a nodal pricing approach. http://dx.doi.org/10.5445/IR/1000028367. Version: 2012
+[^eserfrey_analyzing_2012]: Eßer-Frey, Anke: Analyzing the regional long-term development of the German power system using a nodal pricing approach. http://dx.doi.org/10.5445/IR/1000028367. Version: 2012
 [^leuthold_nodal_2005]: Leuthold, Florian U. ; Rumiantseva, Ina ; Weigt, Hannes ; JesKe, Till ;HiRschhausen, Christian von: Nodal Pricing in the German Electricity Sector -A Welfare Economics Analysis, with Particular Reference to Implementing Off-shore Wind Capacities. In: SSRN Electronic Journal (2005). http://dx.doi.org/10.2139/ssrn.1137382. – DOI 10.2139/ssrn.1137382. – ISSN 1556–5068
 [^suleiman_optimal_2015]: Suleiman, Sani ; AgaRwal, V C. ; Lal, Deepak ; Sunusi, Aminuddeen: Optimal Route Location by Least Cost Path (LCP) Analysis using (GIS), A Case Study. In: International Journal of Scientific Engineering and Technology Research 4 (2015), Oktober, Nr. 44, S. 9621–9626
 [^schafer_understanding_2022]: Schäfer, Benjamin ; Pesch, Thiemo ; ManiK, Debsankha ; Gollenstede, Julian; Lin, Guosong ; BecK, Hans-Peter ; Witthaut, Dirk ; Timme, Marc: Understanding Braess’ Paradox in power grids. In: Nature Communications 13 (2022), September, Nr. 1, 5396. http://dx.doi.org/10.1038/s41467-022-32917-6. – DOI10.1038/s41467–022–32917–6. – ISSN 2041–1723. – Number: 1 Publisher: NaturePublishing Group

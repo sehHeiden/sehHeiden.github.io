@@ -441,7 +441,7 @@ we do not get an decreased overall error for the posts in tab. 5. But in the dat
 The sentiment is shifted from the range -1 to 1 to the range 0 to 1 (see formula (1)).  The sentiments of the posts were aggregated for the same day or calendar week, with the mean function. Missing values are filled forward first and than backward.
 
 $$
-S_n(party) = \frac{S(party) + 1}{2} \tag{1}
+S_n(\text{party}) = \frac{S(\text{party}) + 1}{2} \tag{1}
 $$
 
 Then the sentiment is weighted by the sum of the sentiment of all parties for the same week (see formula (2)). This is used as a measure to correct the sentiment by how well the sentiment of other parties is in the same time period. If comparing the daily aggregate and the weekly aggregate, we can see that the variance is much higher for the sentiment compared to the polls. This is strongly reduced by the weekly aggregates (see fig 8.)
