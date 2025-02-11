@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on SeHe's Blog</title><link>https://sehheiden.github.io/posts/</link><description>Recent content in Posts on SeHe's Blog</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Sat, 19 Oct 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://sehheiden.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Speed Comparison on some Modern GIS tools</title><link>https://sehheiden.github.io/posts/speed_comparision_gis_intersection/</link><pubDate>Sat, 19 Oct 2024 00:00:00 +0000</pubDate><guid>https://sehheiden.github.io/posts/speed_comparision_gis_intersection/</guid><description>&lt;p>GIS can change with current technology such as Apache Arrow, and perhaps also with some other techniques.
+In Pythonland, Geopandas has improved performance over time. I also wanted to try Dask, DuckDB and Apache Sedona.&lt;/p>
+&lt;p>Please contact me if you read this and think I could have improved the code quality and speed.
+I use some public data, which is still widely used in Germany as shape files.&lt;/p>
+&lt;p>&lt;strong>Update&lt;/strong>: In the previous version I was not able to save to geoparquet with DuckDB. It works, it can be openmed inm QGIS, not so far no CRS.&lt;/p></description></item><item><title>LDA and WordCloud on Mastodon Posts for the Bavarian State Election!</title><link>https://sehheiden.github.io/posts/mastodonbavarian_election_lda/</link><pubDate>Sat, 04 May 2024 00:00:00 +0000</pubDate><guid>https://sehheiden.github.io/posts/mastodonbavarian_election_lda/</guid><description>&lt;p>We selected a party as the dominant party, when this party or its
+candidate was mentioned 50 % or more compared to other parties. But this
+results in many posts that mention the candidates Söder, Aiwanger,
+although the post is attribute to different parties. This mixed
+attribution, which allows to mention different parties as long as there
+is a clear dominant party, makes attribution hard, but was used to keep
+as many posts as possible. Even though in some weeks we did not record
+post for some smaller &amp;quot;dominant&amp;quot; parties.&lt;/p></description></item><item><title>Mastodon - Election Predictions</title><link>https://sehheiden.github.io/posts/mastodon_on_bavarian_elecvtion/</link><pubDate>Fri, 15 Dec 2023 00:00:00 +0000</pubDate><guid>https://sehheiden.github.io/posts/mastodon_on_bavarian_elecvtion/</guid><description>&lt;p>I held a presentation on this project on Elixir MeetUp Berlin on Feb 8th, 2024. The slides can be found &lt;a href="https://github.com/sehHeiden/MeetUpElixir/blob/main/presentation_MastodonElection.pdf">here&lt;/a>.&lt;/p>
+&lt;p>The Livebook code can be found &lt;a href="election_bavaria.livemd">here&lt;/a>.
+The code for data collection can be found &lt;a href="./mastodon">here&lt;/a>.&lt;/p>
+&lt;h1 id="abstract">Abstract&lt;/h1>
+&lt;p>We try to predict voting result in the 2023 Bavarian state election in Germany by Mastodon posts.&lt;/p>
+&lt;p>The last polls before the election show an average error of about 0.7 to 0.9 percent per major party. A time weighted average of the polls of the last six weeks before the election reduced the error to 0.39 percentage points per party.&lt;/p></description></item><item><title>Least Cost Path for Optimisation on Paths for Power Cables in North Germany</title><link>https://sehheiden.github.io/posts/cableroute/</link><pubDate>Wed, 15 Mar 2023 00:00:00 +0000</pubDate><guid>https://sehheiden.github.io/posts/cableroute/</guid><description>&lt;h1 id="sec:introduction">Introduction and Objectives&lt;/h1>
+&lt;p>The German power system is adding renewable energy sources in the north,
+where wind energy plants reach their highest efficiency, due to higher
+wind speeds. At the same time old power plants e.g. nuclear, hard coal
+and lignite are being phased out &lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>. These
+older power plants were mainly located in southern and central Germany.
+The energy sink, industrial and private demand, is not shifting north.
+Therefore, the renewable energy has to be transported from north to
+south which increases the congestion in the power grid. The amount of
+offshore wind power, that the German energy system can use, can be
+greatly increased by adding new power lines &lt;sup id="fnref:2">&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref">2&lt;/a>&lt;/sup>.&lt;/p></description></item></channel></rss>

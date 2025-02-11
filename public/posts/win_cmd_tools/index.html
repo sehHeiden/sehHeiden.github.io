@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+<title>Commandline tools for Windows and Linux</title>
+
+
+
+
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="google-site-verification" content="">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=5, user-scalable=5" name="viewport">
+<meta content="telephone=no" name="format-detection">
+<meta name="description" content="">
+<meta name="renderer" content="webkit">
+<meta name="theme-color" content="#ffffff">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+<link rel="icon" href="http://localhost:1313/logo.ico">
+
+
+
+      <script src="/js/toc.js"></script>
+    
+    <link type="text/css" rel="stylesheet" href="/vendor/css/bootstrap.min.css">
+
+<link rel="stylesheet" href="/scss/dark-mode.min.cb53f1bee2b8900cb4f082afbf00175d6618f281cf9a2fe8619e3b52d20b5721.css" integrity="sha256-y1PxvuK4kAy08IKvvwAXXWYY8oHPmi/oYZ47UtILVyE=" media="screen">
+
+
+<link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Material+Icons">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+    	<div id="app"><div class="single-column-drawer-container" id="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            
+            
+            
+                
+                
+                
+                    
+                
+                
+                
+                <a class="a-block drawer-menu-item active" href="/">
+                    Home
+                </a>
+                
+            
+                
+                
+                
+                
+                
+                <a class="a-block drawer-menu-item false" href="/about/">
+                    About Me
+                </a>
+                
+            
+                
+                
+                
+                    
+                
+                
+                
+                <a class="a-block drawer-menu-item active" href="/posts/">
+                    Blog
+                </a>
+                
+            
+                
+                
+                
+                
+                
+                <a class="a-block drawer-menu-item false" href="/categories">
+                    Categories
+                </a>
+                
+            
+                
+                
+                
+                
+                
+                <a class="a-block drawer-menu-item false" href="/tags/">
+                    Tags
+                </a>
+                
+            
+                
+                
+                
+                
+                
+                <a class="a-block drawer-menu-item false" href="/index.xml">
+                    RSS Feed
+                </a>
+                
+            
+            
+            <div class="toc">
+
+
+	<div class="toc-content">
+	
+		
+		
+		
+		<center>- CATALOG -</center>
+		
+		
+		<ul>
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#fastfetch" class="nav-fastfetch">
+									Fastfetch
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#bottom" class="nav-bottom">
+									bottom
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#btop" class="nav-btop">
+									Btop
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#the-fuck" class="nav-the-fuck">
+									The fuck
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#hyperfine" class="nav-hyperfine">
+									Hyperfine
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#lazydocker" class="nav-lazydocker">
+									lazydocker
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#yazi" class="nav-yazi">
+									yazi
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#midnight-commander" class="nav-midnight-commander">
+									midnight commander
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#micro" class="nav-micro">
+									Micro
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#helix" class="nav-helix">
+									Helix
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#emacs" class="nav-emacs">
+									Emacs
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#nushell" class="nav-nushell">
+									nushell
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#eza" class="nav-eza">
+									eza
+								</a>
+							</li>
+						
+						
+					
+				
+			
+		</ul>
+	</div>
+
+</div>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div id="drawer-mask" v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav id="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div id="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a id="navTitle" class="navbar-brand" href="http://localhost:1313/">
+            SeHe&#39;s Blog
+        </a>
+        
+        <button type="button" class="nav-darkmode-toggle" id="darkModeToggleButton2">
+            <i class="material-icons" id="darkModeToggleIcon2">
+                dark_mode
+            </i>
+        </button>
+        
+    </div>
+</nav>
+<div class="single-column-header-container" id="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="http://localhost:1313/">
+        <div class="single-column-header-title">SeHe&#39;s Blog</div>
+        
+
+    </a>
+</div>
+
+            <div id="content">
+                <div id="streamContainer" class="stream-container">
+
+    <div class="post-list-container post-list-container-shadow">
+        <div class="post">
+            
+            
+            
+
+            <div class="post-head-wrapper-text-only"
+                
+            >
+                <div class="post-title">
+                    Commandline tools for Windows and Linux
+                    
+                    <div class="post-meta">
+                        
+                        <time itemprop="datePublished">
+                            2024-10-19 00:00
+                        </time>
+                        
+
+                        
+                            <i class="material-icons" style="">folder</i>
+                                <a href="/categories/terminal">terminal</a>
+                                &nbsp;
+                        
+
+                        
+                            <i class="material-icons" style="">label</i>
+                            
+                                <a href="/tags/terminal">terminal</a>
+                                &nbsp;
+                            
+                                <a href="/tags/commandline">commandline</a>
+                                &nbsp;
+                            
+                                <a href="/tags/win">win</a>
+                                &nbsp;
+                            
+                                <a href="/tags/unix">unix</a>
+                                &nbsp;
+                            
+                        
+                        
+                            <i class="material-icons" style="">schedule</i>
+                            
+
+                            
+                            
+
+                            
+                            3 min
+                            
+                            10 s.
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="post-body-wrapper">
+                
+                <div class="post-body" v-pre>
+                
+                    <p>Imagine you want to try new commandline tools, but you have both unix and windows machines.
+Perhaps you use Linux at home and Windows at work, or you still have that on gaming computer with Windows.
+At the same time, you want to have unifined tooling in the commandline.</p>
+<p>With the rust programming language a bunch of new commandline tools have been developed over the past few years.<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
+<p>I want to have a first look at tools that can be install on Linux and Windows at the same time. For Windows I use package manager</p>
+<ol>
+<li>winget, and</li>
+<li>scoop.</li>
+</ol>
+<p>For Windows users, these are programs to install und <strong>update</strong> programs. You definetly want to try winget as It can update some of your programs, that you did not install with it.
+With</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>winget update
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>winget upgrade --all
+</span></span></code></pre></div><p>you can update you programs, without looking for updates on the web.</p>
+<p>I want to try tools in general, terminal editors (micro and helix) and terminal file managers (yazi) and figure out how good I get them working on Linux (TuxedoOS) and Windows 10.
+I use some of these tools for a while, while use are new to me.</p>
+<h1 id="fastfetch">Fastfetch</h1>
+<p>Which is the first tool any installs? Neofetch! (Or fastfetch as Neofetch is not supported anymore).  The tool looks good, does it job very well., to show us the core data of your machines. A bit of riching and anyone knows you are a qualified nerd.
+You have a terminal and know to do (some) things. While the usability is low, the coolness factor is high.
+on ubuntu added ppa.</p>
+<p><em>Win:</em> good
+<em>Linux:</em> good</p>
+<h1 id="bottom">bottom</h1>
+<p>Bottom is system monitor, works similar to (h)top, it starts with <code>btm</code>. Its in color and is clickable (to select the CPU for monitoring).
+Its good, but on linux I prefer bpytop. It&quot;s not listed here due to problems on windows.</p>
+<p><em>Win:</em> okay
+<em>Linux:</em> okay</p>
+<h1 id="btop">Btop</h1>
+<p>Btop is similar to bpytop, but can be install on windows with scoop.
+You can either install the default version or btop-lhm with gpu support, but this needs admin rights during instll and starts in a new window.
+Thats why I select the default version.
+If you ask me, I use btop, it has options, theming, filtering.</p>
+<p><em>Win:</em> good
+<em>Linux:</em> good</p>
+<h1 id="the-fuck">The fuck</h1>
+<p>Fuck is perhaps not the four letter word Joan Baez would thing about. But this tool has a great idea.</p>
+<h1 id="hyperfine">Hyperfine</h1>
+<h1 id="lazydocker">lazydocker</h1>
+<p>I do not really know, why you would like to install lazy docker on Windows as you have docker desktop.
+But anywhere else its nice to have a minimal version for the termimal, that looks like docker desktop and top of docker.
+It works.
+needed go version not in apt.</p>
+<h1 id="yazi">yazi</h1>
+<p>on ubuntu get, compile and install with cargo.</p>
+<p>Yazi is a file manager like ranger or nnn.
+I has it own package manager. Theming works on windows. But on windows can not get opening and preview working.
+Like <code>ranger .</code> the quick start package shows you how to change the current working directory when closing.</p>
+<p><em>Win:</em> meh
+<em>Linux:</em> good? test pluginms? themes..</p>
+<h1 id="midnight-commander">midnight commander</h1>
+<p>Can be installed by winget as <code>GNU.MidnightCommander</code>. But does not start as a terminal program. But still I like it more than yazi. Does not close in new dir. Does not open in default program and has no preview.</p>
+<p><em>Win:</em> meh
+<em>Linux:</em> ???</p>
+<h1 id="micro">Micro</h1>
+<p>What is larger than nano? Its micro. Well you can config nano, but most don&rsquo;t. Micro tries to find a sweet spot between nano (easy - shows main commands) and vim (modal - shows nothing). It does not waist as many lines of youer terminal space.
+Just one for the hot keys for help and config. Its higjly configerable. Uses the mouse.</p>
+<p><em>Win:</em> okay
+<em>Linux:</em> ???</p>
+<h1 id="helix">Helix</h1>
+<p>???</p>
+<p><em>Win:</em> ???
+<em>Linux:</em> ???</p>
+<h1 id="emacs">Emacs</h1>
+<p>Similar to MidnightCommander it can be installed as <code>GNU.Emacs</code> and it does not start from the terminal, but from the start menu.</p>
+<h1 id="nushell">nushell</h1>
+<p>on ubuntu get, compile and install with cargo.</p>
+<p>On Windows unable to activate python virtualenv.</p>
+<p><em>Win:</em> ???
+<em>Linux:</em> ???</p>
+<h1 id="eza">eza</h1>
+<p>???</p>
+<p><em>Win:</em> ???
+<em>Linux:</em> ???</p>
+<p>ls -&gt; exa -&gt; eza .</p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>Yeah, there are also tools written in other languages as Python.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+                    
+                    <HR width="100%" id="EOF">
+		    <p style="color:#777;">Last modified on 2024-10-19</p>
+                    
+                </div>
+            </div>
+            
+            
+            <nav class="post-pagination">
+
+                
+                <a class="newer-posts" href="/posts/switches/">
+			Next<br>Review of silent keyboard switches
+                </a>
+                
+                
+                
+                <a class="older-posts" href="/posts/speed_comparision_gis_intersection/">
+			Previous<br>Speed Comparison on some Modern GIS tools
+                </a>
+                
+            </nav>
+            <div class="post-comment-wrapper">
+                
+
+
+
+
+
+
+
+
+
+
+<script src="https://utteranc.es/client.js"
+        repo="sehHeiden/sehHeiden.github.io"
+        issue-term="pathname"
+        label=""
+        theme="github-dark"
+        crossorigin="anonymous"
+        async>
+</script>
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+                    </div>
+            </div><div id="sideContainer" class="side-container">
+    
+    <a class="a-block nav-head false" href="http://localhost:1313/">
+    
+        <div class="nav-title">
+            SeHe&#39;s Blog
+        </div>
+        
+    </a>
+
+    <div class="nav-link-list">
+        
+        
+            
+            
+            
+                
+            
+            
+            
+            <a class="a-block nav-link-item active" href="/">
+                Home
+            </a>
+            
+        
+            
+            
+            
+            
+            
+            <a class="a-block nav-link-item false" href="/about/">
+                About Me
+            </a>
+            
+        
+            
+            
+            
+                
+            
+            
+            
+            <a class="a-block nav-link-item active" href="/posts/">
+                Blog
+            </a>
+            
+        
+            
+            
+            
+            
+            
+            <a class="a-block nav-link-item false" href="/categories">
+                Categories
+            </a>
+            
+        
+            
+            
+            
+            
+            
+            <a class="a-block nav-link-item false" href="/tags/">
+                Tags
+            </a>
+            
+        
+            
+            
+            
+            
+            
+            <a class="a-block nav-link-item false" href="/index.xml">
+                RSS Feed
+            </a>
+            
+        
+    </div>
+
+    
+
+    <div class="nav-footer">
+        
+Hugo Theme <a href="https://github.com/amazingrise/hugo-theme-diary">Diary</a> by <a href="https://risehere.net/">Rise</a>
+<br>
+Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a>'s <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> <br>
+<br>
+
+&copy;
+	
+	2025 SeHe&#39;s Blog
+	
+
+    </div>
+    
+</div><div id="extraContainer" class="extra-container">
+    <div class="toc-wrapper">
+        
+
+        
+        <div class="toc">
+
+
+	<div class="toc-content">
+	
+		
+		
+		
+		<center>- CATALOG -</center>
+		
+		
+		<ul>
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#fastfetch" class="nav-fastfetch">
+									Fastfetch
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#bottom" class="nav-bottom">
+									bottom
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#btop" class="nav-btop">
+									Btop
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#the-fuck" class="nav-the-fuck">
+									The fuck
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#hyperfine" class="nav-hyperfine">
+									Hyperfine
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#lazydocker" class="nav-lazydocker">
+									lazydocker
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#yazi" class="nav-yazi">
+									yazi
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#midnight-commander" class="nav-midnight-commander">
+									midnight commander
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#micro" class="nav-micro">
+									Micro
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#helix" class="nav-helix">
+									Helix
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#emacs" class="nav-emacs">
+									Emacs
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#nushell" class="nav-nushell">
+									nushell
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#eza" class="nav-eza">
+									eza
+								</a>
+							</li>
+						
+						
+					
+				
+			
+		</ul>
+	</div>
+
+</div>
+        
+    </div>
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top"
+            :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+        
+        <a type="button" class="pagination-action" id="darkModeToggleButton">
+            <span class="material-icons pagination-action-icon" id="darkModeToggleIcon">
+                dark_mode
+            </span>
+        </a>
+        
+        
+    </div>
+</div>
+
+<div id="single-column-footer">
+Hugo Theme <a href="https://github.com/amazingrise/hugo-theme-diary">Diary</a> by <a href="https://risehere.net/">Rise</a>
+<br>
+Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a>'s <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> <br>
+<br>
+
+&copy;
+	
+	2025 SeHe&#39;s Blog
+	
+</div>
+            </div>
+    
+    <script src="/js/journal.js"></script></body>
+</html>
