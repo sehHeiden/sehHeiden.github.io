@@ -163,15 +163,21 @@ centre of that pixel is overlapped by the geo-object, or any part of the
 pixel is overlaid. Setting all touched to True implies the version with
 any part of the pixel selected. The version, where an overlapped pixel
 centre is required, is setting the parameter all touched to False.
-All touched set to False is considered the default (see
-figure [1](#fig:alltouched).
+All touched set to False is considered the default.
 
-<figure id="fig:alltouched">
+{{< sidebyside 
+    id="fig-least-cost-paths" 
+    number="1" 
+    src1="/paths/LeastCostPaths_al_F_v2_small.png" 
+    alt1="All touched False" 
+    caption1="All touched False." 
+    src2="/paths/LeastCostPaths_al_T_v2_small.png" 
+    alt2="All touched True" 
+    caption2="All touched True." 
+    common_caption="Figures of the Least Cost Paths contrasting the changes depending on the parameter *all touched*."
+>}}
 
-<figcaption>Graphical example the rasterisation of a vector (left blue),
-to a raster (right blue) with either all touched set to False (above),
-or True (below).</figcaption>
-</figure>
+
 
 ::: {#tab:1}
 
@@ -188,13 +194,11 @@ or True (below).</figcaption>
 :::
 
 
-The complete list of layers and the applied processing steps can be
-found in **Supplement S1**.
 
 All three steps of the generation of the Least Cost Path: generation of
 the cost raster, aggregation and backtracking is shown with an example
 for a cost raster of 50 m resolution and all touched set to False (see
-[2](#fig:costs2path)).
+[Figure 6](#fig-costs2path).
 
 The chosen implementation applies early stopping. Therefore, the costs
 for points that are not needed to try to connect to the end point are
@@ -205,12 +209,21 @@ Because the path ends at a power transformer, which is a building type,
 the paths end at in a *Prohibited* area. Therefore, areas even further
 away from the starting point have been explored first.
 
-<figure id="fig:costs2path">
 
-<figcaption>Figures of the cost raster and the resulting aggregated
-costs and the Least Cost Path for a resolution of 50 m, all touched set
-to False.</figcaption>
-</figure>
+{{< sidebyside3 
+    id="fig-costs2path" 
+    number="6" 
+    src1="/paths/CostRasterExample_cut.png" 
+    alt1="Cost Raster" 
+    caption1="Cost Raster." 
+    src2="/paths/AggregatedCosts_cut.png" 
+    alt2="Aggregated Cost Raster" 
+    caption2="Aggregated Cost Raster." 
+    src3="/paths/LeastCostPathExample_cut.png" 
+    alt3="Least Cost Path" 
+    caption3="Least Cost Path." 
+    common_caption="Figures of the cost raster and the resulting aggregated costs and the Least Cost Path for a resolution of 50 m, *all touched* set to False."
+>}}
 
 For low resolution rasterisation, with all touched set to True will show
 every detail, but the objects are enlarged. When all touched is to False
@@ -248,28 +261,42 @@ than the object size, then the effect of setting all touched to True or
 False is limited. If all touched is set to True and any part of the
 pixel that is covered by the object, the whole pixel is attributed to
 the object. This makes the object appear larger. This can be seen in
-figure [3](#fig:costs_5m), which shows a detailed view of the costs for
+figure [Figure 2](#fig-costs-5m), which shows a detailed view of the costs for
 the village of Beverstedt. To set all touched to False is a better
 description of the real size of the object for high resolution.
 
-<figure id="fig:costs_5m">
-
-<figcaption>Part of the cost raster. Contrasting the for different
-settings of all touched at a resolution of 5 m.</figcaption>
-</figure>
+{{< sidebyside 
+    id="fig-costs-5m" 
+    number="2" 
+    src1="/paths/CostRaster_5m_alT_v2_small.png" 
+    alt1="All touched: True" 
+    caption1="All touched: True." 
+    src2="/paths/CostRaster_5m_alF_v2_small.png" 
+    alt2="All touched: False" 
+    caption2="All touched: False." 
+    common_caption="Part of the cost raster. Contrasting the different settings of *all touched* at a resolution of 5 m."
+>}}
 
 In contrast, if the resolution is smaller, all touched set to False
 leads to a loss of information for smaller objects. Since the default
 cost is much smaller than the average cost, this method underestimates
-the cost. The figure [4](#fig:costs_100m) shows, that for the resolution of 100 m,
+the cost. The figure [Figure 3](#fig:costs_100m) shows, that for the resolution of 100 m,
 larger objects are still included in the map, but smaller objects, such
 as roads, are only partially included.
 
-<figure id="fig:costs_100m">
 
-<figcaption>Part of the cost raster. Contrasting the different settings
-for all touched at a resolution of 100 m.</figcaption>
-</figure>
+{{< sidebyside 
+    id="fig-costs-100m" 
+    number="3" 
+    src1="/paths/CostRaster_100m_alT_v2_small.png" 
+    alt1="All touched: True" 
+    caption1="All touched: True." 
+    src2="/paths/CostRaster_100m_alF_v2_small.png" 
+    alt2="All touched: False" 
+    caption2="All touched: False." 
+    common_caption="Part of the cost raster. Contrasting the different settings of *all touched* at a resolution of 100 m."
+>}}
+
 
 ## Least Cost Paths {#subsec:least-cost-paths}
 
@@ -294,7 +321,7 @@ resolution).
 Table [\[tab:2\]](#tab:2) shows,
 that the distance between two paths decreases with increasing
 resolution. In addition, this tendency is depicted in
-figure [5](#fig:paths_resolution) for the calculated cost paths of 5 m
+figure [Figure 4](#fig:paths_resolution) for the calculated cost paths of 5 m
 and 100 m resolutions.
 
 At the same time, the differences in the aggregated costs remain almost
@@ -302,24 +329,31 @@ constant. Thus the difference between the aggregated costs per
 resolution decreases. Setting all touched to False underestimates and to
 True overestimates the costs.
 
-<figure id="fig:paths_resolution">
+{{< sidebyside 
+    id="fig-paths-resolution" 
+    number="4" 
+    src1="/paths/LeastCostPaths_5m_v2_small.png" 
+    alt1="Resolution of 5 m" 
+    caption1="Resolution of 5 m." 
+    src2="/paths/LeastCostPaths_100m_v2_small.png" 
+    alt2="Resolution of 100 m" 
+    caption2="Resolution of 100 m." 
+    common_caption="Figures of the Least Cost Paths contrasting the paths for different resolutions. Paths with *all touched* set to False are indicated by dashed lines and True by continuous lines. Higher resolutions are indicated by green, lower resolutions by red. Using OpenStreetMaps as base map."
+>}}
 
-<figcaption>Figures of the Least Cost Paths contrasting the paths for
-different resolutions. Paths with all touched set to False are indicated
-by dashed lines and True are indicated by continuous lines. Higher
-resolutions are indicated by the color green, lower resolutions by the
-color red. Using OpenStreetMaps as base map.</figcaption>
-</figure>
 
-<figure id="fig:paths_alltouched">
+{{< sidebyside 
+    id="fig-paths-alltouched" 
+    number="5" 
+    src1="/paths/LeastCostPaths_al_F_v2_small.png" 
+    alt1="All touched: False" 
+    caption1="All touched: False." 
+    src2="/paths/LeastCostPaths_al_T_v2_small.png" 
+    alt2="All touched: True" 
+    caption2="All touched: True." 
+    common_caption="Figures of the Least Cost Paths contrasting the changes depending on the parameter *all touched*. Paths with *all touched* set to False are indicated by dashed lines and True by continuous lines. Higher resolutions are shown in green, lower resolutions in red. Using OpenStreetMaps as base map."
+>}}
 
-<figcaption>Figures of the Least Cost Paths contrasting the changes of
-the Least Cost Paths for the different results, depending on the
-parameter all touched. Paths setting all touched to False are indicated
-by dashed lines and True are indicated by continuous lines. Higher
-resolutions are indicated by the color green, lower resolutions by the
-color red. Using OpenStreetMaps as base map.</figcaption>
-</figure>
 
 ::: {#tab:2}
 
