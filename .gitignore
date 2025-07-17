@@ -1,6 +1,22 @@
 # Hugo generated files
 public/
 resources/_gen/
+.hugo_build.lock
+
+# Generated HTML/XML files (should be in public/)
+*.html
+*.xml
+rss.xsl
+sitemap.xml
+index.html
+index.xml
+
+# Generated CSS/JS files
+js/
+scss/
+vendor/
+style.css
+stylesheets/
 
 # OS generated files
 .DS_Store
@@ -32,3 +48,17 @@ node_modules/
 
 # Build artifacts
 dist/
+
+# Loose image files in root (should be in static/)
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.ico
+*.svg
+
+# But keep these important files
+!static/**
+!assets/**
+!layouts/**
+!content/**
