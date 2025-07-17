@@ -1,187 +1,46 @@
-# README.md
+# Hugo Blog Configuration
 
-## 📦 Hugo Blog Deployment with GitHub Pages
+Welcome to SeHe's Hugo blog. This project exemplifies modern, automated deployment with Hugo and GitHub Pages.
 
-This guide explains how to **update**, **build**, and **publish** your Hugo blog to **GitHub Pages**.
+## 🚀 Quick Start
 
----
+1. **Make Changes**: Edit content in `content/` or update configurations as needed.
+2. **Test Locally**: Run `hugo server -D` to preview on `http://localhost:1313`.
+3. **Commit Changes**: Use Git - `git add .`, `git commit -m "message"`, `git push`.
+4. **Deploy**: Automatic via GitHub Actions or manually using provided scripts.
 
-## 🚀 Prerequisites
+## 🛠 Features
 
-1. **Hugo Installed:**
-   - Check with: `hugo version`
-   - Install: [Hugo Installation Guide](https://gohugo.io/getting-started/installing/)
+- **Automated Deployment**: GitHub Actions pipeline for GitHub Pages.
+- **Pre-commit Hook**: Cleans generated files and prevents accidental commits.
+- **Build Scripts**: Simple PowerShell and Bash scripts for local builds.
+- **Cross-platform**: Compatible with Windows, Linux, and macOS.
 
-2. **Git Installed:**
-   - Check with: `git --version`
-   - Install: [Git Installation Guide](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+## 📂 Key Files and Directories
 
-3. **GitHub Repository:**
-   - A repository with GitHub Pages enabled (either `username.github.io` or a project repo).
+- **content/**: Your markdown content.
+- **static/**: Static assets, images, etc.
+- **layouts/**: Custom layouts and templates.
+- **DEPLOYMENT.md**: Detailed guide on deploying your site.
 
-4. **Remote Repository Set:**
-   - Check with: `git remote -v`
-   - If not set:
-     ```bash
-     git remote add origin https://github.com/username/repository.git
-     ```
+## 🛠 Build & Deploy
 
----
+### Build Locally
+- **Windows**: Run `./build.ps1`.
+- **Linux/macOS**: Run `./build.sh`.
 
-## 🔄 Update Your Site
+### Deployment
+For automatic deployment, ensure GitHub Pages is set to build from GitHub Actions:
+1. Go to your repository settings on GitHub.
+2. Navigate to **Pages** and set the source to **GitHub Actions**.
+3. Simply push to `main` to deploy.
 
-1. **Pull the Latest Changes (Optional):**
-   ```bash
-   git pull origin main
-   ```
+## 🛡️ Troubleshooting
 
-2. **Make Changes:**
-   - Add or edit content in `content/`
-   - Update config in `config.toml`
+- **CSS/JS Issues**: Check paths and ensure assets in `static/`.
+- **Build Errors**: Use `hugo --verbose` to diagnose issues.
+- **Deployment Errors**: Verify Pages configuration and logs in GitHub Actions.
 
-3. **Check Changes Locally:**
-   ```bash
-   hugo server -D
-   ```
-   - Open `http://localhost:1313` in your browser.
-
----
-
-## 🛠️ Build the Site
-
-When you're ready to deploy:
-
-1. **Clean and Build the Site:**
-   ```bash
-   hugo --minify
-   ```
-   - This generates the site in the `public/` folder.
-
-2. **Verify Output:**
-   Since `hugo server --source public` does not work as expected, open the `public/` folder directly in a browser:
-   - On Linux:
-     ```bash
-     xdg-open public/index.html
-     ```
-   - On Windows:
-     ```bash
-     start public/index.html
-     ```
-   - On macOS:
-     ```bash
-     open public/index.html
-     ```
-
----
-
-## 🌐 Deploy to GitHub Pages
-
-### Option 1: Deploy via `gh-pages` Branch (Recommended)
-
-1. **Commit Your Changes:**
-   ```bash
-   git add .
-   git commit -m "Update blog content"
-   git push origin main
-   ```
-
-2. **Push `public/` Folder to `gh-pages`:**
-   If you encounter an error like "non-fast-forward":
-   ```bash
-   git pull --rebase origin gh-pages
-   git subtree push --prefix public origin gh-pages
-   ```
-   Or force push if you're sure to overwrite:
-   ```bash
-   git push origin gh-pages --force
-   ```
-
-3. **Verify Deployment:**
-   - Go to: `https://username.github.io/` or `https://username.github.io/repository/`
-
----
-
-### Option 2: Deploy Directly (If Repo Is `username.github.io`)
-
-1. **Commit and Push:**
-   ```bash
-   git add .
-   git commit -m "Update blog"
-   git push origin main
-   ```
-
-2. **GitHub Pages Settings:**
-   - Go to **Settings → Pages**.
-   - Set **Source** to `main` branch (or `gh-pages` if using that).
-
-3. **Visit Your Site:**
-   - `https://username.github.io/`
-
----
-
-## 🧹 Clean Build (Optional)
-
-If things don't work as expected:
-
-1. **Clear `public/` Folder:**
-   ```bash
-   rm -rf public/
-   hugo --minify
-   ```
-
-2. **Force Push:**
-   ```bash
-   git add .
-   git commit -m "Clean build"
-   git push origin main --force
-   ```
-
----
-
-## 📝 Troubleshooting
-
-- **Page Not Updating?**
-  - Clear browser cache.
-  - Verify `gh-pages` branch is up-to-date.
-
-- **Build Errors?**
-  - Run `hugo` without `--minify` to see detailed errors.
-
-- **Push Rejected (non-fast-forward)?**
-  - Pull the latest changes first:
-    ```bash
-    git pull --rebase origin gh-pages
-    git subtree push --prefix public origin gh-pages
-    ```
-  - Or force push if necessary:
-    ```bash
-    git push origin gh-pages --force
-    ```
-
-- **404 Errors on Subpages?**
-  - Make sure `baseURL` in `config.toml` is correct.
-
----
-
-## 📚 Useful Commands
-
-```bash
-# Start local server
-hugo server -D
-
-# Build site
-hugo --minify
-
-# Deploy to gh-pages
-git subtree push --prefix public origin gh-pages
-
-# Clean public folder
-rm -rf public/
-
-# Fix non-fast-forward error
-git pull --rebase origin gh-pages
-git subtree push --prefix public origin gh-pages
-```
-
-Happy blogging! 🚀
+## 🎉 Enjoy Blogging!
+Your site is configured to deploy effortlessly. Focus on writing while the automation handles the details.
 
