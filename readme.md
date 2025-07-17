@@ -58,10 +58,19 @@ When you're ready to deploy:
    - This generates the site in the `public/` folder.
 
 2. **Verify Output:**
-   ```bash
-   hugo server --source public
-   ```
-   - Check `http://localhost:1313` to verify the built version.
+   Since `hugo server --source public` does not work as expected, open the `public/` folder directly in a browser:
+   - On Linux:
+     ```bash
+     xdg-open public/index.html
+     ```
+   - On Windows:
+     ```bash
+     start public/index.html
+     ```
+   - On macOS:
+     ```bash
+     open public/index.html
+     ```
 
 ---
 
@@ -77,8 +86,14 @@ When you're ready to deploy:
    ```
 
 2. **Push `public/` Folder to `gh-pages`:**
+   If you encounter an error like "non-fast-forward":
    ```bash
+   git pull --rebase origin gh-pages
    git subtree push --prefix public origin gh-pages
+   ```
+   Or force push if you're sure to overwrite:
+   ```bash
+   git push origin gh-pages --force
    ```
 
 3. **Verify Deployment:**
@@ -132,6 +147,17 @@ If things don't work as expected:
 - **Build Errors?**
   - Run `hugo` without `--minify` to see detailed errors.
 
+- **Push Rejected (non-fast-forward)?**
+  - Pull the latest changes first:
+    ```bash
+    git pull --rebase origin gh-pages
+    git subtree push --prefix public origin gh-pages
+    ```
+  - Or force push if necessary:
+    ```bash
+    git push origin gh-pages --force
+    ```
+
 - **404 Errors on Subpages?**
   - Make sure `baseURL` in `config.toml` is correct.
 
@@ -151,6 +177,10 @@ git subtree push --prefix public origin gh-pages
 
 # Clean public folder
 rm -rf public/
+
+# Fix non-fast-forward error
+git pull --rebase origin gh-pages
+git subtree push --prefix public origin gh-pages
 ```
 
 Happy blogging! 🚀

@@ -151,7 +151,7 @@ To select (raw) posts that's sentiment can be attributed to a party, we test two
 Based on OSM - Mastodon server, Mastodon instances are estimated to be used by Bavarian users (see `List of Bavarian Instances` in the Appendix).[^OSMMastodonServer] In addition, the fields and notes of each user are scanned for Bavarian location names by Bavarian State Office for Survey and Geoinformation from the state name down to village name (see fig. 1).[^OpenDataGeodatenBayern]
 
 <figure style="float: left; margin: 10px;">
-  <img img title="Selection of region/language" src="./graphics/region_selection.png" alt="The region language is determined in servera steps. Bavarian is selected for Bavarian users. German annd other langauge is determined by a langauage detection model." style="width:300px; height:auto;">
+  <img img title="Selection of region/language" src="/language/region_selection.png" alt="The region language is determined in servera steps. Bavarian is selected for Bavarian users. German annd other langauge is determined by a langauage detection model." style="width:300px; height:auto;">
   <figcaption>
     <strong>Figure 1: </strong> Graph information flow<br>
     that is used to differentiate between<br>
@@ -170,7 +170,7 @@ The German sentiment analysis is done with the German sentiment bert model.[^ger
 The English language posts are evaluated with the bertweet model with the limit of 130 tokens (see fig. 2).[^bertweet]
 
 <figure style="float: left; margin: 10px;">
-  <img title="" src="./graphics/language_classification.png" alt="Sentiment analysis deferernciation for the different langauages/regions." style="width:300px; height:auto;">
+  <img title="" src="/language/language_classification.png" alt="Sentiment analysis deferernciation for the different languages/regions." style="width:300px; height:auto;">
   <figcaption>
     <strong>Figure 2: </strong> Graph showing<br>
    models used for sentiment analysis<br>
@@ -217,7 +217,7 @@ Opposition parties show a trend of loosing on the left spectrum and gaining in t
 
 <div style="display: flex; justify-content: space-around;">
   <figure style="margin: 10px;">
-    <img title="Polls - CSU" src="./graphics/polls/visualization_csu_polls.svg" alt="Over the last year the CSU up to 4 percent points, from a high of 41 %." style="width:300px; height:auto;">
+    <img title="Polls - CSU" src="/language/polls/visualization_csu_polls.svg" alt="Over the last year the CSU up to 4 percent points, from a high of 41 %." style="width:300px; height:auto;">
     <figcaption>
     <strong>Figure 3a:</strong><br>
       Graphic showing the polls for the <strong>CSU</strong><br>
@@ -225,7 +225,7 @@ Opposition parties show a trend of loosing on the left spectrum and gaining in t
     </figcaption>
   </figure>
   <figure style="margin: 10px;">
-    <img title="Polls - FW" src="./graphics/polls/visualization_fw_polls.svg" alt="The FW gained 5 percent points since the start of the year." style="width:300px; height:auto;">
+    <img title="Polls - FW" src="/language/polls/visualization_fw_polls.svg" alt="The FW gained 5 percent points since the start of the year." style="width:300px; height:auto;">
     <figcaption>
       <strong>Figure 3b:</strong><br>
       Graphic showing the polls for the <strong>FW</strong><br>
@@ -236,7 +236,7 @@ Opposition parties show a trend of loosing on the left spectrum and gaining in t
 
 <div style="display: flex; justify-content: space-around;">
   <figure style="margin: 10px;">
-    <img title="Polls - Buendnis 90 Gruene" src="./graphics/polls/visualization_gruene_polls.svg" alt="Buendnis 90 Gruene lost 3 percent since the beginning of the year." style="width:300px; height:auto;">
+    <img title="Polls - Buendnis 90 Gruene" src="/language/polls/visualization_gruene_polls.svg" alt="Buendnis 90 Gruene lost 3 percent since the beginning of the year." style="width:300px; height:auto;">
     <figcaption>
       <strong>Figure 3c:</strong><br>
       Graphic showing the polls for<br>
@@ -245,7 +245,7 @@ Opposition parties show a trend of loosing on the left spectrum and gaining in t
     </figcaption>
   </figure>
   <figure  style="margin: 10px;">
-    <img title="Polls - SPD" src="./graphics/polls/visualization_spd_polls.svg" style="width:300px; height:auto;">
+    <img title="Polls - SPD" src="/language/polls/visualization_spd_polls.svg" style="width:300px; height:auto;">
     <figcaption>
       <strong>Figure 3d:</strong><br>
       Graphic showing the polls for the <strong>SPD</strong><br>
@@ -257,7 +257,7 @@ Opposition parties show a trend of loosing on the left spectrum and gaining in t
 Since the `Linke` only wins less then minimum 5 percent in every poll, it is only listed by some polling institute.
 
 <figure style="float: left; margin: 10px;">
-  <img title="Polls - AFD" src="./graphics/polls/visualization_afd_polls.svg" alt="" style="width:300px; height:auto;">
+  <img title="Polls - AFD" src="/language/polls/visualization_afd_polls.svg" alt="" style="width:300px; height:auto;">
   <figcaption>
     <strong>Figure 4: </strong><br>
     Graphic showing the polls for the <strong>AFD</strong><br>
@@ -321,7 +321,7 @@ The selected German and Bavarian posts where mainly posted during day time, with
 
 <div style="page-break-inside: avoid;">
 <figure style="text-align: left;">
-    <img title="Frequency on posting on the scales, weekday, hour and day of the year." src="./graphics/sentiments/visualization_valid_posts_frequency.svg" alt="The graphs is split into three parts. Each shows the post frequency, left for the days, center for the Weekdays and right for the Hours." style="width:auto; height:auto; max-width: 100%; display: block; margin: 0 auto;">
+    <img title="Frequency on posting on the scales, weekday, hour and day of the year." src="/language/sentiments/visualization_valid_posts_frequency.svg" alt="The graphs is split into three parts. Each shows the post frequency, left for the days, center for the Weekdays and right for the Hours." style="width:auto; height:auto; max-width: 100%; display: block; margin: 0 auto;">
     <figcaption style="margin-top: 10px;">
         <strong>Figure 5:</strong><br>
         <strong>Left: </strong> Shows the frequency of posts from starting day to the end of records for each day (of the year). <strong>Center: </strong> Shows the frequency of posts for each weekday. <strong>Right: </strong> Shows the frequency of posts for hour of the day in UTC.
@@ -338,7 +338,7 @@ About 37 % of all toots mention the `CSU` as main political topic. The average s
 <div style="page-break-inside: avoid;">
   <div style="display: flex; justify-content: space-around;">
       <figure style="margin: 10px;">
-          <img title="" src="./graphics/sentiments/visualization_sentiment_csu.svg" alt="" style="width:300px; height:auto;">
+          <img title="" src="/language/sentiments/visualization_sentiment_csu.svg" alt="" style="width:300px; height:auto;">
           <figcaption>
               <strong>Figure 6a:</strong><br>
               Sentiments for the party<br>
@@ -347,7 +347,7 @@ About 37 % of all toots mention the `CSU` as main political topic. The average s
           </figcaption>
       </figure>
       <figure style="margin: 10px;">
-          <img title="" src="./graphics/sentiments/visualization_sentiment_fw.svg" alt="" style="width:300px; height:auto;">
+          <img title="" src="/language/sentiments/visualization_sentiment_fw.svg" alt="" style="width:300px; height:auto;">
           <figcaption>
               <strong>Figure 6b:</strong><br>
               Sentiments for the party<br>
@@ -359,7 +359,7 @@ About 37 % of all toots mention the `CSU` as main political topic. The average s
 </div>
 
 <figure style="float: left; margin: 10px;">
-    <img src="./graphics/sentiments/visualization_sentiment_afd.svg" title="" alt="" style="width:300px; height:auto;">
+    <img src="/language/sentiments/visualization_sentiment_afd.svg" title="" alt="" style="width:300px; height:auto;">
     <figcaption>
             <strong>Figure 7:</strong><br>
               Sentiments for the party<br>
@@ -452,7 +452,7 @@ $$
 
 <div style="display: flex; justify-content: space-around;">
     <figure style="margin: 10px;">
-        <img title="" src=".\graphics\comparision\visualization_fw_daily_compare.svg" alt="Compary Daily Timelines Polls and Sentiments for FW" style="width:300px; height:auto;">
+        <img title="" src="/language/comparision/visualization_fw_daily_compare.svg" alt="Compary Daily Timelines Polls and Sentiments for FW" style="width:300px; height:auto;">
         <figcaption>
             <strong>Figure 8a:</strong><br>
             Comparision of the <strong>daily</strong> timelines
@@ -460,7 +460,7 @@ $$
         </figcaption>
     </figure>
     <figure style="margin: 10px;">
-        <img src=".\graphics\comparision\visualization_fw_weekly_compare.svg" title="" alt="Compary Weekly Timelines Polls and Sentiments for FW" style="width:300px; height:auto;">
+        <img src="/language/comparision/visualization_fw_weekly_compare.svg" title="" alt="Compary Weekly Timelines Polls and Sentiments for FW" style="width:300px; height:auto;">
         <figcaption>
             <strong>Figure 8b:</strong><br>
             Comparision of the <strong>weekly</strong> timelines
@@ -473,7 +473,7 @@ We would underestimate the result of the `CSU` at any given point in time. The r
 
 <div style="display: flex; justify-content: space-around;">
     <figure style="margin: 10px;">
-        <img src=".\graphics\comparision\visualization_afd_weekly_compare.svg" title="" alt="Compary Weekly Timelines Polls and Sentiments for AFD" style="width:300px; height:auto;">
+        <img src="/language/comparision/visualization_afd_weekly_compare.svg" title="" alt="Compary Weekly Timelines Polls and Sentiments for AFD" style="width:300px; height:auto;">
         <figcaption>
             <strong>Figure 9a:</strong><br>
             Comparision of the <strong>weekly</strong> timelines
@@ -481,7 +481,7 @@ We would underestimate the result of the `CSU` at any given point in time. The r
         </figcaption>
     </figure>
     <figure style="margin: 10px;">
-        <img src=".\graphics\comparision\visualization_csu_weekly_compare.svg" title="" alt="Compary Weekly Timelines Polls and Sentiments for CSU" style="width:300px; height:auto;">
+        <img src="/language/comparision/visualization_csu_weekly_compare.svg" title="" alt="Compary Weekly Timelines Polls and Sentiments for CSU" style="width:300px; height:auto;">
         <figcaption>
             <strong>Figure 9b:</strong><br>
             Comparision of the <strong>weekly</strong> timelines
@@ -494,7 +494,7 @@ The graph that compares the polling result to the sentiments (fig. 10), shows th
 
 <div style="page-break-inside: avoid;">
   <figure style="float: left; margin: 10px;">
-      <img title="" src=".\graphics\comparision\visualization_weekly_compare.svg" alt="Compary Weekly Timelines Polls and Sentiments for all Parties" style="width:400px; height:auto;">
+      <img title="" src="/language/comparision/visualization_weekly_compare.svg" alt="Compary Weekly Timelines Polls and Sentiments for all Parties" style="width:400px; height:auto;">
       <figcaption>
           <strong>Figure 10:</strong><br>
           Showing the relation of the polls<br>
