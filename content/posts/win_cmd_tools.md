@@ -2,7 +2,7 @@
 title: Commandline tools for Windows and Linux
 author: SeHe
 type: reference
-date: 2024-10-19
+date: 2025-07-20
 tags: ["terminal", "commandline", "win", "unix"]
 categories: "terminal"
 draft: false
@@ -40,16 +40,16 @@ Which is the first tool any installs? Neofetch! (Or fastfetch as Neofetch is not
 You have a terminal and know to do (some) things. While the usability is low, the coolness factor is high.
 on ubuntu added ppa.
 
-*Win:* good
-*Linux:* good
+🖥️ **[Win]**: good  
+🐧 **[Linux]**: good  
 
 # bottom
 
 Bottom is system monitor, works similar to (h)top, it starts with `btm`. Its in color and is clickable (to select the CPU for monitoring). 
 Its good, but on linux I prefer bpytop. It"s not listed here due to problems on windows.
 
-*Win:* okay
-*Linux:* okay
+🖥️ **[Win]**: okay  
+🐧 **[Linux]**: okay  
 
 # Btop
 
@@ -58,8 +58,8 @@ You can either install the default version or btop-lhm with gpu support, but thi
 Thats why I select the default version.
 If you ask me, I use btop, it has options, theming, filtering.
 
-*Win:* good
-*Linux:* good
+🖥️ **[Win]**: good  
+🐧 **[Linux]**: good  
 
 # The fuck
 
@@ -70,8 +70,8 @@ Just, did not work out for me.
 
 Hyperfine is used for generating timings, with works consistent with both oses.
 
-*Win:* good
-*Linux:* good
+🖥️ **[Win]**: good  
+🐧 **[Linux]**: good  
 
 # lazydocker
 
@@ -92,8 +92,8 @@ Like `ranger .` the quick start package shows you how to change the current work
 Still prefer ranger on Linux. On Windows, has problems with the drivers. Can not switch as simple.
 Altough I only use ranger on Linux.
 
-*Win:* meh
-*Linux:* okay
+🖥️ **[Win]**: meh  
+🐧 **[Linux]**: okay  
 
 # midnight commander
 
@@ -103,8 +103,8 @@ But still I like it more than yazi.
 Does not close in new dir.
 Does not open in default program and has no preview.
 
-*Win:* meh
-*Linux:* ???
+🖥️ **[Win]**: meh  
+🐧 **[Linux]**: ???  
 
 # Micro
 
@@ -115,8 +115,8 @@ Micro tries to find a sweet spot between nano (easy - shows main commands) and v
 It does not waist as many lines of youer terminal space. 
 Just one for the hot keys for help and config. Its highly configerable. Uses the mouse.
 
-*Win:* okay
-*Linux:* okay
+🖥️ **[Win]**: okay  
+🐧 **[Linux]**: okay  
 
 
 # Emacs
@@ -131,5 +131,5 @@ On Windows unable to activate python virtualenv.
 But in generell it works well won windows with the terminal app.
 It is simpler to set it as default shell on windows.
 
-*Win:* okay
-*Linux:* okay
+🖥️ **[Win]**: okay  
+🐧 **[Linux]**: okay  
