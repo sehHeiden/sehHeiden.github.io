@@ -2,7 +2,7 @@
 title: Commandline tools for Windows and Linux
 author: SeHe
 type: reference
-date: 2025-07-20
+date: 2025-07-19
 tags: ["terminal", "commandline", "win", "unix"]
 categories: "terminal"
 draft: false
