@@ -1,5 +1,9 @@
 # Hugo Blog Configuration
 
+[![Deploy Hugo site to GitHub Pages](https://github.com/sehHeiden/sehHeiden.github.io/actions/workflows/deploy.yml/badge.svg)](https://github.com/sehHeiden/sehHeiden.github.io/actions/workflows/deploy.yml)
+[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Active-brightgreen)](https://seheheiden.github.io)
+[![Hugo](https://img.shields.io/badge/Hugo-0.147.9-blue)](https://gohugo.io/)
+
 Welcome to SeHe's Hugo blog. This project exemplifies modern, automated deployment with Hugo and GitHub Pages.
 
 ## 🚀 Quick Start
