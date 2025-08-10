@@ -48,25 +48,20 @@ The repository includes a GitHub Actions workflow (`.github/workflows/deploy.yml
 rm -rf public/
 
 # Build for production
-hugo --gc --minify --baseURL "https://yourusername.github.io/"
+hugo --gc --minify --baseURL "https://seheheiden.github.io/"
 
 # The site will be in the public/ directory
 ```
 
 ### Manual GitHub Pages Deployment
 
+**Note**: Manual deployment is not recommended. The automated GitHub Actions workflow is preferred.
+
+If you need to deploy manually for testing:
+
 1. **Build locally** using one of the methods above
-2. **Create gh-pages branch** (if it doesn't exist):
-   ```bash
-   git checkout --orphan gh-pages
-   ```
-3. **Copy public/ contents** to gh-pages branch
-4. **Push to gh-pages**:
-   ```bash
-   git add .
-   git commit -m "Deploy site"
-   git push origin gh-pages
-   ```
+2. **Upload the public/ directory** to your web server or hosting service
+3. **For GitHub Pages**: Use the automated workflow instead - just push to `main` branch
 
 ## 📁 File Structure
 
@@ -92,7 +87,7 @@ hugo --gc --minify --baseURL "https://yourusername.github.io/"
 
 ### Hugo Configuration (`hugo.toml`)
 The site is configured for GitHub Pages with:
-- Base URL: `https://yourusername.github.io/`
+- Base URL: `https://seheheiden.github.io/`
 - Unsafe HTML rendering enabled
 - Custom CSS and shortcodes
 - Utterances comments integration
@@ -127,7 +122,7 @@ hugo server --buildDrafts --buildFuture
 2. **Test locally** with `hugo server`
 3. **Commit and push** to `main` branch
 4. **GitHub Actions** automatically builds and deploys
-5. **Site is live** at `https://yourusername.github.io/`
+5. **Site is live** at `https://seheheiden.github.io/`
 
 The deployment typically takes 1-3 minutes to complete.
 
