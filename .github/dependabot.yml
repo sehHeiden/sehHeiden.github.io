@@ -1,0 +1,106 @@
+# Dependabot configuration for automated dependency updates
+# https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+updates:
+  # GitHub Actions dependencies - critical for Hugo deployment pipeline
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "Europe/Berlin"
+    open-pull-requests-limit: 3
+    reviewers:
+      - "sehHeiden"
+    assignees:
+      - "sehHeiden"
+    commit-message:
+      prefix: "chore(deps)"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "github-actions"
+      - "automation"
+    pull-request-branch-name:
+      separator: "/"
+    # Group related GitHub Actions together
+    groups:
+      github-actions-security:
+        patterns:
+          - "actions/checkout"
+          - "actions/configure-pages"
+          - "actions/upload-pages-artifact"
+          - "actions/deploy-pages"
+        update-types:
+          - "minor"
+          - "patch"
+
+  # npm dependencies - for any future Node.js tooling or Hugo themes
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "tuesday"
+      time: "06:00"
+      timezone: "Europe/Berlin"
+    open-pull-requests-limit: 3
+    reviewers:
+      - "sehHeiden"
+    assignees:
+      - "sehHeiden"
+    commit-message:
+      prefix: "chore(deps)"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "npm"
+    pull-request-branch-name:
+      separator: "/"
+    # Only if package.json exists
+    # Groups to reduce noise for Hugo projects
+    groups:
+      npm-development:
+        patterns:
+          - "@*/*"
+          - "eslint*"
+          - "prettier*"
+          - "postcss*"
+          - "autoprefixer*"
+          - "tailwindcss*"
+        update-types:
+          - "patch"
+          - "minor"
+      npm-build-tools:
+        patterns:
+          - "hugo*"
+          - "sass*"
+          - "webpack*"
+          - "vite*"
+        update-types:
+          - "patch"
+    # Ignore major updates for build tools to prevent breaking changes
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+
+  # Docker dependencies - for any containerized Hugo builds (future-proofing)
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+      day: "monday"
+      time: "06:00"
+      timezone: "Europe/Berlin"
+    open-pull-requests-limit: 2
+    reviewers:
+      - "sehHeiden"
+    assignees:
+      - "sehHeiden"
+    commit-message:
+      prefix: "chore(deps)"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "docker"
