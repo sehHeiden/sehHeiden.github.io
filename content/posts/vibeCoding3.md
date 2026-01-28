@@ -41,7 +41,7 @@ It has a timer and automatically restarts the next prompt after the time is up.
 An alternative is to switch the model and use that for the time.
 But in the end when the editor codes at night, without me, who cares.
 As it would run anyway for compute.
-I nice workaround for the Limits per 5 hours is to start early.
+A nice workaround for the Limits per 5 hours is to start early.
 Like just before eating, getting up with the first prompt.
 Then do something else, and when the has come to get the real work done.
 This delay between first prompt for the task to the real work is done adds to the time working on the project.
@@ -63,8 +63,10 @@ But the ratio has gotten better.
 In the end the code generation still needs reprompting.
 Formatter, Linter, Type Checker and tests help.
 Also, LLMs become better at fixing these problems, or not creating them.
-Often Pyhton code looks very generatic.
+Often Python code looks very generic.
 For example loops are often used over Comprehensions, creating to much code.
-Other problems still is Copy over Reuse(got better, still exists)!
+Other problem still is Copy over Reuse(got better, still exists)!
 Fixing Problems at the wrong position, which fixes the bug.
-But its a bug fix at the symptom not the cause, generates Code that is hard to read, mentain and is to long.
+But it is a bug fix at the symptom not the cause, generates Code that is hard to read, maintain and is too long.
+
+THE MAIN PROBLEM, CLAUDE REGULARLY CLOSES THE ACCESS VIA OPENCODE.
