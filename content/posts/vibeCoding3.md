@@ -8,6 +8,7 @@ tags: ["vibe coding", "Zed", "OpenCode", "OpenRouter", "Claude", "ClaudeCode", "
 categories: "Vibe Coding"
 draft: false
 comments: true
+---
 
 A lot has happened since, my last update on Vibe Coding, part II.
 Since, then I switched from PyCharm to Zed.
